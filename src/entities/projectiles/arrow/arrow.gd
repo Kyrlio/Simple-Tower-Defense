@@ -1,8 +1,10 @@
 extends Area2D
 class_name Arrow
 
+@export var damage: int = 1
+
 var direction: Vector2
-var speed: float = 200.0
+var speed: float = 125.0
 
 
 func setup(pos: Vector2, angle: float, projectile_enum: Data.Projectile) -> void:
@@ -11,5 +13,5 @@ func setup(pos: Vector2, angle: float, projectile_enum: Data.Projectile) -> void
 	rotation = angle
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	position += direction * speed * delta

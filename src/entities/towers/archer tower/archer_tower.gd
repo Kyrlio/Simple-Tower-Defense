@@ -4,7 +4,7 @@ class_name ArcherTower
 @onready var weapon: Sprite2D = $Visuals/Weapon
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if enemies.size() > 0:
 		weapon.look_at(enemies[0].global_position)
 

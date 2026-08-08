@@ -7,13 +7,13 @@
 radius = 3.0
 height = 10.0
 
-[node name="Arrow" type="Area2D" unique_id=1986108371]
+[node name="Arrow" type="Area2D" unique_id=1986108371 groups=["projectile"]]
 collision_layer = 2
 script = ExtResource("1_0ck5v")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=961467359]
-texture = ExtResource("2_a0byb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=622399974]
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_x171y")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=961467359]
+texture = ExtResource("2_a0byb")

@@ -5,6 +5,8 @@
 [ext_resource type="TileSet" uid="uid://f482im7civig" path="res://src/systems/resources/road_tileset.tres" id="2_u5ev4"]
 [ext_resource type="Texture2D" uid="uid://b73dubf5pe5jx" path="res://assets/Shadow.png" id="2_vgtt4"]
 [ext_resource type="PackedScene" uid="uid://x81tgyj3keel" path="res://src/entities/enemies/bat/bat.tscn" id="2_xk4xt"]
+[ext_resource type="PackedScene" uid="uid://ol4n6tvws2nx" path="res://src/systems/components/enemy spawner/enemy_spawner.tscn" id="3_l80tk"]
+[ext_resource type="PackedScene" uid="uid://du28rsum3y61l" path="res://src/systems/components/placement manager/placement_manager.tscn" id="4_frwdw"]
 [ext_resource type="PackedScene" uid="uid://b4ju81m6ukfig" path="res://src/entities/towers/archer tower/archer_tower.tscn" id="6_iygna"]
 
 [sub_resource type="Curve2D" id="Curve2D_u5ev4"]
@@ -16,6 +18,20 @@ point_count = 8
 [node name="Level1" type="Node2D" unique_id=639303859]
 script = ExtResource("1_vgtt4")
 enemy_scene = ExtResource("2_xk4xt")
+
+[node name="WaveTimer" type="Timer" parent="." unique_id=1883366695]
+process_callback = 0
+wait_time = 10.0
+autostart = true
+
+[node name="EnemySpawner" parent="." unique_id=1210251770 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]
+enemy_scene = ExtResource("2_xk4xt")
+spawn_path = NodePath("../Path2D")
+
+[node name="PlacementManager" parent="." unique_id=81203257 node_paths=PackedStringArray("tower_exclusion_layer", "towers_container") instance=ExtResource("4_frwdw")]
+archer_tower_scene = ExtResource("6_iygna")
+tower_exclusion_layer = NodePath("../Tilemaps/TowerExclusion")
+towers_container = NodePath("../Towers")
 
 [node name="Tilemaps" type="Node2D" parent="." unique_id=670104150]
 
@@ -35,6 +51,12 @@ texture = ExtResource("2_vgtt4")
 [node name="Shadow2" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1732944725]
 modulate = Color(1, 1, 1, 0.5882353)
 position = Vector2(152, 79)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow20" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=353558609]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(152.00002, 31.999998)
 scale = Vector2(0.9642853, 0.96428514)
 texture = ExtResource("2_vgtt4")
 
@@ -116,6 +138,12 @@ position = Vector2(72, 175)
 scale = Vector2(0.9642853, 0.96428514)
 texture = ExtResource("2_vgtt4")
 
+[node name="Shadow21" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=725132846]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(24, 172)
+scale = Vector2(1.1666667, 1.0535706)
+texture = ExtResource("2_vgtt4")
+
 [node name="Shadow9" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=565740276]
 modulate = Color(1, 1, 1, 0.5882353)
 position = Vector2(280, 154)
@@ -141,7 +169,7 @@ scale = Vector2(0.9642853, 0.96428514)
 texture = ExtResource("2_vgtt4")
 
 [node name="TowerExclusion" type="TileMapLayer" parent="Tilemaps" unique_id=1302856948]
-tile_map_data = PackedByteArray("AAD9/wgAAAAAAAIAAAD+/wgAAAABAAAAAAD//wgAAAABAAAAAAAAAAgAAAABAAIAAAACAAMAAgABAAAAAAACAAUAAgAAAAAAAAAEAAIAAgABAAEAAAAEAAoAAgABAAEAAAAJAAQAAgABAAEAAAAKAAkAAgABAAEAAAANAAEAAgABAAEAAAAOAAcAAgACAAAAAAARAAYAAgABAAEAAAARAAkAAgADAAAAAAASAAMAAgADAAEAAAABAAgAAAABAAIAAAACAAgAAAABAAIAAAADAAgAAAABAAAAAAAEAAgAAAACAAIAAAAEAAcAAAAAAAEAAAAEAAYAAAACAAEAAAAEAAUAAAAAAAEAAAAEAAQAAAAAAAAAAAAFAAQAAAABAAIAAAAGAAQAAAACAAAAAAAGAAUAAAAAAAEAAAAGAAYAAAAAAAIAAAAHAAYAAAABAAAAAAAIAAYAAAABAAAAAAAJAAYAAAABAAAAAAAKAAYAAAABAAAAAAALAAYAAAABAAAAAAAMAAYAAAACAAIAAAAMAAUAAAAAAAEAAAAMAAQAAAAAAAAAAAANAAQAAAABAAAAAAAOAAQAAAABAAIAAAAPAAQAAAABAAAAAAAHAAoAAgABAAEAAAAJAAEAAgABAAEAAAABAAIAAgABAAEAAAAPAAkAAgABAAEAAAAHAAgAAgACAAIAAAAQAAIAAgACAAIAAAAMAAgAAgADAAAAAAAHAAIAAgADAAAAAAALAAEAAgABAAAAAAA=")
+tile_map_data = PackedByteArray("AAD9/wgAAAAAAAIAAAD+/wgAAAABAAAAAAD//wgAAAABAAAAAAAAAAgAAAABAAIAAAACAAMAAgABAAAAAAACAAUAAgAAAAAAAAAEAAIAAgABAAEAAAAEAAoAAgABAAEAAAAJAAQAAgABAAEAAAAKAAkAAgABAAEAAAANAAEAAgABAAEAAAAOAAcAAgACAAAAAAARAAYAAgABAAEAAAARAAkAAgADAAAAAAASAAMAAgADAAEAAAABAAgAAAABAAIAAAACAAgAAAABAAIAAAADAAgAAAABAAAAAAAEAAgAAAACAAIAAAAEAAcAAAAAAAEAAAAEAAYAAAACAAEAAAAEAAUAAAAAAAEAAAAEAAQAAAAAAAAAAAAFAAQAAAABAAIAAAAGAAQAAAACAAAAAAAGAAUAAAAAAAEAAAAGAAYAAAAAAAIAAAAHAAYAAAABAAAAAAAIAAYAAAABAAAAAAAJAAYAAAABAAAAAAAKAAYAAAABAAAAAAALAAYAAAABAAAAAAAMAAYAAAACAAIAAAAMAAUAAAAAAAEAAAAMAAQAAAAAAAAAAAANAAQAAAABAAAAAAAOAAQAAAABAAIAAAAPAAQAAAABAAAAAAAHAAoAAgABAAEAAAAJAAEAAgABAAEAAAABAAIAAgABAAEAAAAPAAkAAgABAAEAAAAHAAgAAgACAAIAAAAQAAIAAgACAAIAAAAMAAgAAgADAAAAAAAHAAIAAgADAAAAAAALAAEAAgABAAAAAAABAAoAAgACAAAAAAA=")
 tile_set = ExtResource("2_u5ev4")
 metadata/_edit_lock_ = true
 
@@ -149,6 +177,7 @@ metadata/_edit_lock_ = true
 curve = SubResource("Curve2D_u5ev4")
 
 [node name="Towers" type="Node2D" parent="." unique_id=1395655346]
+y_sort_enabled = true
 
 [node name="ArcherTower" parent="Towers" unique_id=1405958972 instance=ExtResource("6_iygna")]
 position = Vector2(88, 91)

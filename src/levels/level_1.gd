@@ -6,17 +6,28 @@ const ARROW = preload("uid://cdxelq0wi6jwf")
 
 @onready var path_2d: Path2D = $Path2D
 @onready var projectiles: Node2D = $Projectiles
+@onready var enemy_spawner: EnemySpawner = $EnemySpawner
+@onready var wave_timer: Timer = $WaveTimer
 
 func _ready() -> void:
 	# SIGNALS
 	GameEvents.shoot.connect(create_projectile)
+	wave_timer.timeout.connect(next_wave)
 	
-	var path_follow: PathFollow2D = PathFollow2D.new()
-	path_follow.rotates = false
-	var enemy = enemy_scene.instantiate()
-	enemy.setup(path_follow)
-	path_follow.add_child(enemy)
-	path_2d.add_child(path_follow)
+	#var path_follow: PathFollow2D = PathFollow2D.new()
+	#path_follow.rotates = false
+	#var enemy = enemy_scene.instantiate()
+	#enemy.setup(path_follow)
+	#path_follow.add_child(enemy)
+	#path_2d.add_child(path_follow)
+	
+	#enemy_spawner.start_next_wave()
+
+
+func next_wave() -> void:
+	enemy_spawner.start_next_wave()
+	wave_timer.wait_time *= 1.25
+	print(wave_timer.wait_time)
 
 
 

@@ -4,7 +4,13 @@ class_name Tower
 var enemies: Array
 
 
-func _process(_delta: float) -> void:
+func _ready() -> void:
+	scale = Vector2.ZERO
+	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "scale", Vector2(1, 1), 0.8)
+
+
+func _physics_process(_delta: float) -> void:
 	print(enemies)
 
 

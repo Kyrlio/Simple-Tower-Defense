@@ -93,15 +93,17 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_m0kxw"]
 radius = 6.0
 
-[node name="Bat" type="Area2D" unique_id=189060496]
-collision_mask = 2
+[node name="Bat" type="PathFollow2D" unique_id=1282735157]
 script = ExtResource("1_36eu0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=800983565]
 libraries/ = SubResource("AnimationLibrary_a3dji")
 autoplay = &"walking"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=514537103]
+[node name="Area2D" type="Area2D" parent="." unique_id=1859629935]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=514537103]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_m0kxw")
 
@@ -114,4 +116,4 @@ rotation = -0.08726646
 texture = ExtResource("1_m0kxw")
 hframes = 4
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
