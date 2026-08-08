@@ -1,0 +1,156 @@
+[gd_scene format=4 uid="uid://b25jloaxrq7gu"]
+
+[ext_resource type="TileSet" uid="uid://bhb6t84kg301b" path="res://src/systems/resources/ground_tileset.tres" id="1_kg615"]
+[ext_resource type="Script" uid="uid://qb7pc5qher83" path="res://src/levels/level_1.gd" id="1_vgtt4"]
+[ext_resource type="TileSet" uid="uid://f482im7civig" path="res://src/systems/resources/road_tileset.tres" id="2_u5ev4"]
+[ext_resource type="Texture2D" uid="uid://b73dubf5pe5jx" path="res://assets/Shadow.png" id="2_vgtt4"]
+[ext_resource type="PackedScene" uid="uid://x81tgyj3keel" path="res://src/entities/enemies/bat/bat.tscn" id="2_xk4xt"]
+[ext_resource type="PackedScene" uid="uid://b4ju81m6ukfig" path="res://src/entities/towers/archer tower/archer_tower.tscn" id="6_iygna"]
+
+[sub_resource type="Curve2D" id="Curve2D_u5ev4"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -30, 135, 0, 0, 0, 0, 71, 135, 0, 0, 0, 0, 72, 72, 0, 0, 0, 0, 103, 72, 0, 0, 0, 0, 105, 103, 0, 0, 0, 0, 200, 103, 0, 0, 0, 0, 202, 71, 0, 0, 0, 0, 255, 71)
+}
+point_count = 8
+
+[node name="Level1" type="Node2D" unique_id=639303859]
+script = ExtResource("1_vgtt4")
+enemy_scene = ExtResource("2_xk4xt")
+
+[node name="Tilemaps" type="Node2D" parent="." unique_id=670104150]
+
+[node name="Ground" type="TileMapLayer" parent="Tilemaps" unique_id=1048874027]
+tile_map_data = PackedByteArray("AAD/////BQAAAAAAAAD//wAABQAAAAAAAAD//wEABQAAAAAAAAD//wIABQAAAAAAAAD//wMABQAAAAAAAAD//wQABQAAAAAAAAD//wUABQAAAAAAAAAAAP//BQAAAAAAAAAAAAAABQAAAAAAAAAAAAEABQAAAAAAAAAAAAIABQAAAAAAAAAAAAMABQAAAAAAAAAAAAQABQAAAAAAAAAAAAUABQAAAAAAAAABAP//BQAAAAAAAAABAAAABQAAAAAAAAABAAEABQAAAAAAAAABAAIABQAAAAAAAAABAAMABQAAAAAAAAABAAQABQAAAAAAAAABAAUABQAAAAAAAAACAP//BQAAAAAAAAACAAAABQAAAAAAAAACAAEABQAAAAAAAAACAAIABQAAAAAAAAACAAMABQAAAAAAAAACAAQABQAAAAAAAAACAAUABQAAAAAAAAADAP//BQAAAAAAAAADAAAABQAAAAAAAAADAAEABQAAAAAAAAADAAIABQAAAAAAAAADAAMABQAAAAAAAAADAAQABQAAAAAAAAADAAUABQAAAAAAAAAEAP//BQAAAAAAAAAEAAAABQAAAAAAAAAEAAEABQAAAAAAAAAEAAIABQAAAAAAAAAEAAMABQAAAAAAAAAEAAQABQAAAAAAAAAEAAUABQAAAAAAAAAFAP//BQAAAAAAAAAFAAAABQAAAAAAAAAFAAEABQAAAAAAAAAFAAIABQAAAAAAAAAFAAMABQAAAAAAAAAFAAQABQAAAAAAAAAFAAUABQAAAAAAAAAGAP//BQAAAAAAAAAGAAAABQAAAAAAAAAGAAEABQAAAAAAAAAGAAIABQAAAAAAAAAGAAMABQAAAAAAAAAGAAQABQAAAAAAAAAGAAUABQAAAAAAAAAHAP//BQAAAAAAAAAHAAAABQAAAAAAAAAHAAEABQAAAAAAAAAHAAIABQAAAAAAAAAHAAMABQAAAAAAAAAHAAQABQAAAAAAAAAHAAUABQAAAAAAAAAIAP//BQAAAAAAAAAIAAAABQAAAAAAAAAIAAEABQAAAAAAAAAIAAIABQAAAAAAAAAIAAMABQAAAAAAAAAIAAQABQAAAAAAAAAIAAUABQAAAAAAAAAJAP//BQAAAAAAAAAJAAAABQAAAAAAAAAJAAEABQAAAAAAAAAJAAIABQAAAAAAAAAJAAMABQAAAAAAAAAJAAQABQAAAAAAAAAJAAUABQAAAAAAAAAKAP//BQAAAAAAAAAKAAAABQAAAAAAAAAKAAEABQAAAAAAAAAKAAIABQAAAAAAAAAKAAMABQAAAAAAAAAKAAQABQAAAAAAAAAKAAUABQAAAAAAAAA=")
+tile_set = ExtResource("1_kg615")
+metadata/_edit_lock_ = true
+
+[node name="Shadows" type="Node2D" parent="Tilemaps" unique_id=1691562876]
+
+[node name="Shadow" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1218853100]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(40, 91)
+scale = Vector2(0.7857143, 0.78571427)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow2" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1732944725]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(152, 79)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow12" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1352584933]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(120, 143.99998)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow13" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=621343988]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(120, 175)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow14" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=433848559]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(200, 138)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow15" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1266194646]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(248, 159)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow16" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=2018006732]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(264, 47.999996)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow17" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1432731156]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(184, 27.999998)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow18" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=2141487452]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(120, 42)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow19" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1630056956]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(24, 46.999996)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow3" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=552089286]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(72.00001, 46.999992)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow6" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1252438637]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(280.00003, 110.99999)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow7" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1331275288]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(231.89287, 122.99999)
+scale = Vector2(1.1488115, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow8" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1044847721]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(168, 159)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow11" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=580212948]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(72, 175)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow9" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=565740276]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(280, 154)
+scale = Vector2(0.9642853, 0.76785773)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow10" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=2023609885]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(296, 60)
+scale = Vector2(0.7172623, 0.66964394)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow4" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1959828887]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(40.000008, 58.999996)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="Shadow5" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1071321257]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(216, 30.999998)
+scale = Vector2(0.9642853, 0.96428514)
+texture = ExtResource("2_vgtt4")
+
+[node name="TowerExclusion" type="TileMapLayer" parent="Tilemaps" unique_id=1302856948]
+tile_map_data = PackedByteArray("AAD9/wgAAAAAAAIAAAD+/wgAAAABAAAAAAD//wgAAAABAAAAAAAAAAgAAAABAAIAAAACAAMAAgABAAAAAAACAAUAAgAAAAAAAAAEAAIAAgABAAEAAAAEAAoAAgABAAEAAAAJAAQAAgABAAEAAAAKAAkAAgABAAEAAAANAAEAAgABAAEAAAAOAAcAAgACAAAAAAARAAYAAgABAAEAAAARAAkAAgADAAAAAAASAAMAAgADAAEAAAABAAgAAAABAAIAAAACAAgAAAABAAIAAAADAAgAAAABAAAAAAAEAAgAAAACAAIAAAAEAAcAAAAAAAEAAAAEAAYAAAACAAEAAAAEAAUAAAAAAAEAAAAEAAQAAAAAAAAAAAAFAAQAAAABAAIAAAAGAAQAAAACAAAAAAAGAAUAAAAAAAEAAAAGAAYAAAAAAAIAAAAHAAYAAAABAAAAAAAIAAYAAAABAAAAAAAJAAYAAAABAAAAAAAKAAYAAAABAAAAAAALAAYAAAABAAAAAAAMAAYAAAACAAIAAAAMAAUAAAAAAAEAAAAMAAQAAAAAAAAAAAANAAQAAAABAAAAAAAOAAQAAAABAAIAAAAPAAQAAAABAAAAAAAHAAoAAgABAAEAAAAJAAEAAgABAAEAAAABAAIAAgABAAEAAAAPAAkAAgABAAEAAAAHAAgAAgACAAIAAAAQAAIAAgACAAIAAAAMAAgAAgADAAAAAAAHAAIAAgADAAAAAAALAAEAAgABAAAAAAA=")
+tile_set = ExtResource("2_u5ev4")
+metadata/_edit_lock_ = true
+
+[node name="Path2D" type="Path2D" parent="." unique_id=406028917]
+curve = SubResource("Curve2D_u5ev4")
+
+[node name="Towers" type="Node2D" parent="." unique_id=1395655346]
+
+[node name="ArcherTower" parent="Towers" unique_id=1405958972 instance=ExtResource("6_iygna")]
+position = Vector2(88, 91)
+
+[node name="Projectiles" type="Node2D" parent="." unique_id=182706111]

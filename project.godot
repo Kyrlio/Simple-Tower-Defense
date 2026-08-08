@@ -1,0 +1,54 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Tower Defense Project"
+run/main_scene="uid://b25jloaxrq7gu"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+Data="*uid://c1pe02x1o2dc"
+GameEvents="*uid://c1buncekydvg4"
+
+[display]
+
+window/size/viewport_width=320
+window/size/viewport_height=180
+window/size/always_on_top=true
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+
+[file_customization]
+
+folder_colors={
+"res://assets/": "green",
+"res://src/": "purple"
+}
+
+[layer_names]
+
+2d_physics/layer_1="Enemies"
+2d_physics/layer_2="Bullets"
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+rendering_device/driver.windows="d3d12"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+viewport/hdr_2d=true

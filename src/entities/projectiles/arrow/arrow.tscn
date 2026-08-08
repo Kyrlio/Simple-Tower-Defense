@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cdxelq0wi6jwf"]
+
+[ext_resource type="Script" uid="uid://d14v320ytsgyf" path="res://src/entities/projectiles/arrow/arrow.gd" id="1_0ck5v"]
+[ext_resource type="Texture2D" uid="uid://d3374cyybvd0i" path="res://assets/Towers/Combat Towers Projectiles/spr_tower_archer_projectile.png" id="2_a0byb"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x171y"]
+radius = 3.0
+height = 10.0
+
+[node name="Arrow" type="Area2D" unique_id=1986108371]
+collision_layer = 2
+script = ExtResource("1_0ck5v")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=961467359]
+texture = ExtResource("2_a0byb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=622399974]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_x171y")

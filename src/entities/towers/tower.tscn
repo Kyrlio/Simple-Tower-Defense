@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://c1h3mwtggiunu"]
+
+[ext_resource type="Script" uid="uid://8nnuhb1myeyy" path="res://src/entities/towers/tower.gd" id="1_kkc4k"]
+[ext_resource type="Texture2D" uid="uid://b73dubf5pe5jx" path="res://assets/Shadow.png" id="2_sco40"]
+[ext_resource type="Texture2D" uid="uid://dg28ctk1bqqn4" path="res://assets/Towers/Combat Towers/spr_tower_archer_no_bow.png" id="3_sco40"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sco40"]
+radius = 56.142673
+
+[node name="Tower" type="Node2D" unique_id=1405958972]
+script = ExtResource("1_kkc4k")
+
+[node name="EnemyDetectionArea" type="Area2D" parent="." unique_id=1270546325]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetectionArea" unique_id=615870665]
+position = Vector2(0, -9)
+shape = SubResource("CircleShape2D_sco40")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=1200347125]
+
+[node name="Shadow" type="Sprite2D" parent="Visuals" unique_id=1844820111]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(0, -1)
+scale = Vector2(1.5000001, 1.2857144)
+texture = ExtResource("2_sco40")
+
+[node name="BaseTower" type="Sprite2D" parent="Visuals" unique_id=1691048206]
+texture = ExtResource("3_sco40")
+offset = Vector2(0, -11.5)
+
+[node name="Weapon" type="Sprite2D" parent="Visuals" unique_id=1827142402]
+
+[node name="ReloadTimer" type="Timer" parent="." unique_id=1097807576]
+autostart = true
+
+[connection signal="area_entered" from="EnemyDetectionArea" to="." method="_on_enemy_detection_area_area_entered"]
+[connection signal="area_exited" from="EnemyDetectionArea" to="." method="_on_enemy_detection_area_area_exited"]
