@@ -1,41 +1,58 @@
-extends PathFollow2D
+extends Area2D
+class_name Bat
 
-@export var speed: float = 15.0
-@export var max_hp: int = 3
-@export var gold_reward: int = 15
+@export var stats: EnemyStats
 
+var path_follow: PathFollow2D
 var cur_hp: int
 
 
 func _ready() -> void:
-	cur_hp = max_hp
-	loop = false
-	rotates = false
+	if stats:
+		cur_hp = stats.max_hp
+
+
+func setup(new_path_follow: PathFollow2D) -> void:
+	path_follow = new_path_follow
+	path_follow.loop = false
+	path_follow.rotates = false
 
 
 func _physics_process(delta: float) -> void:
-	progress += speed * delta
-	if progress_ratio >= 0.99:
-		print("damage")
+	if is_instance_valid(path_follow) and stats:
+		path_follow.progress += stats.speed * delta
+		global_position = path_follow.global_position
 		
-		#TODO Au lieu de bêtement mourir, l'ennemi reste et attaque le chateau. Le chateau lui se défend
-		queue_free()
+		if path_follow.progress_ratio >= 0.99:
+			print("damage")
+			
+			#TODO Au lieu de bêtement mourir, l'ennemi reste et attaque le chateau. Le chateau lui se défend
+			queue_free()
 
 
-func take_damage(amount: int) -> void:
-	cur_hp -= amount
-	_damage_flash()
+func take_damage(amount: int, damage_type: String = "physical") -> void:
+	var final_damage: int = amount
+	
+	match damage_type:
+		"physical": final_damage *= (1.0 - stats.physical_resist)
+		"ice": final_damage *= (1.0 - stats.ice_resist)
+		"poison": final_damage *= (1.0 - stats.poison_resist)
+		"lightning": final_damage *= (1.0 - stats.lightning_resist)
+	
+	cur_hp -= final_damage
+	_damage_effects()
 	
 	if cur_hp <= 0:
 		die()
 
 
 func die() -> void:
-	GoldManager.add_gold(gold_reward)
-	queue_free.call_deferred()
+	GoldManager.add_gold(stats.gold_reward)
+	if is_instance_valid(path_follow):
+		path_follow.queue_free.call_deferred()
 
 
-func _damage_flash() -> void:
+func _damage_effects() -> void:
 	visible = false
 	await get_tree().create_timer(0.07).timeout
 	visible = true

@@ -15,8 +15,12 @@ func start_next_wave() -> void:
 
 func spawn_wave(count: int) -> void:
 	for i in range(count):
-		var enemy_instance = enemy_scene.instantiate()
-		spawn_path.add_child(enemy_instance)
-		enemy_instance.progress = 0
+		
+		var path_follow: PathFollow2D = PathFollow2D.new()
+		path_follow.rotates = false
+		var enemy = enemy_scene.instantiate()
+		enemy.setup(path_follow)
+		path_follow.add_child(enemy)
+		spawn_path.add_child(path_follow)
 		
 		await get_tree().create_timer(0.8).timeout

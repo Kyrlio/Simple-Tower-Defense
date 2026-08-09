@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cjw0dj3dxymrt" path="res://src/entities/enemies/bat/bat.gd" id="1_36eu0"]
 [ext_resource type="Texture2D" uid="uid://w1lp6lguasgx" path="res://assets/Enemies/spr_bat.png" id="1_m0kxw"]
+[ext_resource type="Resource" uid="uid://bjogi6c0toa3" path="res://src/systems/resources/stats/enemy stats/bat_stats.tres" id="2_gc4xy"]
 
 [sub_resource type="Animation" id="Animation_36eu0"]
 length = 0.001
@@ -93,17 +94,16 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_m0kxw"]
 radius = 6.0
 
-[node name="Bat" type="PathFollow2D" unique_id=1282735157]
+[node name="Bat" type="Area2D" unique_id=351043334]
+collision_mask = 2
 script = ExtResource("1_36eu0")
+stats = ExtResource("2_gc4xy")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=800983565]
 libraries/ = SubResource("AnimationLibrary_a3dji")
 autoplay = &"walking"
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1859629935]
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=514537103]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=514537103]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_m0kxw")
 
@@ -116,4 +116,4 @@ rotation = -0.08726646
 texture = ExtResource("1_m0kxw")
 hframes = 4
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

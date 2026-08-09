@@ -14,13 +14,6 @@ func _ready() -> void:
 	GameEvents.shoot.connect(create_projectile)
 	wave_timer.timeout.connect(next_wave)
 	
-	#var path_follow: PathFollow2D = PathFollow2D.new()
-	#path_follow.rotates = false
-	#var enemy = enemy_scene.instantiate()
-	#enemy.setup(path_follow)
-	#path_follow.add_child(enemy)
-	#path_2d.add_child(path_follow)
-	
 	#enemy_spawner.start_next_wave()
 
 

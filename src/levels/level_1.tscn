@@ -21,7 +21,7 @@ enemy_scene = ExtResource("2_xk4xt")
 
 [node name="WaveTimer" type="Timer" parent="." unique_id=1883366695]
 process_callback = 0
-wait_time = 10.0
+wait_time = 3.0
 autostart = true
 
 [node name="EnemySpawner" parent="." unique_id=1210251770 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]

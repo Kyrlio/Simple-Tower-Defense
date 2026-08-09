@@ -24,33 +24,9 @@ func _handle_hit(hitbox_component: HitboxComponent):
 		## Hit only one enemy
 		#return
 	
-	if "is_debug_mode" in owner and owner.is_debug_mode:
+	if is_invincible:
+		hitbox_component.register_hurtbox_hit(self)
 		return
-	
-	if owner is Grass or owner is Corail:
-		health_component.damage(hitbox_component.damage)
-		if hit_particles_scene:
-			_play_hit_particles(hitbox_component)
-			owner.queue_free.call_deferred()
-	else: 
-		if is_invincible:
-			hitbox_component.register_hurtbox_hit(self)
-			return
-		
-		if is_blocking:
-			var hit_dir = sign(hitbox_component.global_position.x - global_position.x)
-			if hit_dir == 0.0: hit_dir = 1.0
-			
-			if hit_dir == sign(block_direction):
-				hitbox_component.register_hurtbox_hit(self)
-				blocked_hit.emit(hitbox_component)
-				
-				GameEvents.emit_engine_freeze()
-				if hit_particles_scene:
-					_play_hit_particles(hitbox_component)
-				
-				return
-		
 		
 		hitbox_component.register_hurtbox_hit(self)
 		GameEvents.emit_engine_freeze()

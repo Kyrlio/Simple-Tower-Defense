@@ -13,7 +13,11 @@ config_version=5
 config/name="Tower Defense Project"
 run/main_scene="uid://b25jloaxrq7gu"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.11764706, 0.43529412, 0.3137255, 1)
+boot_splash/stretch_mode=3
+boot_splash/use_filter=false
+boot_splash/image="uid://bvqhv1ptf2253"
+config/icon="uid://bvqhv1ptf2253"
 
 [autoload]
 
@@ -45,7 +49,7 @@ projectile=""
 [layer_names]
 
 2d_physics/layer_1="Enemies"
-2d_physics/layer_2="Bullets"
+2d_physics/layer_2="Projectiles"
 
 [physics]
 
