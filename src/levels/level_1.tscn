@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b73dubf5pe5jx" path="res://assets/Shadow.png" id="2_vgtt4"]
 [ext_resource type="PackedScene" uid="uid://x81tgyj3keel" path="res://src/entities/enemies/bat/bat.tscn" id="2_xk4xt"]
 [ext_resource type="PackedScene" uid="uid://ol4n6tvws2nx" path="res://src/systems/components/enemy spawner/enemy_spawner.tscn" id="3_l80tk"]
+[ext_resource type="PackedScene" uid="uid://kxtputpie6m3" path="res://src/ui/hud.tscn" id="3_q2d1y"]
 [ext_resource type="PackedScene" uid="uid://du28rsum3y61l" path="res://src/systems/components/placement manager/placement_manager.tscn" id="4_frwdw"]
 [ext_resource type="PackedScene" uid="uid://bvtnqclywhugm" path="res://src/entities/enemies/goblin/goblin.tscn" id="4_q2d1y"]
 
@@ -19,6 +20,8 @@ point_count = 8
 script = ExtResource("1_vgtt4")
 enemy_scene = ExtResource("2_xk4xt")
 
+[node name="HUD" parent="." unique_id=1049745166 instance=ExtResource("3_q2d1y")]
+
 [node name="WaveTimer" type="Timer" parent="." unique_id=1883366695]
 process_callback = 0
 wait_time = 10.0
@@ -27,6 +30,7 @@ autostart = true
 [node name="EnemySpawner" parent="." unique_id=1210251770 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]
 enemy_scenes = Array[PackedScene]([ExtResource("2_xk4xt"), ExtResource("4_q2d1y")])
 spawn_path = NodePath("../Path2D")
+enemy_count_wave_multiplier = 8
 
 [node name="PlacementManager" parent="." unique_id=81203257 node_paths=PackedStringArray("tower_exclusion_layer", "towers_container") instance=ExtResource("4_frwdw")]
 tower_exclusion_layer = NodePath("../Tilemaps/TowerExclusion")

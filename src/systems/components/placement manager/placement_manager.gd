@@ -1,6 +1,5 @@
 extends Node2D
 
-#@export var archer_tower_scene: PackedScene
 @export var particle_effect: PackedScene
 @export var tower_exclusion_layer: TileMapLayer
 @export var towers_container: Node2D
@@ -14,6 +13,8 @@ func _ready() -> void:
 	if not tower_exclusion_layer:
 		tower_exclusion_layer = get_node_or_null("../Tilemaps/TowerExclusion")
 	
+	GameEvents.tower_selected.connect(select_tower_to_build)
+	
 	if not towers_container:
 		towers_container = get_node_or_null("../Towers")
 		if not towers_container:
@@ -25,7 +26,7 @@ func _ready() -> void:
 		towers_container.y_sort_enabled = true
 
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if is_placing:
 		update_preview()
 
@@ -53,6 +54,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func select_tower_to_build(tower_data: TowerStats) -> void:
+	if is_placing:
+		cancel_placement()
 	active_tower_data = tower_data
 	start_placement()
 

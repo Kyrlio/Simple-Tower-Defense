@@ -3,12 +3,13 @@ class_name EnemySpawner
 
 @export var enemy_scenes: Array[PackedScene]
 @export var spawn_path: Path2D
+@export var enemy_count_wave_multiplier: int = 3
 
 var current_wave: int = 1
 
 
 func start_next_wave() -> void:
-	var enemy_count: int = current_wave * 3
+	var enemy_count: int = current_wave * enemy_count_wave_multiplier
 	spawn_wave(enemy_count)
 	current_wave += 1
 

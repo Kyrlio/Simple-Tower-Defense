@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://kxtputpie6m3"]
+
+[ext_resource type="PackedScene" uid="uid://cwiejn3yewt3q" path="res://src/ui/tower anchor button/tower_anchor_button.tscn" id="1_eqvli"]
+[ext_resource type="Script" uid="uid://dpn7jo2iyv81j" path="res://src/ui/hud.gd" id="1_snmo6"]
+[ext_resource type="Resource" uid="uid://bjibgfvjljn8a" path="res://src/systems/resources/stats/tower stats/archer_tower_stats.tres" id="2_4rn03"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1049745166]
+script = ExtResource("1_snmo6")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1006532145]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="GoldLabel" type="Label" parent="MarginContainer" unique_id=108345898]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 8
+text = "Gold : "
+
+[node name="TowerShop" type="HBoxContainer" parent="MarginContainer" unique_id=130914113]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="TowerAnchorButton" parent="MarginContainer/TowerShop" unique_id=953996219 instance=ExtResource("1_eqvli")]
+layout_mode = 2
+tower_stats = ExtResource("2_4rn03")
+
+[node name="TowerAnchorButton2" parent="MarginContainer/TowerShop" unique_id=897654774 instance=ExtResource("1_eqvli")]
+layout_mode = 2
+
+[node name="TowerAnchorButton3" parent="MarginContainer/TowerShop" unique_id=1271804822 instance=ExtResource("1_eqvli")]
+layout_mode = 2
+
+[node name="TowerAnchorButton4" parent="MarginContainer/TowerShop" unique_id=1495020786 instance=ExtResource("1_eqvli")]
+layout_mode = 2
+
+[node name="TowerAnchorButton5" parent="MarginContainer/TowerShop" unique_id=870982003 instance=ExtResource("1_eqvli")]
+layout_mode = 2
+
+[node name="TowerAnchorButton6" parent="MarginContainer/TowerShop" unique_id=1505449078 instance=ExtResource("1_eqvli")]
+layout_mode = 2

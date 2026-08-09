@@ -60,5 +60,9 @@ func _damage_effects() -> void:
 
 func _on_area_entered(projectile: Area2D) -> void:
 	if projectile.is_in_group("projectile"):
-		take_damage(projectile.damage)
-		projectile.queue_free()
+		if projectile.has_method("try_hit"):
+			if projectile.try_hit(self):
+				take_damage(projectile.damage)
+		else:
+			take_damage(projectile.damage)
+			projectile.queue_free()

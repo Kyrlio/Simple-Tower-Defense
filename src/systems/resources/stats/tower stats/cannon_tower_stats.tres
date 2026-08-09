@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="TowerStats" format=3 uid="uid://c3sn70leljdd5"]
+
+[ext_resource type="Script" uid="uid://8htlq2826sia" path="res://src/systems/resources/stats/tower_stats.gd" id="1_vmhqh"]
+
+[resource]
+script = ExtResource("1_vmhqh")
+tower_name = "Cannon Tower"
+cost = 200
+metadata/_custom_type_script = "uid://8htlq2826sia"

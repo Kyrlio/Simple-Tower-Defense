@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://cwiejn3yewt3q"]
+
+[ext_resource type="Script" uid="uid://dm4lfj4oc6lrq" path="res://src/ui/tower anchor button/tower_anchor_button.gd" id="1_nnm8a"]
+[ext_resource type="Texture2D" uid="uid://cxpp8obwks88q" path="res://assets/Towers/Combat Towers/spr_tower.png" id="2_nnm8a"]
+
+[node name="TowerAnchorButton" type="Button" unique_id=953996219]
+custom_minimum_size = Vector2(16, 16)
+custom_maximum_size = Vector2(16, 16)
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_nnm8a")
+
+[node name="IconRect" type="TextureRect" parent="." unique_id=1747460639]
+custom_minimum_size = Vector2(16, 16)
+custom_maximum_size = Vector2(16, 16)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("2_nnm8a")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="CostLabel" type="Label" parent="." unique_id=1707133030]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 10.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 8
+text = "99"
+
+[node name="NameLabel" type="Label" parent="." unique_id=2082894535]
+custom_minimum_size = Vector2(32, 8)
+custom_maximum_size = Vector2(32, 8)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -14.0
+offset_right = 16.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 4
+text = "Tower"
+horizontal_alignment = 1
+vertical_alignment = 1
