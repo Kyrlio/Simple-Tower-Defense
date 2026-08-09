@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://ol4n6tvws2nx" path="res://src/systems/components/enemy spawner/enemy_spawner.tscn" id="3_l80tk"]
 [ext_resource type="PackedScene" uid="uid://du28rsum3y61l" path="res://src/systems/components/placement manager/placement_manager.tscn" id="4_frwdw"]
 [ext_resource type="PackedScene" uid="uid://bvtnqclywhugm" path="res://src/entities/enemies/goblin/goblin.tscn" id="4_q2d1y"]
-[ext_resource type="PackedScene" uid="uid://b4ju81m6ukfig" path="res://src/entities/towers/archer tower/archer_tower.tscn" id="6_iygna"]
 
 [sub_resource type="Curve2D" id="Curve2D_u5ev4"]
 _data = {
@@ -30,7 +29,6 @@ enemy_scenes = Array[PackedScene]([ExtResource("2_xk4xt"), ExtResource("4_q2d1y"
 spawn_path = NodePath("../Path2D")
 
 [node name="PlacementManager" parent="." unique_id=81203257 node_paths=PackedStringArray("tower_exclusion_layer", "towers_container") instance=ExtResource("4_frwdw")]
-archer_tower_scene = ExtResource("6_iygna")
 tower_exclusion_layer = NodePath("../Tilemaps/TowerExclusion")
 towers_container = NodePath("../Towers")
 

@@ -1,13 +1,13 @@
 extends Node2D
 
-@export var archer_tower_scene: PackedScene
+#@export var archer_tower_scene: PackedScene
 @export var particle_effect: PackedScene
 @export var tower_exclusion_layer: TileMapLayer
 @export var towers_container: Node2D
 
 var preview_tower: Node2D
 var is_placing: bool = false
-var current_cost: int = 1
+var active_tower_data: TowerStats
 
 
 func _ready() -> void:
@@ -52,34 +52,38 @@ func _unhandled_input(event: InputEvent) -> void:
 				cancel_placement()
 
 
+func select_tower_to_build(tower_data: TowerStats) -> void:
+	active_tower_data = tower_data
+	start_placement()
+
+
 func start_placement() -> void:
-	if not archer_tower_scene:
-		print("Erreur : archer_tower_scene n'est pas assigné.")
+	if not active_tower_data:
 		return
-		
-	if preview_tower:
-		preview_tower.queue_free()
-		
-	is_placing = true
-	preview_tower = archer_tower_scene.instantiate()
 	
-	add_child(preview_tower)
-	
-	preview_tower.z_index = 100
-	
-	preview_tower.set_process(false)
-	preview_tower.set_physics_process(false)
-	
-	var timer = preview_tower.get_node_or_null("ReloadTimer")
-	if timer:
-		timer.stop()
+	if GoldManager.gold >= active_tower_data.cost:
+		is_placing = true
+		preview_tower = active_tower_data.tower_scene.instantiate()
 		
-	var detection_area = preview_tower.get_node_or_null("EnemyDetectionArea")
-	if detection_area:
-		detection_area.monitoring = false
-		detection_area.monitorable = false
+		if "is_preview" in preview_tower:
+			preview_tower.is_preview = true
 		
-	update_preview()
+		preview_tower.z_index = 10
+		add_child(preview_tower)
+		
+		preview_tower.set_process(false)
+		preview_tower.set_physics_process(false)
+		
+		var timer = preview_tower.get_node_or_null("ReloadTimer")
+		if timer:
+			timer.stop()
+			
+		var detection_area = preview_tower.get_node_or_null("EnemyDetectionArea")
+		if detection_area:
+			detection_area.monitoring = false
+			detection_area.monitorable = false
+		
+		update_preview()
 
 
 func update_preview() -> void:
@@ -100,7 +104,7 @@ func update_preview() -> void:
 
 
 func is_placement_valid(map_coords: Vector2i) -> bool:
-	if GoldManager.gold < current_cost:
+	if GoldManager.gold < active_tower_data.cost:
 		return false
 		
 	if tower_exclusion_layer:
@@ -116,11 +120,10 @@ func is_placement_valid(map_coords: Vector2i) -> bool:
 
 
 func attempt_placement(map_coords: Vector2i) -> void:
-	if GoldManager.spend_gold(current_cost):
-		var real_tower = archer_tower_scene.instantiate()
+	if GoldManager.spend_gold(active_tower_data.cost):
+		var real_tower = active_tower_data.tower_scene.instantiate()
 		var snapped_local = tower_exclusion_layer.map_to_local(map_coords)
 		real_tower.global_position = tower_exclusion_layer.to_global(snapped_local)
-		
 		real_tower.add_to_group("towers")
 		
 		if towers_container:
