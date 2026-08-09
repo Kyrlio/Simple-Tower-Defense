@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EnemyStats" format=3 uid="uid://bivi37y7jccwx"]
+
+[ext_resource type="Script" uid="uid://cwi7jj4fejrs2" path="res://src/systems/resources/stats/enemy_stats.gd" id="1_lln5a"]
+
+[resource]
+script = ExtResource("1_lln5a")
+name = "Goblin"
+max_hp = 4
+speed = 8.0
+gold_reward = 10
+metadata/_custom_type_script = "uid://cwi7jj4fejrs2"

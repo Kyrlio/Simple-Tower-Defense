@@ -19,7 +19,7 @@ func _ready() -> void:
 
 func next_wave() -> void:
 	enemy_spawner.start_next_wave()
-	wave_timer.wait_time *= 1.25
+	wave_timer.wait_time *= 1.15
 	print(wave_timer.wait_time)
 
 
