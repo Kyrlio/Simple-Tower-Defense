@@ -94,6 +94,7 @@ _data = {
 radius = 6.0
 
 [node name="Goblin" type="Area2D" unique_id=351043334]
+y_sort_enabled = true
 collision_mask = 2
 script = ExtResource("1_miapg")
 stats = ExtResource("2_uujs2")
@@ -107,6 +108,7 @@ position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_m0kxw")
 
 [node name="Visuals" type="Node2D" parent="." unique_id=1942275417]
+y_sort_enabled = true
 position = Vector2(0, -2)
 
 [node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=1078256220]

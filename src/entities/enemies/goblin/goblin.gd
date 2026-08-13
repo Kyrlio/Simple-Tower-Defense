@@ -2,6 +2,10 @@ extends Area2D
 class_name Goblin
 
 @export var stats: EnemyStats
+@export var hit_particles_scene: PackedScene = preload("uid://dtr5lw5ocrg3p")
+@export var death_particles_scene: PackedScene = preload("uid://d4fjkvjerbdpm")
+
+@onready var sprite: Sprite2D = $Visuals/Sprite2D
 
 var path_follow: PathFollow2D
 var cur_hp: int
@@ -41,21 +45,39 @@ func take_damage(amount: int, damage_type: String = "physical") -> void:
 	
 	cur_hp -= final_damage
 	_damage_effects()
+	spawn_hit_particles()
 	
 	if cur_hp <= 0:
 		die()
 
 
+func spawn_hit_particles() -> void:
+	var instance: GPUParticles2D = hit_particles_scene.instantiate()
+	get_tree().current_scene.add_child(instance)
+	instance.global_position = global_position
+
+
+func spawn_death_particles() -> void:
+	var instance: GPUParticles2D = death_particles_scene.instantiate()
+	get_tree().current_scene.add_child(instance)
+	instance.global_position = global_position
+
+
 func die() -> void:
+	_damage_effects()
+	spawn_death_particles()
 	GoldManager.add_gold(stats.gold_reward)
 	if is_instance_valid(path_follow):
 		path_follow.queue_free.call_deferred()
 
 
-func _damage_effects() -> void:
-	visible = false
-	await get_tree().create_timer(0.07).timeout
-	visible = true
+func _damage_effects() -> void:	
+	sprite.modulate = Color(18.892, 0.0, 0.0, 1.0)
+	$Visuals.scale = Vector2(0.8, 0.8)
+	
+	var tw: Tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tw.tween_property(sprite, "modulate", Color.WHITE, 0.2)
+	tw.tween_property($Visuals, "scale", Vector2.ONE, 0.2)
 
 
 func _on_area_entered(projectile: Area2D) -> void:

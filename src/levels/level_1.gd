@@ -2,12 +2,11 @@ extends Node2D
 
 const ARROW = preload("uid://cdxelq0wi6jwf")
 
-@export var enemy_scene: PackedScene
+@export var spawner_west: EnemySpawner
 
-@onready var path_2d: Path2D = $Path2D
 @onready var projectiles: Node2D = $Projectiles
-@onready var enemy_spawner: EnemySpawner = $EnemySpawner
 @onready var wave_timer: Timer = $WaveTimer
+@onready var path_2d: Path2D = $WaveManager/SpawnerWest/Path2D
 
 func _ready() -> void:
 	# SIGNALS
@@ -18,7 +17,8 @@ func _ready() -> void:
 
 
 func next_wave() -> void:
-	enemy_spawner.start_next_wave()
+	spawner_west.start_next_wave()
+	#enemy_spawner.start_next_wave()
 	wave_timer.wait_time *= 1.15
 	print(wave_timer.wait_time)
 

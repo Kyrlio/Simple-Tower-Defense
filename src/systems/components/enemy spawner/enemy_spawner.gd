@@ -20,6 +20,7 @@ func spawn_random_enemy() -> void:
 	
 	var path_follow: PathFollow2D = PathFollow2D.new()
 	path_follow.rotates = false
+	path_follow.y_sort_enabled = true
 	spawn_path.add_child(path_follow)
 	
 	var enemy_instance = enemy_scene_to_spawn.instantiate()

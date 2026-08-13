@@ -8,6 +8,7 @@ radius = 3.0
 height = 10.0
 
 [node name="Arrow" type="Area2D" unique_id=1986108371 groups=["projectile"]]
+z_index = 1
 collision_layer = 2
 script = ExtResource("1_0ck5v")
 
