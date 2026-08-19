@@ -5,22 +5,19 @@ const ARROW = preload("uid://cdxelq0wi6jwf")
 @export var spawner_west: EnemySpawner
 
 @onready var projectiles: Node2D = $Projectiles
-@onready var wave_timer: Timer = $WaveTimer
-@onready var path_2d: Path2D = $WaveManager/SpawnerWest/Path2D
 
 func _ready() -> void:
-	# SIGNALS
 	GameEvents.shoot.connect(create_projectile)
-	wave_timer.timeout.connect(next_wave)
 	
+	#wave_timer.timeout.connect(next_wave)
 	#enemy_spawner.start_next_wave()
 
 
-func next_wave() -> void:
-	spawner_west.start_next_wave()
-	#enemy_spawner.start_next_wave()
-	wave_timer.wait_time *= 1.15
-	print(wave_timer.wait_time)
+#func next_wave() -> void:
+	##spawner_west.start_next_wave()
+	##enemy_spawner.start_next_wave()
+	#wave_timer.wait_time *= 1.15
+	#print(wave_timer.wait_time)
 
 
 

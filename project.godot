@@ -36,6 +36,10 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 mouse_cursor/custom_image="uid://dx1ab0mtjrtqb"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/project-time-tracker/plugin.cfg", "res://addons/trail_2d/plugin.cfg")
+
 [file_customization]
 
 folder_colors={

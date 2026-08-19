@@ -5,11 +5,16 @@ class_name Goblin
 @export var hit_particles_scene: PackedScene = preload("uid://dtr5lw5ocrg3p")
 @export var death_particles_scene: PackedScene = preload("uid://d4fjkvjerbdpm")
 
+@onready var hit_flash_anim_player: AnimationPlayer = $HitFlashAnimPlayer
 @onready var sprite: Sprite2D = $Visuals/Sprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var path_follow: PathFollow2D
 var cur_hp: int
 
+# Hitstops
+var hitstop_frames: int = 0
+var hitstop_amount: int = 3
 
 func _ready() -> void:
 	if stats:
@@ -23,6 +28,14 @@ func setup(new_path_follow: PathFollow2D) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	
+	# Hitstop
+	if hitstop_frames > 0:
+		hitstop_frames -= 1
+		if hitstop_frames <= 0:
+			stop_hitstop()
+		return
+	
 	if is_instance_valid(path_follow) and stats:
 		path_follow.progress += stats.speed * delta
 		global_position = path_follow.global_position
@@ -71,13 +84,20 @@ func die() -> void:
 		path_follow.queue_free.call_deferred()
 
 
-func _damage_effects() -> void:	
-	sprite.modulate = Color(18.892, 0.0, 0.0, 1.0)
-	$Visuals.scale = Vector2(0.8, 0.8)
-	
-	var tw: Tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
-	tw.tween_property(sprite, "modulate", Color.WHITE, 0.2)
-	tw.tween_property($Visuals, "scale", Vector2.ONE, 0.2)
+func start_hitstop() -> void:
+	animation_player.pause()
+	hit_flash_anim_player.pause()
+	hitstop_frames = hitstop_amount
+
+
+func stop_hitstop() -> void:
+	animation_player.play()
+	hit_flash_anim_player.play()
+	hitstop_frames = 0
+
+
+func _damage_effects() -> void:
+	hit_flash_anim_player.play("hit_flash")
 
 
 func _on_area_entered(projectile: Area2D) -> void:

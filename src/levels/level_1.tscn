@@ -5,26 +5,32 @@
 [ext_resource type="TileSet" uid="uid://f482im7civig" path="res://src/systems/resources/road_tileset.tres" id="2_u5ev4"]
 [ext_resource type="Texture2D" uid="uid://b73dubf5pe5jx" path="res://assets/Shadow.png" id="2_vgtt4"]
 [ext_resource type="PackedScene" uid="uid://x81tgyj3keel" path="res://src/entities/enemies/bat/bat.tscn" id="2_xk4xt"]
+[ext_resource type="PackedScene" uid="uid://4tdalsf4j2m3" path="res://src/systems/components/wave manager/wave_manager.tscn" id="3_ia7or"]
 [ext_resource type="PackedScene" uid="uid://ol4n6tvws2nx" path="res://src/systems/components/enemy spawner/enemy_spawner.tscn" id="3_l80tk"]
 [ext_resource type="PackedScene" uid="uid://kxtputpie6m3" path="res://src/ui/hud.tscn" id="3_q2d1y"]
 [ext_resource type="PackedScene" uid="uid://du28rsum3y61l" path="res://src/systems/components/placement manager/placement_manager.tscn" id="4_frwdw"]
 [ext_resource type="PackedScene" uid="uid://bvtnqclywhugm" path="res://src/entities/enemies/goblin/goblin.tscn" id="4_q2d1y"]
 [ext_resource type="Script" uid="uid://b33wwtw5af1u" path="res://src/systems/components/player_camera.gd" id="8_fcumj"]
+[ext_resource type="Texture2D" uid="uid://c840tt0f8k5cw" path="res://assets/Towers/Castle/spr_castle_blue.png" id="12_riplu"]
 
 [sub_resource type="Curve2D" id="Curve2D_u5ev4"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -30, 135, 0, 0, 0, 0, 71, 135, 0, 0, 0, 0, 72, 72, 0, 0, 0, 0, 103, 72, 0, 0, 0, 0, 105, 103, 0, 0, 0, 0, 200, 103, 0, 0, 0, 0, 202, 71, 0, 0, 0, 0, 255, 71)
+"points": PackedVector2Array(0, 0, 0, 0, -37, 136, 0, 0, 0, 0, 73, 136, 0, 0, 0, 0, 72, 72, 0, 0, 0, 0, 103, 72, 0, 0, 0, 0, 105, 103, 0, 0, 0, 0, 200, 103, 0, 0, 0, 0, 202, 71, 0, 0, 0, 0, 314, 72, 0, 0, 0, 0, 313, 200, 0, 0, 0, 0, 361, 200, 0, 0, 0, 0, 362, 25, 0, 0, 0, 0, 410, 24, 0, 0, 0, 0, 411, 87, 0, 0, 0, 0, 588, 87)
 }
-point_count = 8
+point_count = 14
 
 [node name="Level1" type="Node2D" unique_id=639303859 node_paths=PackedStringArray("spawner_west")]
 y_sort_enabled = true
 script = ExtResource("1_vgtt4")
-spawner_west = NodePath("WaveManager/SpawnerWest/EnemySpawner")
+spawner_west = NodePath("Spawners/SpawnerWest/EnemySpawner")
 
 [node name="HUD" parent="." unique_id=1049745166 instance=ExtResource("3_q2d1y")]
 
-[node name="WaveTimer" type="Timer" parent="." unique_id=1883366695]
+[node name="WaveManager" parent="." unique_id=1185021221 node_paths=PackedStringArray("wave_timer", "spawners") instance=ExtResource("3_ia7or")]
+wave_timer = NodePath("WaveTimer")
+spawners = [NodePath("../Spawners/SpawnerWest/EnemySpawner")]
+
+[node name="WaveTimer" type="Timer" parent="WaveManager" unique_id=1883366695]
 process_callback = 0
 wait_time = 10.0
 autostart = true
@@ -42,6 +48,7 @@ tile_set = ExtResource("1_kg615")
 metadata/_edit_lock_ = true
 
 [node name="Shadows" type="Node2D" parent="Tilemaps" unique_id=1691562876]
+position = Vector2(-480, 16)
 
 [node name="Shadow" type="Sprite2D" parent="Tilemaps/Shadows" unique_id=1218853100]
 modulate = Color(1, 1, 1, 0.5882353)
@@ -170,7 +177,7 @@ scale = Vector2(0.9642853, 0.96428514)
 texture = ExtResource("2_vgtt4")
 
 [node name="TowerExclusion" type="TileMapLayer" parent="Tilemaps" unique_id=1302856948]
-tile_map_data = PackedByteArray("AAD9/wgAAAAAAAIAAAD+/wgAAAABAAAAAAD//wgAAAABAAAAAAAAAAgAAAABAAIAAAACAAMAAgABAAAAAAACAAUAAgAAAAAAAAAEAAIAAgABAAEAAAAEAAoAAgABAAEAAAAJAAQAAgABAAEAAAAKAAkAAgABAAEAAAANAAEAAgABAAEAAAAOAAcAAgACAAAAAAARAAYAAgABAAEAAAARAAkAAgADAAAAAAASAAMAAgADAAEAAAABAAgAAAABAAIAAAACAAgAAAABAAIAAAADAAgAAAABAAAAAAAEAAgAAAACAAIAAAAEAAcAAAAAAAEAAAAEAAYAAAACAAEAAAAEAAUAAAAAAAEAAAAEAAQAAAAAAAAAAAAFAAQAAAABAAIAAAAGAAQAAAACAAAAAAAGAAUAAAAAAAEAAAAGAAYAAAAAAAIAAAAHAAYAAAABAAAAAAAIAAYAAAABAAAAAAAJAAYAAAABAAAAAAAKAAYAAAABAAAAAAALAAYAAAABAAAAAAAMAAYAAAACAAIAAAAMAAUAAAAAAAEAAAAMAAQAAAAAAAAAAAANAAQAAAABAAAAAAAOAAQAAAABAAIAAAAPAAQAAAABAAAAAAAHAAoAAgABAAEAAAAJAAEAAgABAAEAAAABAAIAAgABAAEAAAAPAAkAAgABAAEAAAAHAAgAAgACAAIAAAAQAAIAAgACAAIAAAAMAAgAAgADAAAAAAAHAAIAAgADAAAAAAALAAEAAgABAAAAAAABAAoAAgACAAAAAAA=")
+tile_map_data = PackedByteArray("AADm/wgAAAAAAAEAAADr/wUAAgABAAEAAADt/wIAAgABAAAAAADt/wcAAAABAAAAAADv/wUAAAABAAAAAADw/wgAAgACAAAAAADf/wkAAAAAAAIAAADg/wkAAAABAAAAAADh/wkAAAABAAAAAADi/wkAAAABAAIAAADj/wMAAgABAAEAAADj/wkAAAABAAIAAADj/wsAAgACAAAAAADk/wQAAgABAAAAAADk/wYAAgAAAAAAAADk/wkAAAABAAIAAADl/wkAAAABAAAAAADm/wMAAgABAAEAAADm/wUAAAAAAAAAAADm/wYAAAAAAAEAAADm/wcAAAACAAEAAADm/wkAAAACAAIAAADm/wsAAgABAAEAAADn/wUAAAABAAIAAADo/wUAAAACAAAAAADo/wYAAAAAAAEAAADo/wcAAAAAAAIAAADp/wMAAgADAAAAAADp/wcAAAABAAAAAADp/wkAAgACAAIAAADp/wsAAgABAAEAAADq/wcAAAABAAAAAADr/wIAAgABAAEAAADr/wcAAAABAAAAAADs/wcAAAABAAAAAADs/woAAgABAAEAAADu/wUAAAAAAAAAAADu/wYAAAAAAAEAAADu/wcAAAACAAIAAADu/wkAAgADAAAAAADv/wIAAgABAAEAAADw/wUAAAABAAIAAADx/wUAAAABAAAAAADx/woAAgABAAEAAADy/wMAAgACAAIAAADz/wcAAgABAAEAAADz/woAAgADAAAAAAD0/wQAAgADAAEAAADy/wUAAAABAAAAAADz/wUAAAABAAAAAAD0/wUAAAABAAIAAAD1/wUAAAACAAAAAAD1/wYAAAACAAEAAAD1/wcAAAAAAAEAAAD1/wgAAAACAAEAAAD1/wkAAAAAAAEAAAD1/woAAAAAAAEAAAD1/wsAAAACAAEAAAD1/wwAAAACAAEAAAD1/w0AAAAAAAIAAAD2/w0AAAABAAIAAAD3/w0AAAABAAIAAAD4/w0AAAACAAIAAAD4/wwAAAACAAEAAAD4/wsAAAAAAAEAAAD4/woAAAAAAAEAAAD4/wkAAAAAAAEAAAD4/wgAAAAAAAEAAAD4/wcAAAACAAEAAAD4/wYAAAAAAAEAAAD4/wUAAAACAAEAAAD4/wQAAAACAAEAAAD4/wMAAAAAAAEAAAD4/wIAAAAAAAAAAAD5/wIAAAABAAAAAAD6/wIAAAABAAIAAAD7/wIAAAACAAAAAAD7/wMAAAAAAAEAAAD7/wQAAAAAAAEAAAD7/wUAAAACAAEAAAD7/wYAAAAAAAIAAAD8/wYAAAABAAIAAAD9/wYAAAABAAAAAAD+/wYAAAABAAIAAAD//wYAAAABAAAAAAAAAAYAAAABAAIAAAABAAYAAAABAAIAAAACAAYAAAABAAAAAAADAAYAAAABAAIAAAAEAAYAAAABAAIAAAAFAAYAAAABAAIAAAAGAAYAAAACAAIAAAAGAAcAAgADAAIAAAAHAAcAAgADAAIAAAAIAAcAAgADAAIAAAA=")
 tile_set = ExtResource("2_u5ev4")
 metadata/_edit_lock_ = true
 
@@ -185,26 +192,38 @@ y_sort_enabled = true
 
 [node name="Projectiles" type="Node2D" parent="." unique_id=182706111]
 
-[node name="WaveManager" type="Node2D" parent="." unique_id=1758081476]
+[node name="Spawners" type="Node2D" parent="." unique_id=1758081476]
 y_sort_enabled = true
 
-[node name="SpawnerWest" type="Node2D" parent="WaveManager" unique_id=1883926664]
+[node name="SpawnerWest" type="Node2D" parent="Spawners" unique_id=1883926664]
 y_sort_enabled = true
 
-[node name="EnemySpawner" parent="WaveManager/SpawnerWest" unique_id=1210251770 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]
-enemy_scenes = Array[PackedScene]([ExtResource("2_xk4xt"), ExtResource("4_q2d1y")])
+[node name="EnemySpawner" parent="Spawners/SpawnerWest" unique_id=1210251770 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]
 spawn_path = NodePath("../Path2D")
-enemy_count_wave_multiplier = 6
+spawn_pool = Array[Dictionary]([{
+"chance": 70,
+"scene": ExtResource("2_xk4xt")
+}, {
+"chance": 30,
+"scene": ExtResource("4_q2d1y")
+}])
 
-[node name="Path2D" type="Path2D" parent="WaveManager/SpawnerWest" unique_id=406028917]
+[node name="Path2D" type="Path2D" parent="Spawners/SpawnerWest" unique_id=406028917]
 y_sort_enabled = true
+position = Vector2(-481, 16)
 curve = SubResource("Curve2D_u5ev4")
 
-[node name="SpawnerNorth" type="Node2D" parent="WaveManager" unique_id=2112120961]
+[node name="SpawnerNorth" type="Node2D" parent="Spawners" unique_id=2112120961]
 y_sort_enabled = true
 
-[node name="SpawnerEast" type="Node2D" parent="WaveManager" unique_id=1286691396]
+[node name="SpawnerEast" type="Node2D" parent="Spawners" unique_id=1286691396]
 y_sort_enabled = true
 
-[node name="SpawnerSouth" type="Node2D" parent="WaveManager" unique_id=703760801]
+[node name="SpawnerSouth" type="Node2D" parent="Spawners" unique_id=703760801]
 y_sort_enabled = true
+
+[node name="SprCastleBlue" type="Sprite2D" parent="." unique_id=537316325]
+position = Vector2(123, 93)
+texture = ExtResource("12_riplu")
+region_enabled = true
+region_rect = Rect2(0, 0, 52, 38)

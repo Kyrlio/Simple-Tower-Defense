@@ -91,6 +91,82 @@ _data = {
 &"walking": SubResource("Animation_gc4xy")
 }
 
+[sub_resource type="Animation" id="Animation_a3dji"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visuals:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_a6kf8"]
+resource_name = "hit_flash"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals:modulate")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(18.892157, 18.892157, 18.892157, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.05),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_hitstop"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visuals:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0bivp"]
+_data = {
+&"RESET": SubResource("Animation_a3dji"),
+&"hit_flash": SubResource("Animation_a6kf8")
+}
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_m0kxw"]
 radius = 6.0
 
@@ -102,6 +178,9 @@ stats = ExtResource("2_gc4xy")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=800983565]
 libraries/ = SubResource("AnimationLibrary_a3dji")
 autoplay = &"walking"
+
+[node name="HitFlashAnimPlayer" type="AnimationPlayer" parent="." unique_id=1828660279]
+libraries/ = SubResource("AnimationLibrary_0bivp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=514537103]
 position = Vector2(0, -2)
@@ -116,5 +195,20 @@ y_sort_enabled = true
 rotation = -0.08726646
 texture = ExtResource("1_m0kxw")
 hframes = 4
+
+[node name="Label" type="Label" parent="." unique_id=875465971]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -10.0
+offset_right = 10.0
+offset_bottom = 7.0
+grow_horizontal = 2
+theme_override_constants/line_spacing = -1
+theme_override_font_sizes/font_size = 2
+text = "speed: 99
+health: 99"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
