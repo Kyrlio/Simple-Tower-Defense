@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_40ddh")
 name = "Bat"
-max_hp = 6.0
+max_hp = 4.0
 speed = 15.0
 gold_reward = 10
 metadata/_custom_type_script = "uid://cwi7jj4fejrs2"

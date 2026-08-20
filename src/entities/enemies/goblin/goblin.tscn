@@ -196,4 +196,19 @@ rotation = -0.08726646
 texture = ExtResource("3_uujs2")
 hframes = 4
 
+[node name="Label" type="Label" parent="." unique_id=46562595]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -10.0
+offset_right = 10.0
+offset_bottom = 7.0
+grow_horizontal = 2
+theme_override_constants/line_spacing = -1
+theme_override_font_sizes/font_size = 2
+text = "speed: 99
+health: 99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

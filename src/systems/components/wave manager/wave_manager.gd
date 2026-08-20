@@ -24,9 +24,9 @@ func _on_wave_timer_timeout() -> void:
 	
 	if current_wave == 1:
 		_activate_spawner(1, "Nord")
-	elif current_wave == 5:
+	elif current_wave == 2:
 		_activate_spawner(2, "Est")
-	elif current_wave == 7:
+	elif current_wave == 3:
 		_activate_spawner(3, "Sud")
 	
 	difficulty_factor += 0.2
