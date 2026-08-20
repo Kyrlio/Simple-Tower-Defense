@@ -1,7 +1,7 @@
 extends Area2D
 class_name Projectile
 
-@export var damage: int = 1
+@export var damage: float = 1
 @export var max_targets: int = 1
 
 var direction: Vector2

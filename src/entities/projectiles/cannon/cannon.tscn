@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://dcjv0y55wy5ec"]
+
+[ext_resource type="Script" uid="uid://w8dfhukvutve" path="res://src/entities/projectiles/cannon/cannon.gd" id="1_d31iy"]
+[ext_resource type="PackedScene" uid="uid://loqvbx1lsknw" path="res://src/systems/particles/explosion_particles/explosion_particles.tscn" id="2_a4h4f"]
+[ext_resource type="Texture2D" uid="uid://c0lac3rf781el" path="res://assets/Towers/Combat Towers Projectiles/spr_tower_cannon_projectile.png" id="2_fkj2q"]
+[ext_resource type="Texture2D" uid="uid://b73dubf5pe5jx" path="res://assets/Shadow.png" id="2_shadow"]
+[ext_resource type="Script" uid="uid://cp3umhucxfl11" path="res://addons/trail_2d/trail_2d.gd" id="3_layoy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0thxj"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_snmo6"]
+radius = 4.1231055
+
+[sub_resource type="Curve" id="Curve_a0byb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_a0byb"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Cannon" type="Area2D" unique_id=1986108371 groups=["projectile"]]
+z_index = 1
+collision_layer = 2
+script = ExtResource("1_d31iy")
+explosion_effect = ExtResource("2_a4h4f")
+arc_height = 45.0
+flight_duration = 2.0
+
+[node name="ExplosionArea" type="Area2D" parent="." unique_id=1963468530]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea" unique_id=1477600331]
+shape = SubResource("CircleShape2D_0thxj")
+debug_color = Color(0.98347324, 0, 0.35703626, 0.41960785)
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1844820112]
+modulate = Color(1, 1, 1, 0.6)
+position = Vector2(0, 2)
+texture = ExtResource("2_shadow")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=622399974]
+rotation = -1.5707964
+shape = SubResource("CircleShape2D_snmo6")
+
+[node name="Trail2D" type="Line2D" parent="." unique_id=1047793216]
+width = 3.0
+width_curve = SubResource("Curve_a0byb")
+gradient = SubResource("Gradient_a0byb")
+script = ExtResource("3_layoy")
+length = 12
+metadata/_custom_type_script = "uid://cp3umhucxfl11"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=961467359]
+texture = ExtResource("2_fkj2q")

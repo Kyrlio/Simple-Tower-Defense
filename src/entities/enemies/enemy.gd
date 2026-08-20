@@ -16,7 +16,7 @@ var attack_timer: Timer
 
 # Hitstop
 var hitstop_frames: int = 0
-var hitstop_amount: int = 3
+var hitstop_amount: int = 1
 
 
 func _ready() -> void:
@@ -97,8 +97,12 @@ func apply_scale_difficulty(factor: float) -> void:
 func update_debug_label() -> void:
 	var label: Label = get_node_or_null("Label")
 	if label and stats:
-		label.text = "speed: " + str(stats.speed) + "\nmax_hp: " + str(stats.max_hp) \
-				+ "\nhp: " + str(stats.hp) + "\ncur_hp: " + str(cur_hp)
+		label.text = "speed: %.1f\nmax_hp: %.1f\nhp: %.1f\ncur_hp: %.1f" % [
+			stats.speed,
+			stats.max_hp,
+			stats.hp,
+			cur_hp
+		]
 
 
 func spawn_hit_particles() -> void:

@@ -8,6 +8,7 @@ class_name EnemySpawner
 	{ "scene": preload("uid://x81tgyj3keel"), "chance": 60 },
 	{ "scene": preload("uid://bvtnqclywhugm"), "chance": 30 }
 ]
+@export var spawn_delay: float = 1.5 
 
 
 func spawn_enemy(difficulty_factor: float) -> void:
@@ -39,4 +40,4 @@ func spawn_enemy(difficulty_factor: float) -> void:
 func spawn_wave(count: int, difficulty_factor: float) -> void:
 	for i in range(count):
 		spawn_enemy(difficulty_factor)
-		await get_tree().create_timer(0.8).timeout
+		await get_tree().create_timer(spawn_delay).timeout

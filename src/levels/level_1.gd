@@ -1,27 +1,23 @@
 extends Node2D
 
 const ARROW = preload("uid://cdxelq0wi6jwf")
+const CANNON = preload("uid://dcjv0y55wy5ec")
 
-@export var spawner_west: EnemySpawner
 
 @onready var projectiles: Node2D = $Projectiles
 
 func _ready() -> void:
 	GameEvents.shoot.connect(create_projectile)
-	
-	#wave_timer.timeout.connect(next_wave)
-	#enemy_spawner.start_next_wave()
-
-
-#func next_wave() -> void:
-	##spawner_west.start_next_wave()
-	##enemy_spawner.start_next_wave()
-	#wave_timer.wait_time *= 1.15
-	#print(wave_timer.wait_time)
-
+	GoldManager.add_gold(500)
 
 
 func create_projectile(pos: Vector2, angle: float, projectile_enum: Data.Projectile) -> void:
-	var projectile = ARROW.instantiate() 
+	var projectile = null
+	match projectile_enum:
+		Data.Projectile.ARROW:
+			projectile = ARROW.instantiate() as Arrow
+		Data.Projectile.CANNON:
+			projectile = CANNON.instantiate() as Cannon
+		
 	projectile.setup(pos, angle, projectile_enum)
 	projectiles.add_child(projectile)

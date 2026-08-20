@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://loqvbx1lsknw"]
+
+[ext_resource type="Texture2D" uid="uid://eolddx6351i" path="res://assets/fx/Explosion_Poof (16 x 16).png" id="1_x0bnn"]
+[ext_resource type="Script" uid="uid://d0736d81qltlo" path="res://src/systems/scripts/self_freeing_particles.gd" id="2_0utfl"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_x416w"]
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0thxj"]
+lifetime_randomness = 0.13
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 75.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 200, 0)
+scale_min = 0.79999995
+anim_speed_min = 2.0
+anim_speed_max = 4.0
+anim_offset_max = 0.2553
+
+[node name="ExplosionParticles" type="GPUParticles2D" unique_id=379663184]
+z_index = 1
+material = SubResource("CanvasItemMaterial_x416w")
+emitting = false
+amount = 16
+texture = ExtResource("1_x0bnn")
+lifetime = 1.7
+one_shot = true
+explosiveness = 0.98
+process_material = SubResource("ParticleProcessMaterial_0thxj")
+script = ExtResource("2_0utfl")

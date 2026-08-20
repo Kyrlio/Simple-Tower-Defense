@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://kxtputpie6m3" path="res://src/ui/hud.tscn" id="3_q2d1y"]
 [ext_resource type="PackedScene" uid="uid://du28rsum3y61l" path="res://src/systems/components/placement manager/placement_manager.tscn" id="4_frwdw"]
 [ext_resource type="PackedScene" uid="uid://bvtnqclywhugm" path="res://src/entities/enemies/goblin/goblin.tscn" id="4_q2d1y"]
+[ext_resource type="Resource" uid="uid://dg2gg0rmh5wv3" path="res://src/systems/resources/difficulty_curve.tres" id="4_vo5gq"]
 [ext_resource type="Script" uid="uid://b33wwtw5af1u" path="res://src/systems/components/player_camera.gd" id="8_fcumj"]
 [ext_resource type="PackedScene" uid="uid://cryj0oh2yygls" path="res://src/entities/castle/castle.tscn" id="9_riplu"]
 
@@ -37,14 +38,14 @@ _data = {
 }
 point_count = 51
 
-[node name="Level1" type="Node2D" unique_id=639303859 node_paths=PackedStringArray("spawner_west")]
+[node name="Level1" type="Node2D" unique_id=639303859]
 y_sort_enabled = true
 script = ExtResource("1_vgtt4")
-spawner_west = NodePath("Spawners/SpawnerWest/EnemySpawner")
 
 [node name="HUD" parent="." unique_id=1049745166 instance=ExtResource("3_q2d1y")]
 
 [node name="WaveManager" parent="." unique_id=1185021221 node_paths=PackedStringArray("wave_timer", "spawners") instance=ExtResource("3_ia7or")]
+difficulty_curve = ExtResource("4_vo5gq")
 wave_timer = NodePath("WaveTimer")
 spawners = [NodePath("../Spawners/SpawnerWest/EnemySpawner"), NodePath("../Spawners/SpawnerNorth/EnemySpawner"), NodePath("../Spawners/SpawnerEast/EnemySpawner"), NodePath("../Spawners/SpawnerSouth/EnemySpawner")]
 

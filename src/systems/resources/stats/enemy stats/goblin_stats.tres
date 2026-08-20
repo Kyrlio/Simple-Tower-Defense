@@ -8,5 +8,5 @@ name = "Goblin"
 max_hp = 8.0
 hp = 3.0
 speed = 8.0
-gold_reward = 15
+gold_reward = 8
 metadata/_custom_type_script = "uid://cwi7jj4fejrs2"

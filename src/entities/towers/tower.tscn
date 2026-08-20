@@ -33,6 +33,10 @@ offset = Vector2(0, -11.5)
 
 [node name="Weapon" type="Sprite2D" parent="Visuals" unique_id=1827142402]
 
+[node name="Muzzle" type="Marker2D" parent="Visuals/Weapon" unique_id=1526892396]
+position = Vector2(3, 0)
+gizmo_extents = 2.0
+
 [node name="ReloadTimer" type="Timer" parent="." unique_id=1097807576]
 autostart = true
 

@@ -47,6 +47,8 @@ radius = 24.0
 height = 62.0
 
 [node name="Castle" type="Area2D" unique_id=1775322667 groups=["castle"]]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_dwuxv")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=458572293]
