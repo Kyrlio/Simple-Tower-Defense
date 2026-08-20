@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cxyr88hw5nbu2"
+path="res://.godot/imported/Impact Metal Hatch.wav-26a7cfdedbd2fb6f5c255258ad2e9fac.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Motions and Impacts/Impact Metal Hatch.wav"
+dest_files=["res://.godot/imported/Impact Metal Hatch.wav-26a7cfdedbd2fb6f5c255258ad2e9fac.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

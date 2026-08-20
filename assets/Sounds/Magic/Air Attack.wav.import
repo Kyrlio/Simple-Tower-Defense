@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bbp70stt8c8li"
+path="res://.godot/imported/Air Attack.wav-bb9fed05fd0cea9b09764addc0121451.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Magic/Air Attack.wav"
+dest_files=["res://.godot/imported/Air Attack.wav-bb9fed05fd0cea9b09764addc0121451.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

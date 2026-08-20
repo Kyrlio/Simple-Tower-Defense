@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cbwqsdo2yyux"
+path="res://.godot/imported/Dreamscape Loop.wav-b6decf9e0b5a6e0e9d821461f91a07fa.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Environment/Dreamscape Loop.wav"
+dest_files=["res://.godot/imported/Dreamscape Loop.wav-b6decf9e0b5a6e0e9d821461f91a07fa.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

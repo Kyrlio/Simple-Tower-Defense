@@ -3,6 +3,8 @@ extends Node
 
 
 @export var wave_timer: Timer
+@export var difficulty_factor_additioner: float = 0.15
+@export var wave_timer_multiplier: float = 1.2
 @export var spawners: Array[EnemySpawner]
 
 var difficulty_factor: float = 1.0
@@ -18,9 +20,9 @@ func _ready() -> void:
 
 
 func _on_wave_timer_timeout() -> void:
-	print("Wave ", current_wave, "\nDifficulty : ", difficulty_factor)
+	print("Wave ", current_wave, "\nDifficulty : ", difficulty_factor, "\nNext wave in ", wave_timer.wait_time)
 	
-	if current_wave == 3:
+	if current_wave == 1:
 		_activate_spawner(1, "Nord")
 	elif current_wave == 5:
 		_activate_spawner(2, "Est")
@@ -36,7 +38,7 @@ func _on_wave_timer_timeout() -> void:
 	
 	current_wave += 1
 	difficulty_factor += 0.15
-	wave_timer.wait_time = wave_timer.wait_time * 1.1
+	wave_timer.wait_time = wave_timer.wait_time * wave_timer_multiplier
 
 
 func _activate_spawner(index: int, direction_name: String) -> void:

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://caq63niv0qgb1"
+path="res://.godot/imported/Metal Twang.wav-85d45c175ef98a89732fa0e9cfff5d6d.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Medieval/Metal Twang.wav"
+dest_files=["res://.godot/imported/Metal Twang.wav-85d45c175ef98a89732fa0e9cfff5d6d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://rds1vuslndwx"
+path="res://.godot/imported/Rain Forest Loop.wav-884d7a1cbcc9190b45b42ed7f4e6be4d.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Environment/Rain Forest Loop.wav"
+dest_files=["res://.godot/imported/Rain Forest Loop.wav-884d7a1cbcc9190b45b42ed7f4e6be4d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

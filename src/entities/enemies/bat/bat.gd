@@ -10,6 +10,8 @@ class_name Bat
 
 var path_follow: PathFollow2D
 var cur_hp: float
+var is_attacking_castle: bool = false
+var attack_timer: Timer
 
 # Hitstops
 var hitstop_frames: int = 0
@@ -18,7 +20,7 @@ var hitstop_amount: int = 3
 
 func _ready() -> void:
 	if stats:
-		cur_hp = stats.max_hp
+		cur_hp = stats.hp
 	
 	update_debug_label()
 
@@ -38,14 +40,34 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	if is_instance_valid(path_follow) and stats:
-		path_follow.progress += stats.speed * delta
-		global_position = path_follow.global_position
+		if not is_attacking_castle:
+			path_follow.progress += stats.speed * delta
+			global_position = path_follow.global_position
 		
-		if path_follow.progress_ratio >= 0.99:
-			print("damage")
-			
-			#TODO Au lieu de bêtement mourir, l'ennemi reste et attaque le chateau. Le chateau lui se défend
-			queue_free()
+			if path_follow.progress_ratio >= 0.99:
+				reached_castle()
+
+
+func reached_castle() -> void:
+	is_attacking_castle = true
+	print("Bat a atteint chateau et attaque")
+	
+	attack_timer = Timer.new()
+	attack_timer.wait_time = stats.attack_speed
+	attack_timer.autostart = true
+	attack_timer.timeout.connect(_on_attack_tick)
+	add_child(attack_timer)
+	#TODO Juice : animation + sfx
+
+
+func _on_attack_tick() -> void:
+	var castle: Castle = get_tree().get_first_node_in_group("castle")
+	if is_instance_valid(castle):
+		castle.take_damage(stats.attack_damage)
+	else:
+		# Castle destroyed
+		if attack_timer:
+			attack_timer.stop()
 
 
 func take_damage(amount: float, damage_type: String = "physical") -> void:
@@ -60,6 +82,7 @@ func take_damage(amount: float, damage_type: String = "physical") -> void:
 	cur_hp -= final_damage
 	_damage_effects()
 	spawn_hit_particles()
+	update_debug_label()
 	
 	if cur_hp <= 0:
 		die()
@@ -68,14 +91,16 @@ func take_damage(amount: float, damage_type: String = "physical") -> void:
 func apply_scale_difficulty(factor: float) -> void:
 	if stats:
 		stats = stats.duplicate()
-		stats.max_hp = stats.max_hp * factor
+		stats.hp = clampf(stats.hp * factor, stats.hp, stats.max_hp)
+		#stats.max_hp = max(stats.max_hp, stats.max_hp * factor)
 		stats.speed = stats.speed * (1.0 + (factor - 1.0) * 0.2)
-		cur_hp = stats.max_hp
+		cur_hp = stats.hp
 		update_debug_label()
 
 
 func update_debug_label() -> void:
-	$Label.text = "speed: " + str(stats.speed) + "\nhp: " + str(stats.max_hp)
+	$Label.text = "speed: " + str(stats.speed) + "\nmax_hp: " + str(stats.max_hp) \
+			+ "\nhp: " + str(stats.hp) + "\ncur_hp: " + str(cur_hp)
 
 
 func spawn_hit_particles() -> void:
@@ -103,6 +128,9 @@ func stop_hitstop() -> void:
 
 
 func die() -> void:
+	if attack_timer:
+		attack_timer.queue_free()
+	
 	_damage_effects()
 	GoldManager.add_gold(stats.gold_reward)
 	spawn_death_particles()

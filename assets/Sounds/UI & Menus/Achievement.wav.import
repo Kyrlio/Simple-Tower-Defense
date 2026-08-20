@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://byk44qd24dng1"
+path="res://.godot/imported/Achievement.wav-07bb0e30491fe32fdc9f8083501dd26f.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/UI & Menus/Achievement.wav"
+dest_files=["res://.godot/imported/Achievement.wav-07bb0e30491fe32fdc9f8083501dd26f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

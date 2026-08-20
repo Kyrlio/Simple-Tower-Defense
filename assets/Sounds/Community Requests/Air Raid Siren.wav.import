@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bqypya3lqlhel"
+path="res://.godot/imported/Air Raid Siren.wav-2c2ce698c013e9d206b729d6fdbe4327.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Community Requests/Air Raid Siren.wav"
+dest_files=["res://.godot/imported/Air Raid Siren.wav-2c2ce698c013e9d206b729d6fdbe4327.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

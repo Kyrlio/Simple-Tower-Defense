@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cchdgnjm6ghcc"
+path="res://.godot/imported/Loot Gold.wav-3d105448bcf3cee34f9348a4c51f7ad1.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Medieval/Loot Gold.wav"
+dest_files=["res://.godot/imported/Loot Gold.wav-3d105448bcf3cee34f9348a4c51f7ad1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

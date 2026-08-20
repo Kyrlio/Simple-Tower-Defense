@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://cryj0oh2yygls"]
+
+[ext_resource type="Texture2D" uid="uid://c840tt0f8k5cw" path="res://assets/Towers/Castle/spr_castle_blue.png" id="1_8mvag"]
+[ext_resource type="Script" uid="uid://bx386lau7fakl" path="res://src/entities/castle/castle.gd" id="1_dwuxv"]
+[ext_resource type="Script" uid="uid://dyf04hfuuwm4u" path="res://src/systems/components/health_component.gd" id="2_dwuxv"]
+
+[sub_resource type="Animation" id="Animation_smqwv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_dmu3l"]
+resource_name = "default"
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2p8d3"]
+_data = {
+&"RESET": SubResource("Animation_smqwv"),
+&"default": SubResource("Animation_dmu3l")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wp0ns"]
+radius = 24.0
+height = 62.0
+
+[node name="Castle" type="Area2D" unique_id=1775322667 groups=["castle"]]
+script = ExtResource("1_dwuxv")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=458572293]
+script = ExtResource("2_dwuxv")
+max_health = 500
+metadata/_custom_type_script = "uid://dyf04hfuuwm4u"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2114110181]
+libraries/ = SubResource("AnimationLibrary_2p8d3")
+autoplay = &"default"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=943719384]
+texture = ExtResource("1_8mvag")
+offset = Vector2(0, -6)
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1052584264]
+position = Vector2(0, -3)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_wp0ns")
