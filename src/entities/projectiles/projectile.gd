@@ -1,19 +1,25 @@
 extends Area2D
 class_name Projectile
 
-@export var damage: float = 1
+@export var damage: float = 1.0
 @export var max_targets: int = 1
+@export var speed: float = 125.0
+@export var lifetime: float = 4.0
 
 var direction: Vector2
-var speed: float = 125.0
-
 var has_hit: bool = false
 var targets_hit_count: int = 0
 var hit_targets: Array[Node2D] = []
 
 
-func setup(pos: Vector2, angle: float, _projectile_enum: Data.Projectile) -> void:
-	position = pos
+func _ready() -> void:
+	add_to_group("projectile")
+	if lifetime > 0.0:
+		get_tree().create_timer(lifetime).timeout.connect(_on_lifetime_timeout)
+
+
+func shoot(pos: Vector2, angle: float) -> void:
+	global_position = pos
 	direction = Vector2.DOWN.rotated(angle - PI/2)
 	rotation = angle
 
@@ -43,3 +49,8 @@ func _on_max_targets_reached() -> void:
 	set_deferred("monitoring", false)
 	set_deferred("monitorable", false)
 	queue_free()
+
+
+func _on_lifetime_timeout() -> void:
+	if is_instance_valid(self) and not is_queued_for_deletion():
+		queue_free()

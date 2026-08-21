@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="TowerStats" format=3 uid="uid://bjibgfvjljn8a"]
 
 [ext_resource type="Script" uid="uid://8htlq2826sia" path="res://src/systems/resources/stats/tower_stats.gd" id="1_l7m5y"]
+[ext_resource type="Texture2D" uid="uid://nj6lnkh1wpso" path="res://assets/Towers/Combat Towers/spr_tower_archer.png" id="2_3pinj"]
 [ext_resource type="PackedScene" uid="uid://b4ju81m6ukfig" path="res://src/entities/towers/archer tower/archer_tower.tscn" id="2_l37b3"]
 
 [resource]
@@ -8,4 +9,5 @@ script = ExtResource("1_l7m5y")
 tower_name = "Archer Tower"
 cost = 75
 tower_scene = ExtResource("2_l37b3")
+tower_icon = ExtResource("2_3pinj")
 metadata/_custom_type_script = "uid://8htlq2826sia"

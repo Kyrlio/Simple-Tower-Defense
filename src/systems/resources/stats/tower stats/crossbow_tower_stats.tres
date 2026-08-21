@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TowerStats" format=3 uid="uid://bxihyb1r1puwf"]
+
+[ext_resource type="Script" uid="uid://8htlq2826sia" path="res://src/systems/resources/stats/tower_stats.gd" id="1_fsnmv"]
+[ext_resource type="Texture2D" uid="uid://c3br442jxw5ev" path="res://assets/Towers/Combat Towers/spr_tower_crossbow.png" id="2_e2t3l"]
+[ext_resource type="PackedScene" uid="uid://bsuh1n2okutqn" path="res://src/entities/towers/crossbow tower/crossbow_tower.tscn" id="2_fsnmv"]
+
+[resource]
+script = ExtResource("1_fsnmv")
+tower_name = "Crossbow Tower"
+cost = 200
+tower_scene = ExtResource("2_fsnmv")
+tower_icon = ExtResource("2_e2t3l")
+metadata/_custom_type_script = "uid://8htlq2826sia"

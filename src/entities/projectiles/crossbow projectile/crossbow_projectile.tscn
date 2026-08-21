@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://lkwbo1llyks1"]
+
+[ext_resource type="Script" uid="uid://dyr6h7xp0edca" path="res://src/entities/projectiles/crossbow projectile/crossbow_projectile.gd" id="1_dbx1x"]
+[ext_resource type="Texture2D" uid="uid://cp7a2v07gf2iv" path="res://assets/Towers/Combat Towers Projectiles/spr_tower_crossbow_projectile-export.png" id="2_aum5t"]
+[ext_resource type="Script" uid="uid://cp3umhucxfl11" path="res://addons/trail_2d/trail_2d.gd" id="3_n2yp8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x171y"]
+radius = 4.0
+height = 16.0
+
+[sub_resource type="Curve" id="Curve_a0byb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_a0byb"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="CrossbowProjectile" type="Area2D" unique_id=1986108371 groups=["projectile"]]
+z_index = 1
+collision_layer = 2
+script = ExtResource("1_dbx1x")
+max_targets = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=622399974]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_x171y")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=961467359]
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("2_aum5t")
+
+[node name="Trail2D" type="Line2D" parent="." unique_id=1047793216]
+width = 3.0
+width_curve = SubResource("Curve_a0byb")
+gradient = SubResource("Gradient_a0byb")
+script = ExtResource("3_n2yp8")
+length = 12
+metadata/_custom_type_script = "uid://cp3umhucxfl11"

@@ -52,11 +52,6 @@ func _update_explosion_radius_from_shape() -> void:
 			explosion_radius = (collision_shape.shape as CircleShape2D).radius
 
 
-func setup(pos: Vector2, angle: float, _projectile_enum: Data.Projectile) -> void:
-	var target_pos: Vector2 = pos + Vector2.UP.rotated(angle) * 100.0
-	launch(pos, target_pos, damage)
-
-
 func launch(from_pos: Vector2, target_or_pos: Variant, dmg_amount: float = 25.0, override_radius: float = -1.0) -> void:
 	global_position = from_pos
 	start_position = from_pos

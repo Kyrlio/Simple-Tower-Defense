@@ -20,11 +20,14 @@ func _ready() -> void:
 		name_label.text = tower_stats.tower_name
 		cost_label.text = str(tower_stats.cost)
 		
-		var temp_instance = tower_stats.tower_scene.instantiate()
-		var sprite = temp_instance.get_node_or_null("Visuals/BaseTower") as Sprite2D
-		if sprite:
-			icon_rect.texture = sprite.texture
-		temp_instance.queue_free()
+		if tower_stats.tower_icon:
+			icon_rect.texture = tower_stats.tower_icon
+		else:
+			var temp_instance = tower_stats.tower_scene.instantiate()
+			var sprite = temp_instance.get_node_or_null("Visuals/BaseTower") as Sprite2D
+			if sprite:
+				icon_rect.texture = sprite.texture
+			temp_instance.queue_free()
 		
 		GoldManager.gold_changed.connect(_on_gold_changed)
 		_on_gold_changed(GoldManager.gold)
