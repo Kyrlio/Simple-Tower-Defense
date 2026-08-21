@@ -12,6 +12,7 @@ class_name Cannon
 ## Le filtre de collision d'ennemis (Layer d'ennemis) pour la détection de zone à l'impact
 @export_flags_2d_physics var enemy_collision_mask: int = 3
 
+
 @export_group("Shadow")
 @export var min_shadow_scale: float = 0.5
 @export var max_shadow_scale: float = 1.0
@@ -19,15 +20,20 @@ class_name Cannon
 
 @onready var explosion_area: Area2D = $ExplosionArea
 @onready var shadow_sprite: Sprite2D = get_node_or_null("Shadow")
+@onready var trail_particles: GPUParticles2D = $TrailParticles
 
 var start_position: Vector2 = Vector2.ZERO
 var target_node: Node2D = null
 var target_last_position: Vector2 = Vector2.ZERO
-
 var explosion_radius: float = 20.0
 var time_elapsed: float = 0.0
 var previous_position: Vector2 = Vector2.ZERO
 var is_launched: bool = false
+
+# Pixel trail
+var total_flight_time: float = 1.0
+var initial_velocity: Vector2 = Vector2.ZERO
+var gravity_accel: float = 0.0
 
 
 func _ready() -> void:
@@ -69,18 +75,13 @@ func launch(from_pos: Vector2, target_or_pos: Variant, dmg_amount: float = 25.0,
 		shadow_sprite.global_position = from_pos
 		shadow_sprite.scale = Vector2(min_shadow_scale, min_shadow_scale * 0.5)
 	
-	if target_or_pos is Node2D:
-		target_node = target_or_pos
-		if is_instance_valid(target_node):
-			target_last_position = target_node.global_position
-		else:
-			target_last_position = from_pos
+	if target_or_pos is Node2D and is_instance_valid(target_or_pos):
+		target_last_position = target_or_pos.global_position
 	elif target_or_pos is Vector2:
-		target_node = null
 		target_last_position = target_or_pos
 	else:
 		target_last_position = from_pos
-		
+	
 	is_launched = true
 
 
@@ -122,9 +123,18 @@ func explode() -> void:
 	is_launched = false
 	global_position = target_last_position
 	
+	# 1. Masquer le boulet et l'ombre immédiatement
+	$Sprite2D.visible = false
+	if $CollisionShape2D:
+		$CollisionShape2D.set_deferred("disabled", true)
 	if shadow_sprite and is_instance_valid(shadow_sprite):
 		shadow_sprite.queue_free()
 	
+	# 2. Stopper l'émission (les particules existantes continuent leur vie)
+	if trail_particles and is_instance_valid(trail_particles):
+		trail_particles.emitting = false
+	
+	# 3. Spawns des explosions et application des dégâts
 	if explosion_effect:
 		var effect_instance = explosion_effect.instantiate()
 		get_tree().current_scene.add_child(effect_instance)
@@ -138,7 +148,37 @@ func explode() -> void:
 			effect_instance.global_position = target_last_position
 		
 	_apply_aoe_damage()
-	queue_free()
+	
+	# 4. Attendre que les dernières particules disparaissent avant de libérer le nœud
+	var wait_time: float = trail_particles.lifetime if trail_particles else 0.0
+	get_tree().create_timer(wait_time + 0.1).timeout.connect(queue_free)
+
+
+
+
+
+#func explode() -> void:
+	#is_launched = false
+	#global_position = target_last_position
+	#
+	#if shadow_sprite and is_instance_valid(shadow_sprite):
+		#shadow_sprite.queue_free()
+	#
+	#
+	#if explosion_effect:
+		#var effect_instance = explosion_effect.instantiate()
+		#get_tree().current_scene.add_child(effect_instance)
+		#if "global_position" in effect_instance:
+			#effect_instance.global_position = target_last_position
+	#
+	#if explosion_effect2:
+		#var effect_instance = explosion_effect2.instantiate()
+		#get_tree().current_scene.add_child(effect_instance)
+		#if "global_position" in effect_instance:
+			#effect_instance.global_position = target_last_position
+		#
+	#_apply_aoe_damage()
+	#queue_free()
 
 
 func _apply_aoe_damage() -> void:

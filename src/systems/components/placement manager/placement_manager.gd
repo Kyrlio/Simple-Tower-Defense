@@ -137,6 +137,7 @@ func attempt_placement(map_coords: Vector2i) -> void:
 		if particle_effect:
 			var fx = particle_effect.instantiate()
 			fx.global_position = real_tower.global_position
+			fx.z_index = 1
 			get_parent().add_child(fx)
 			
 		cancel_placement()

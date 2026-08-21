@@ -1,0 +1,205 @@
+[gd_scene format=3 uid="uid://bwcdih31ii8ug"]
+
+[ext_resource type="Script" uid="uid://b7a5lnyyil5c1" path="res://examples/shooting_area.gd" id="1_13fnd"]
+[ext_resource type="Texture2D" uid="uid://bh1asv6uhcfmk" path="res://examples/target_sprites.png" id="2_mbwfp"]
+[ext_resource type="Script" uid="uid://dqlndyo1ynnlv" path="res://addons/pixel_trail_vfx/classes/pixel_trail_vfx.gd" id="3_ol2sh"]
+[ext_resource type="Texture2D" uid="uid://ejuatys6prjm" path="res://examples/palettes/eulbink-1x.png" id="4_k0eis"]
+[ext_resource type="Texture2D" uid="uid://cfloo7kkywm4j" path="res://examples/palettes/fire-palette.png" id="5_8mfo0"]
+
+[sub_resource type="GDScript" id="GDScript_5xclc"]
+script/source = "@tool
+extends Node2D
+
+@export var maximum_spawn: bool = false
+
+var _cooldown: float = 0.0
+var _demos: Array[DemoProjectileSpawner] = []
+
+@onready var demo_1: DemoProjectileSpawner = $Demo1
+@onready var demo_2: DemoProjectileSpawner = $Demo2
+@onready var demo_3: DemoProjectileSpawner = $Demo3
+
+func _ready() -> void:
+	_demos = [
+		demo_1,
+		demo_2,
+		demo_3
+	]
+
+func _process(delta: float) -> void:
+	if _cooldown > 0.0:
+		_cooldown -= delta
+		
+	while _cooldown <= 0.0:
+		var random_speed_option = randi() % DemoProjectileSpawner.SPEED_OPTIONS.size()
+		var max_duration: = 0.0
+		for demo in _demos:
+			max_duration = max(demo.spawn_gpu_projectile(random_speed_option, true), max_duration)
+		if maximum_spawn:
+			_cooldown += delta * 1.5
+		else:
+			_cooldown += max_duration
+	
+	
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgrle"]
+atlas = ExtResource("2_mbwfp")
+region = Rect2(0, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwvqn"]
+atlas = ExtResource("2_mbwfp")
+region = Rect2(12, 0, 12, 12)
+
+[node name="DemoMaximum" type="Node2D" unique_id=357545860]
+script = SubResource("GDScript_5xclc")
+maximum_spawn = true
+metadata/_edit_horizontal_guides_ = [164.0, 192.0, 324.0, 363.0]
+
+[node name="Demo1" type="Node" parent="." unique_id=996189356]
+script = ExtResource("1_13fnd")
+auto_spawn = false
+area_start_y = 0.3
+area_height = 0.1
+
+[node name="Start" type="TextureRect" parent="Demo1" unique_id=1769445005]
+visible = false
+texture_filter = 1
+offset_left = 92.8529
+offset_top = 214.38057
+offset_right = 152.85706
+offset_bottom = 274.38025
+texture = SubResource("AtlasTexture_pgrle")
+
+[node name="Target" type="TextureRect" parent="Demo1" unique_id=906545385]
+visible = false
+texture_filter = 1
+offset_left = 989.968
+offset_top = 187.59335
+offset_right = 1049.9565
+offset_bottom = 247.5932
+texture = SubResource("AtlasTexture_dwvqn")
+
+[node name="PixelTrailVFX" type="Control" parent="Demo1" unique_id=793277546]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ol2sh")
+gravity = 300.0
+trail_length = 0.45
+shadow_offset = Vector2i(0, -2)
+second_fade_rate = 0.652
+primary_time_fade_strength = 0.45
+trail_color_palette = ExtResource("4_k0eis")
+trail_color_falloff = 0.7
+metadata/_custom_type_script = "uid://dqlndyo1ynnlv"
+
+[node name="Demo2" type="Node" parent="." unique_id=404081359]
+script = ExtResource("1_13fnd")
+auto_spawn = false
+area_start_y = 0.55
+area_height = 0.1
+
+[node name="Start" type="TextureRect" parent="Demo2" unique_id=1382728898]
+visible = false
+texture_filter = 1
+offset_left = 37.953297
+offset_top = 346.32285
+offset_right = 97.95926
+offset_bottom = 406.3232
+texture = SubResource("AtlasTexture_pgrle")
+
+[node name="Target" type="TextureRect" parent="Demo2" unique_id=1358837241]
+visible = false
+texture_filter = 1
+offset_left = 966.3323
+offset_top = 383.29654
+offset_right = 1026.3396
+offset_bottom = 443.3008
+texture = SubResource("AtlasTexture_dwvqn")
+
+[node name="PixelTrailVFX" type="Control" parent="Demo2" unique_id=838430021]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ol2sh")
+gravity = 300.0
+trail_length = 0.45
+shadow_offset = Vector2i(0, -2)
+shape_change_rate = -3.72
+shape_base = 3.02
+trail_split_rate = 0.0
+border_fade_falloff = 1.0
+second_fade_rate = 0.068
+primary_time_fade_strength = 0.15
+enable_secondary_noise = false
+trail_color_palette = ExtResource("5_8mfo0")
+metadata/_custom_type_script = "uid://dqlndyo1ynnlv"
+
+[node name="Demo3" type="Node" parent="." unique_id=530923432]
+script = ExtResource("1_13fnd")
+max_size = 1.0
+auto_spawn = false
+area_start_y = 0.775
+area_height = 0.1
+
+[node name="Start" type="TextureRect" parent="Demo3" unique_id=1133673711]
+visible = false
+texture_filter = 1
+offset_left = 97.70866
+offset_top = 494.1034
+offset_right = 157.70795
+offset_bottom = 554.1034
+texture = SubResource("AtlasTexture_pgrle")
+
+[node name="Target" type="TextureRect" parent="Demo3" unique_id=625366712]
+visible = false
+texture_filter = 1
+offset_left = 1029.9482
+offset_top = 514.9033
+offset_right = 1089.923
+offset_bottom = 574.9033
+texture = SubResource("AtlasTexture_dwvqn")
+
+[node name="PixelTrailVFX" type="Control" parent="Demo3" unique_id=238673282]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ol2sh")
+gravity = 200.0
+trail_length = 0.45
+shadow_offset = Vector2i(0, -2)
+enable_secondary_noise = false
+trail_type = 0
+metadata/_custom_type_script = "uid://dqlndyo1ynnlv"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1604966575]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=764352985]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -445.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="LinkButton" type="LinkButton" parent="CanvasLayer/MarginContainer" unique_id=1446036525]
+layout_mode = 2
+text = "Rate this asset! (https://nojoule.itch.io/pixel-trail-vfx/rate)"
+uri = "https://nojoule.itch.io/pixel-trail-vfx/rate"

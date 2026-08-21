@@ -16,7 +16,8 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	print(enemies)
+	#print(enemies)
+	pass
 
 
 func _on_enemy_detection_area_area_entered(area: Area2D) -> void:

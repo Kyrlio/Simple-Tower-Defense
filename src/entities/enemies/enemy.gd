@@ -5,6 +5,12 @@ class_name Enemy
 @export var hit_particles_scene: PackedScene = preload("uid://dtr5lw5ocrg3p")
 @export var death_particles_scene: PackedScene = preload("uid://d4fjkvjerbdpm")
 
+@export_group("Animation Settings")
+## Facteur d'influence de l'augmentation de vitesse sur l'animation (ex: 0.35 = l'animation n'accélère que de 35% de la hausse de vitesse)
+@export var anim_speed_influence: float = 0.35
+## Plafond maximal de vitesse d'animation
+@export var max_anim_speed_scale: float = 1.75
+
 @onready var animation_player: AnimationPlayer = get_node_or_null("AnimationPlayer")
 @onready var hit_flash_anim_player: AnimationPlayer = get_node_or_null("HitFlashAnimPlayer")
 @onready var sprite: Sprite2D = get_node_or_null("Visuals/Sprite2D")
@@ -13,6 +19,7 @@ var path_follow: PathFollow2D
 var cur_hp: float
 var is_attacking_castle: bool = false
 var attack_timer: Timer
+var base_speed: float = 0.0
 
 # Hitstop
 var hitstop_frames: int = 0
@@ -20,8 +27,12 @@ var hitstop_amount: int = 1
 
 
 func _ready() -> void:
+	add_to_group("enemy")
 	if stats:
 		cur_hp = stats.hp
+		if base_speed <= 0.0:
+			base_speed = stats.speed
+	update_animation_speed()
 	update_debug_label()
 
 
@@ -87,11 +98,21 @@ func take_damage(amount: float, damage_type: String = "physical") -> void:
 
 func apply_scale_difficulty(factor: float) -> void:
 	if stats:
+		if base_speed <= 0.0:
+			base_speed = stats.speed
 		stats = stats.duplicate()
 		stats.hp = clampf(stats.hp * factor, stats.hp, stats.max_hp)
 		stats.speed = stats.speed * (1.0 + (factor - 1.0) * 0.2)
 		cur_hp = stats.hp
+		update_animation_speed()
 		update_debug_label()
+
+
+func update_animation_speed() -> void:
+	if is_instance_valid(animation_player) and base_speed > 0.0 and stats:
+		var speed_ratio: float = stats.speed / base_speed
+		var calculated_anim_speed: float = 1.0 + (speed_ratio - 1.0) * anim_speed_influence
+		animation_player.speed_scale = clampf(calculated_anim_speed, 0.1, max_anim_speed_scale)
 
 
 func update_debug_label() -> void:

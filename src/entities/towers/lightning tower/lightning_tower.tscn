@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://cqcsmw86ewiod"]
+
+[ext_resource type="PackedScene" uid="uid://c1h3mwtggiunu" path="res://src/entities/towers/tower.tscn" id="1_el6ni"]
+[ext_resource type="Script" uid="uid://bcc2suwu5ckfq" path="res://src/entities/towers/lightning tower/lightning_tower.gd" id="2_i746o"]
+[ext_resource type="Texture2D" uid="uid://cxpp8obwks88q" path="res://assets/Towers/Combat Towers/spr_tower.png" id="2_r5gcp"]
+[ext_resource type="Texture2D" uid="uid://o2nmqcdrhkwf" path="res://assets/Towers/Weapons/lightning_tower_weapon.png" id="3_r5gcp"]
+
+[sub_resource type="Animation" id="Animation_i746o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Weapon:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_4h6bt"]
+resource_name = "shoot"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals/Weapon:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.049999997, 0.2, 0.5),
+"transitions": PackedFloat32Array(0.5, 2, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 0.7), Vector2(0.635, 1.345), Vector2(1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_fire_chain_lightning"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gb54o"]
+_data = {
+&"RESET": SubResource("Animation_i746o"),
+&"shoot": SubResource("Animation_4h6bt")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r5gcp"]
+radius = 97.00516
+
+[node name="LightningTower" unique_id=1405958972 instance=ExtResource("1_el6ni")]
+script = ExtResource("2_i746o")
+max_bounces = 10
+bounce_range = 45.0
+base_damage = 8.0
+bounce_damage_decay = 0.85
+lightning_color = Color(1, 0.78431374, 0.14509805, 1)
+lightning_width = 3.0
+lightning_duration = 1.0
+base_shoot_reload_time = 1.4
+shoot_reload_time = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=1396642121]
+libraries/ = SubResource("AnimationLibrary_gb54o")
+
+[node name="CollisionShape2D" parent="EnemyDetectionArea" parent_id_path=PackedInt32Array(1270546325) index="0" unique_id=615870665]
+shape = SubResource("CircleShape2D_r5gcp")
+
+[node name="Visuals" parent="." index="2" unique_id=1200347125]
+y_sort_enabled = false
+
+[node name="Shadow" parent="Visuals" index="0" unique_id=1844820111]
+position = Vector2(0, 5.9604645e-08)
+scale = Vector2(1.669643, 1.7968751)
+
+[node name="BaseTower" parent="Visuals" index="1" unique_id=1691048206]
+texture = ExtResource("2_r5gcp")
+offset = Vector2(0, -13)
+
+[node name="Weapon" parent="Visuals" index="2" unique_id=1827142402]
+position = Vector2(0, -20)
+texture = ExtResource("3_r5gcp")
+offset = Vector2(0, -6)
+
+[node name="Muzzle" parent="Visuals/Weapon" index="0" unique_id=1526892396]
+position = Vector2(0, -8)
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

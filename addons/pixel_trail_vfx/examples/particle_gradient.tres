@@ -1,0 +1,10 @@
+[gd_resource type="GradientTexture2D" format=3 uid="uid://31wfdwnq1kx4"]
+
+[ext_resource type="Gradient" uid="uid://bfxgg44hyxeh1" path="res://addons/pixel_trail_vfx/gradient.tres" id="1_t7gvf"]
+
+[resource]
+gradient = ExtResource("1_t7gvf")
+width = 10
+height = 1000
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)

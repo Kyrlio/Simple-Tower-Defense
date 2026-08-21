@@ -35,7 +35,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.05, 0.1, 0.3),
 "transitions": PackedFloat32Array(0.5, 1, 1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(0.395, 1), Vector2(1.5, 1), Vector2(1, 1)]
+"values": [Vector2(1, 1), Vector2(1, 0.4), Vector2(1, 1.5), Vector2(1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h0b3c"]
@@ -71,8 +71,11 @@ texture = ExtResource("2_b8eky")
 offset = Vector2(0, -13)
 
 [node name="Weapon" parent="Visuals" index="2" unique_id=1827142402]
-position = Vector2(0, -23)
+position = Vector2(0, -21)
 texture = ExtResource("5_g200b")
+offset = Vector2(0, -2)
 
 [node name="Muzzle" parent="Visuals/Weapon" index="0" unique_id=1526892396]
-position = Vector2(0, -6)
+position = Vector2(0, -8)
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

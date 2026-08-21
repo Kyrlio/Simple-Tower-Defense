@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://bjibgfvjljn8a" path="res://src/systems/resources/stats/tower stats/archer_tower_stats.tres" id="2_4rn03"]
 [ext_resource type="Resource" uid="uid://c3sn70leljdd5" path="res://src/systems/resources/stats/tower stats/cannon_tower_stats.tres" id="4_i4jpw"]
 [ext_resource type="Resource" uid="uid://bxihyb1r1puwf" path="res://src/systems/resources/stats/tower stats/crossbow_tower_stats.tres" id="5_r2cn7"]
+[ext_resource type="Resource" uid="uid://r0rc56ynpr12" path="res://src/systems/resources/stats/tower stats/lightning_tower_stats.tres" id="6_0isw4"]
 
 [node name="HUD" type="CanvasLayer" unique_id=1049745166]
 script = ExtResource("1_snmo6")
@@ -54,6 +55,7 @@ tower_stats = ExtResource("5_r2cn7")
 
 [node name="TowerAnchorButton4" parent="MarginContainer/TowerShop" unique_id=1495020786 instance=ExtResource("1_eqvli")]
 layout_mode = 2
+tower_stats = ExtResource("6_0isw4")
 
 [node name="TowerAnchorButton5" parent="MarginContainer/TowerShop" unique_id=870982003 instance=ExtResource("1_eqvli")]
 layout_mode = 2

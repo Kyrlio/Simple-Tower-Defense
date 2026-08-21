@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c840tt0f8k5cw" path="res://assets/Towers/Castle/spr_castle_blue.png" id="1_8mvag"]
 [ext_resource type="Script" uid="uid://bx386lau7fakl" path="res://src/entities/castle/castle.gd" id="1_dwuxv"]
 [ext_resource type="Script" uid="uid://dyf04hfuuwm4u" path="res://src/systems/components/health_component.gd" id="2_dwuxv"]
+[ext_resource type="Texture2D" uid="uid://b73dubf5pe5jx" path="res://assets/Shadow.png" id="3_smqwv"]
 
 [sub_resource type="Animation" id="Animation_smqwv"]
 length = 0.001
@@ -60,12 +61,18 @@ metadata/_custom_type_script = "uid://dyf04hfuuwm4u"
 libraries/ = SubResource("AnimationLibrary_2p8d3")
 autoplay = &"default"
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=943719384]
-texture = ExtResource("1_8mvag")
-offset = Vector2(0, -6)
-hframes = 4
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1052584264]
 position = Vector2(0, -3)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_wp0ns")
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1924688829]
+modulate = Color(1, 1, 1, 0.5882353)
+position = Vector2(0, 11)
+scale = Vector2(4.666667, 2.9222238)
+texture = ExtResource("3_smqwv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=943719384]
+texture = ExtResource("1_8mvag")
+offset = Vector2(0, -6)
+hframes = 4
