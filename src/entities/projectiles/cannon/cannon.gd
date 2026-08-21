@@ -2,6 +2,7 @@ extends Projectile
 class_name Cannon
 
 @export var explosion_effect: PackedScene
+@export var explosion_effect2: PackedScene
 
 @export_group("Physics")
 ## Hauteur maximale de l'arche de la trajectoire parabolique (plus la valeur est élevée, plus la cloche est haute)
@@ -129,7 +130,13 @@ func explode() -> void:
 		get_tree().current_scene.add_child(effect_instance)
 		if "global_position" in effect_instance:
 			effect_instance.global_position = target_last_position
-			
+	
+	if explosion_effect2:
+		var effect_instance = explosion_effect2.instantiate()
+		get_tree().current_scene.add_child(effect_instance)
+		if "global_position" in effect_instance:
+			effect_instance.global_position = target_last_position
+		
 	_apply_aoe_damage()
 	queue_free()
 

@@ -9,8 +9,11 @@ func _ready():
 		# Skip non particles nodes
 		if not child is GPUParticles2D: continue
 		
+		if get_node_or_null(sub_emitter) == child:
+			return
+		
 		# Tell the particles to emit
-		child.emitting = true
+		#child.emitting = true
 		
 		# Select the highest lifetime
 		var curr_lifetime: float = child.lifetime / child.speed_scale

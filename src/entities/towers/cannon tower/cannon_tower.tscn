@@ -52,7 +52,6 @@ script = ExtResource("2_2j754")
 cannon_scene = ExtResource("3_g200b")
 damage = 4.0
 max_weapon_rotation_degrees = 20.0
-shoot_reload_time = 5.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=1785204184]
 libraries/ = SubResource("AnimationLibrary_h0b3c")
@@ -77,6 +76,3 @@ texture = ExtResource("5_g200b")
 
 [node name="Muzzle" parent="Visuals/Weapon" index="0" unique_id=1526892396]
 position = Vector2(0, -6)
-
-[node name="ReloadTimer" parent="." index="3" unique_id=1097807576]
-wait_time = 5.0
