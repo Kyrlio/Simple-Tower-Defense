@@ -1,1 +1,0 @@
-This addons adds a new class PixelTrailVFX. It creates/handles VFX for particle trails in a specific and configurable pixel art style.
