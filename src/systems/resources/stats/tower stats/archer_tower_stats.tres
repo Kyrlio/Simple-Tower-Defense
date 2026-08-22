@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_l7m5y")
 tower_name = "Archer Tower"
-cost = 75
+cost = 50
 tower_scene = ExtResource("2_l37b3")
 tower_icon = ExtResource("2_3pinj")
 metadata/_custom_type_script = "uid://8htlq2826sia"

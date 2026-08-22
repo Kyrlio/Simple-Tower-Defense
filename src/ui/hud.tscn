@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://bxihyb1r1puwf" path="res://src/systems/resources/stats/tower stats/crossbow_tower_stats.tres" id="5_r2cn7"]
 [ext_resource type="Resource" uid="uid://r0rc56ynpr12" path="res://src/systems/resources/stats/tower stats/lightning_tower_stats.tres" id="6_0isw4"]
 [ext_resource type="Resource" uid="uid://cpujkohlouajf" path="res://src/systems/resources/stats/tower stats/ice_wizard_tower_stats.tres" id="7_vbpn1"]
+[ext_resource type="Resource" uid="uid://0dgywjbyehuj" path="res://src/systems/resources/stats/tower stats/poison_wizard_tower_stats.tres" id="8_yy3iv"]
 
 [node name="HUD" type="CanvasLayer" unique_id=1049745166]
 script = ExtResource("1_snmo6")
@@ -54,13 +55,14 @@ tower_stats = ExtResource("4_i4jpw")
 layout_mode = 2
 tower_stats = ExtResource("5_r2cn7")
 
-[node name="TowerAnchorButton4" parent="MarginContainer/TowerShop" unique_id=1495020786 instance=ExtResource("1_eqvli")]
-layout_mode = 2
-tower_stats = ExtResource("6_0isw4")
-
 [node name="TowerAnchorButton5" parent="MarginContainer/TowerShop" unique_id=870982003 instance=ExtResource("1_eqvli")]
 layout_mode = 2
 tower_stats = ExtResource("7_vbpn1")
 
 [node name="TowerAnchorButton6" parent="MarginContainer/TowerShop" unique_id=1505449078 instance=ExtResource("1_eqvli")]
 layout_mode = 2
+tower_stats = ExtResource("8_yy3iv")
+
+[node name="TowerAnchorButton4" parent="MarginContainer/TowerShop" unique_id=1495020786 instance=ExtResource("1_eqvli")]
+layout_mode = 2
+tower_stats = ExtResource("6_0isw4")

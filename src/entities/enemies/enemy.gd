@@ -30,7 +30,15 @@ var hitstop_amount: int = 1
 # Ralentissement (Slow / Freeze)
 var slow_multiplier: float = 1.0
 var slow_time_remaining: float = 0.0
-var slow_tween: Tween
+
+# Poison (DoT)
+var poison_damage_per_tick: float = 0.0
+var poison_time_remaining: float = 0.0
+var poison_tick_interval: float = 0.5
+var poison_tick_timer: float = 0.0
+
+# Transitions visuelles
+var status_tween: Tween
 
 
 func _ready() -> void:
@@ -66,6 +74,20 @@ func _physics_process(delta: float) -> void:
 		slow_time_remaining -= delta
 		if slow_time_remaining <= 0.0:
 			_remove_slow()
+	
+	# Gestion du poison (DoT)
+	if poison_time_remaining > 0.0 and not is_dead:
+		poison_time_remaining -= delta
+		poison_tick_timer -= delta
+		if poison_tick_timer <= 0.0:
+			poison_tick_timer = poison_tick_interval
+			take_damage(poison_damage_per_tick, "poison")
+			
+		if is_dead or poison_time_remaining <= 0.0:
+			_remove_poison()
+	
+	if is_dead:
+		return
 	
 	if is_instance_valid(path_follow) and stats:
 		if not is_attacking_castle:
@@ -148,7 +170,7 @@ func apply_slow(factor: float, duration: float) -> void:
 	slow_multiplier = minf(slow_multiplier, clampf(factor, 0.05, 1.0))
 	slow_time_remaining = maxf(slow_time_remaining, duration)
 	
-	_apply_slow_visuals()
+	_update_status_visuals()
 	update_animation_speed()
 	update_debug_label()
 
@@ -156,24 +178,58 @@ func apply_slow(factor: float, duration: float) -> void:
 func _remove_slow() -> void:
 	slow_time_remaining = 0.0
 	slow_multiplier = 1.0
-	_remove_slow_visuals()
+	_update_status_visuals()
 	update_animation_speed()
 	update_debug_label()
 
 
-func _apply_slow_visuals() -> void:
-	if slow_tween and slow_tween.is_valid():
-		slow_tween.kill()
-	if is_instance_valid(sprite):
-		sprite.modulate = Color(0.55, 0.8, 1.0, 1.0)
+func apply_poison(damage_per_tick: float, duration: float, tick_interval: float = 0.5) -> void:
+	if is_dead:
+		return
+	
+	# Immunité au poison si résistance poison >= 1.0 (100%)
+	if stats and stats.poison_resist >= 1.0:
+		return
+	
+	poison_damage_per_tick = maxf(poison_damage_per_tick, damage_per_tick)
+	poison_time_remaining = maxf(poison_time_remaining, duration)
+	poison_tick_interval = maxf(0.1, tick_interval)
+	if poison_tick_timer <= 0.0 or poison_tick_timer > poison_tick_interval:
+		poison_tick_timer = poison_tick_interval
+	
+	_update_status_visuals()
 
 
-func _remove_slow_visuals() -> void:
-	if slow_tween and slow_tween.is_valid():
-		slow_tween.kill()
-	if is_instance_valid(sprite):
-		slow_tween = create_tween()
-		slow_tween.tween_property(sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.25)
+func _remove_poison() -> void:
+	poison_time_remaining = 0.0
+	poison_damage_per_tick = 0.0
+	poison_tick_timer = 0.0
+	_update_status_visuals()
+
+
+func _update_status_visuals() -> void:
+	if is_dead or not is_instance_valid(sprite):
+		return
+	
+	if status_tween and status_tween.is_valid():
+		status_tween.kill()
+	
+	var is_slowed: bool = slow_time_remaining > 0.0
+	var is_poisoned: bool = poison_time_remaining > 0.0
+	
+	var target_color: Color = Color.WHITE
+	if is_slowed and is_poisoned:
+		target_color = Color(0.55, 0.95, 0.85, 1.0)
+	elif is_slowed:
+		target_color = Color(0.55, 0.8, 1.0, 1.0)
+	elif is_poisoned:
+		target_color = Color(0.65, 1.0, 0.6, 1.0)
+	
+	if target_color == Color.WHITE:
+		status_tween = create_tween()
+		status_tween.tween_property(sprite, "modulate", Color.WHITE, 0.25)
+	else:
+		sprite.modulate = target_color
 
 
 func update_animation_speed() -> void:
@@ -234,8 +290,12 @@ func die() -> void:
 	hitstop_frames = 0
 	slow_time_remaining = 0.0
 	slow_multiplier = 1.0
-	if slow_tween and slow_tween.is_valid():
-		slow_tween.kill()
+	poison_time_remaining = 0.0
+	poison_damage_per_tick = 0.0
+	poison_tick_timer = 0.0
+	
+	if status_tween and status_tween.is_valid():
+		status_tween.kill()
 	if is_instance_valid(hit_flash_anim_player):
 		hit_flash_anim_player.stop()
 	

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TowerStats" format=3 uid="uid://0dgywjbyehuj"]
+
+[ext_resource type="Script" uid="uid://8htlq2826sia" path="res://src/systems/resources/stats/tower_stats.gd" id="1_ujg33"]
+[ext_resource type="Texture2D" uid="uid://bdjb8v351sedj" path="res://assets/Towers/Combat Towers/spr_tower_poison_wizard.png" id="2_tbte8"]
+[ext_resource type="PackedScene" uid="uid://caqho5wqrjixp" path="res://src/entities/towers/poison wizard tower/poison_wizard_tower.tscn" id="3_7sbgr"]
+
+[resource]
+script = ExtResource("1_ujg33")
+tower_name = "Poison Wizard Tower"
+cost = 650
+tower_scene = ExtResource("3_7sbgr")
+tower_icon = ExtResource("2_tbte8")
+metadata/_custom_type_script = "uid://8htlq2826sia"

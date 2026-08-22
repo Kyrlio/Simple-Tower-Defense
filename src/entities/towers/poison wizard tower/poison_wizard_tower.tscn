@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://caqho5wqrjixp"]
+
+[ext_resource type="PackedScene" uid="uid://c1h3mwtggiunu" path="res://src/entities/towers/tower.tscn" id="1_3ri4g"]
+[ext_resource type="Script" uid="uid://ef7b2p4bhfq0" path="res://src/entities/towers/poison wizard tower/poison_wizard_tower.gd" id="2_5lbni"]
+[ext_resource type="PackedScene" uid="uid://cv2kbfdggwxbx" path="res://src/entities/projectiles/poison ball/poison_ball.tscn" id="3_tfkiv"]
+[ext_resource type="Texture2D" uid="uid://dwdcu8a2bckp2" path="res://assets/Towers/Combat Towers/spr_tower_poison_wizard_no_weapon.png" id="4_ggpc6"]
+[ext_resource type="Texture2D" uid="uid://criq50jbi6rab" path="res://assets/Towers/Weapons/Poison Wand.png" id="5_cudrb"]
+
+[sub_resource type="Animation" id="Animation_p7gvv"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_sniie"]
+resource_name = "shoot"
+length = 0.6
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eubi0"]
+_data = {
+&"RESET": SubResource("Animation_p7gvv"),
+&"shoot": SubResource("Animation_sniie")
+}
+
+[node name="PoisonWizardTower" unique_id=1405958972 instance=ExtResource("1_3ri4g")]
+script = ExtResource("2_5lbni")
+projectile = ExtResource("3_tfkiv")
+damage = 1.0
+speed = 125.0
+poison_damage = 1.0
+poison_duration = 3.0
+poison_tick_interval = 0.5
+shoot_reload_time = 5.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=1945336896]
+libraries/ = SubResource("AnimationLibrary_eubi0")
+
+[node name="Visuals" parent="." index="2" unique_id=1200347125]
+y_sort_enabled = false
+
+[node name="BaseTower" parent="Visuals" index="1" unique_id=1691048206]
+texture = ExtResource("4_ggpc6")
+offset = Vector2(0, -11)
+
+[node name="Weapon" parent="Visuals" index="2" unique_id=1827142402]
+position = Vector2(4, -16)
+texture = ExtResource("5_cudrb")
+offset = Vector2(2, 0)
+
+[node name="Muzzle" parent="Visuals/Weapon" index="0" unique_id=1526892396]
+position = Vector2(8, 0)
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

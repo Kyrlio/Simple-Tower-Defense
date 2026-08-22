@@ -1,0 +1,40 @@
+extends Projectile
+class_name PoisonBall
+
+@export_group("Poison Settings")
+## Dégâts infligés par le poison à chaque tick
+@export var poison_damage: float = 1.0
+## Durée totale du poison en secondes
+@export var poison_duration: float = 3.0
+## Intervalle entre chaque tick de dégâts de poison en secondes
+@export var poison_tick_interval: float = 0.5
+
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var trail_particles: GPUParticles2D = $TrailParticles
+
+
+func _init() -> void:
+	damage_type = "poison"
+
+
+func on_hit_target(target: Node2D) -> void:
+	if is_instance_valid(target) and target.has_method("apply_poison"):
+		target.apply_poison(poison_damage, poison_duration, poison_tick_interval)
+
+func _on_max_targets_reached() -> void:
+	set_deferred("monitoring", false)
+	set_deferred("monitorable", false)
+	
+	# Masquer le boulet et l'ombre immédiatement
+	sprite.visible = false
+	if $CollisionShape2D:
+		$CollisionShape2D.set_deferred("disabled", true)
+	
+	
+	# Stopper l'émission (les particules existantes continuent leur vie)
+	if trail_particles and is_instance_valid(trail_particles):
+		trail_particles.emitting = false
+	
+	# Attendre que les dernières particules disparaissent avant de libérer le nœud
+	var wait_time: float = trail_particles.lifetime if trail_particles else 0.0
+	get_tree().create_timer(wait_time + 0.1).timeout.connect(queue_free)
