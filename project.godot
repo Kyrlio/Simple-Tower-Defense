@@ -38,7 +38,7 @@ mouse_cursor/custom_image="uid://dx1ab0mtjrtqb"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gdfxr/plugin.cfg", "res://addons/pixel_trail_vfx/plugin.cfg", "res://addons/project-time-tracker/plugin.cfg", "res://addons/trail_2d/plugin.cfg")
+enabled=PackedStringArray("res://addons/gdfxr/plugin.cfg", "res://addons/project-time-tracker/plugin.cfg", "res://addons/trail_2d/plugin.cfg")
 
 [file_customization]
 

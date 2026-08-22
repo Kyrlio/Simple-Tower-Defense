@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyStats" format=3 uid="uid://dujmvfnwjqc8k"]
+
+[ext_resource type="Script" uid="uid://cwi7jj4fejrs2" path="res://src/systems/resources/stats/enemy_stats.gd" id="1_mof3a"]
+
+[resource]
+script = ExtResource("1_mof3a")
+name = "Normal Slime"
+max_hp = 50.0
+hp = 6.0
+speed = 8.0
+physical_resist = 0.6000000000000001
+lightning_resist = -0.5
+metadata/_custom_type_script = "uid://cwi7jj4fejrs2"

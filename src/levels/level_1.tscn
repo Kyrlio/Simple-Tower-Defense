@@ -14,6 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://c3nknj7k1rrw" path="res://src/systems/particles/spawning_tower_particles.tscn" id="6_q2tyl"]
 [ext_resource type="Script" uid="uid://b33wwtw5af1u" path="res://src/systems/components/player_camera.gd" id="8_fcumj"]
 [ext_resource type="PackedScene" uid="uid://cryj0oh2yygls" path="res://src/entities/castle/castle.tscn" id="9_riplu"]
+[ext_resource type="PackedScene" uid="uid://0o0mcta42a61" path="res://src/entities/enemies/normal_slime/normal_slime.tscn" id="15_svtf7"]
+[ext_resource type="PackedScene" uid="uid://cfwuuxmn4g2vb" path="res://src/entities/enemies/big_slime/big_slime.tscn" id="16_7q1rl"]
 
 [sub_resource type="Curve2D" id="Curve2D_u5ev4"]
 _data = {
@@ -226,11 +228,17 @@ y_sort_enabled = true
 [node name="EnemySpawner" parent="Spawners/SpawnerWest" unique_id=1210251770 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]
 spawn_path = NodePath("../Path2D")
 spawn_pool = Array[Dictionary]([{
-"chance": 70,
+"chance": 0,
 "scene": ExtResource("2_xk4xt")
 }, {
-"chance": 30,
+"chance": 0,
 "scene": ExtResource("4_q2d1y")
+}, {
+"chance": 0,
+"scene": ExtResource("15_svtf7")
+}, {
+"chance": 100,
+"scene": ExtResource("16_7q1rl")
 }])
 
 [node name="Path2D" type="Path2D" parent="Spawners/SpawnerWest" unique_id=406028917]

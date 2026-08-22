@@ -14,12 +14,14 @@ class_name Enemy
 @onready var animation_player: AnimationPlayer = get_node_or_null("AnimationPlayer")
 @onready var hit_flash_anim_player: AnimationPlayer = get_node_or_null("HitFlashAnimPlayer")
 @onready var sprite: Sprite2D = get_node_or_null("Visuals/Sprite2D")
+@onready var attack_timer: Timer = $AttackTimer
 
 var path_follow: PathFollow2D
 var cur_hp: float
 var is_attacking_castle: bool = false
-var attack_timer: Timer
+var is_dead: bool = false
 var base_speed: float = 0.0
+var difficulty_factor: float = 1.0
 
 # Hitstop
 var hitstop_frames: int = 0
@@ -30,6 +32,7 @@ func _ready() -> void:
 	add_to_group("enemy")
 	if stats:
 		cur_hp = stats.hp
+		attack_timer.wait_time = stats.attack_speed
 		if base_speed <= 0.0:
 			base_speed = stats.speed
 	update_animation_speed()
@@ -43,6 +46,9 @@ func setup(new_path_follow: PathFollow2D) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if is_dead:
+		return
+		
 	# Hitstop
 	if hitstop_frames > 0:
 		hitstop_frames -= 1
@@ -61,17 +67,14 @@ func _physics_process(delta: float) -> void:
 
 func reached_castle() -> void:
 	is_attacking_castle = true
-	
-	attack_timer = Timer.new()
-	attack_timer.wait_time = stats.attack_speed
-	attack_timer.autostart = true
 	attack_timer.timeout.connect(_on_attack_tick)
-	add_child(attack_timer)
 
 
 func _on_attack_tick() -> void:
 	var castle: Castle = get_tree().get_first_node_in_group("castle")
 	if is_instance_valid(castle):
+		if animation_player and animation_player.has_animation("attack"):
+			animation_player.play("attack")
 		castle.take_damage(stats.attack_damage)
 	else:
 		if attack_timer:
@@ -79,20 +82,27 @@ func _on_attack_tick() -> void:
 
 
 func take_damage(amount: float, damage_type: String = "physical") -> void:
-	var final_damage: float = amount
+	if is_dead:
+		return
+		
+	var resist: float = 0.0
+	if stats:
+		match damage_type:
+			"physical": resist = stats.physical_resist
+			"fire": resist = stats.fire_resist
+			"ice": resist = stats.ice_resist
+			"poison": resist = stats.poison_resist
+			"lightning": resist = stats.lightning_resist
 	
-	match damage_type:
-		"physical": final_damage *= (1.0 - stats.physical_resist)
-		"ice": final_damage *= (1.0 - stats.ice_resist)
-		"poison": final_damage *= (1.0 - stats.poison_resist)
-		"lightning": final_damage *= (1.0 - stats.lightning_resist)
+	resist = minf(resist, 1.0)
+	var final_damage: float = maxf(0.0, amount * (1.0 - resist))
 	
 	cur_hp -= final_damage
 	_damage_effects()
 	spawn_hit_particles()
 	update_debug_label()
 	
-	if cur_hp <= 0:
+	if cur_hp <= 0 and not is_dead:
 		die()
 
 
@@ -104,6 +114,7 @@ func apply_scale_difficulty(factor: float) -> void:
 		stats.hp = clampf(stats.hp * factor, stats.hp, stats.max_hp)
 		stats.speed = stats.speed * (1.0 + (factor - 1.0) * 0.2)
 		cur_hp = stats.hp
+		difficulty_factor = factor
 		update_animation_speed()
 		update_debug_label()
 
@@ -141,6 +152,8 @@ func spawn_death_particles() -> void:
 
 
 func start_hitstop() -> void:
+	if is_dead:
+		return
 	if is_instance_valid(animation_player):
 		animation_player.pause()
 	if is_instance_valid(hit_flash_anim_player):
@@ -157,10 +170,17 @@ func stop_hitstop() -> void:
 
 
 func die() -> void:
+	if is_dead:
+		return
+	is_dead = true
+	
+	hitstop_frames = 0
+	if is_instance_valid(hit_flash_anim_player):
+		hit_flash_anim_player.stop()
+	
 	if attack_timer:
 		attack_timer.queue_free()
 	
-	_damage_effects()
 	GoldManager.add_gold(stats.gold_reward)
 	spawn_death_particles()
 	if is_instance_valid(path_follow):
@@ -168,6 +188,8 @@ func die() -> void:
 
 
 func _damage_effects() -> void:
+	if is_dead:
+		return
 	if is_instance_valid(hit_flash_anim_player):
 		hit_flash_anim_player.play("hit_flash")
 

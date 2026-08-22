@@ -62,15 +62,16 @@ radius = 97.00516
 
 [node name="LightningTower" unique_id=1405958972 instance=ExtResource("1_el6ni")]
 script = ExtResource("2_i746o")
-max_bounces = 10
+damage_type = "lightning"
+max_bounces = 4
 bounce_range = 45.0
-base_damage = 8.0
+base_damage = 2.0
 bounce_damage_decay = 0.85
 lightning_color = Color(1, 0.78431374, 0.14509805, 1)
 lightning_width = 3.0
 lightning_duration = 1.0
 base_shoot_reload_time = 1.4
-shoot_reload_time = 0.5
+shoot_reload_time = 0.2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=1396642121]
 libraries/ = SubResource("AnimationLibrary_gb54o")

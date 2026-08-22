@@ -19,6 +19,7 @@ var current_wave: int = 1
 
 
 func _ready() -> void:
+	add_to_group("wave_manager")
 	if not difficulty_curve:
 		push_error("No DifficultyCurve resource")
 		return
@@ -29,7 +30,7 @@ func _ready() -> void:
 	wave_timer.timeout.connect(_on_wave_timer_timeout)
 	wave_timer.start()
 	
-	spawners[0].spawn_wave(base_enemy_count, 1.0)
+	spawners[0].spawn_wave(1, 1.0)
 
 
 func _on_wave_timer_timeout() -> void:

@@ -10,8 +10,9 @@ class_name EnemyStats
 @export var gold_reward: int = 5
 
 @export_group("Resistances")
-@export var physical_resist: float = 0.0
-@export var fire_resist: float = 0.0
-@export var ice_resist: float = 0.0
-@export var poison_resist: float = 0.0
-@export var lightning_resist: float = 0.0
+## 0.0 = 0% de résistance, 1.0 = 100% de résistance, -0.5 = +50% dégâts reçus (vulnérabilité)
+@export_range(-1.0, 1.0, 0.05) var physical_resist: float = 0.0
+@export_range(-1.0, 1.0, 0.05) var fire_resist: float = 0.0
+@export_range(-1.0, 1.0, 0.05) var ice_resist: float = 0.0
+@export_range(-1.0, 1.0, 0.05) var poison_resist: float = 0.0
+@export_range(-1.0, 1.0, 0.05) var lightning_resist: float = 0.0

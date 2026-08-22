@@ -6,7 +6,9 @@ class_name EnemySpawner
 @export var is_active: bool = false
 @export var spawn_pool: Array[Dictionary] = [
 	{ "scene": preload("uid://x81tgyj3keel"), "chance": 60 },
-	{ "scene": preload("uid://bvtnqclywhugm"), "chance": 30 }
+	{ "scene": preload("uid://bvtnqclywhugm"), "chance": 30 },
+	{ "scene": preload("uid://bvtnqclywhugm"), "chance": 0 },
+	{ "scene": preload("uid://bvtnqclywhugm"), "chance": 0 },
 ]
 @export var spawn_delay: float = 1.5 
 

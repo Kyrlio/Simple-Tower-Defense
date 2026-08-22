@@ -2,6 +2,8 @@ class_name LightningTower
 extends Tower
 
 @export_group("Lightning Mechanics")
+## Type d'élément/dégât infligé par la tour
+@export_enum("physical", "fire", "ice", "poison", "lightning") var damage_type: String = "lightning"
 ## Nombre maximum de cibles que l'éclair peut toucher en une seule décharge
 @export var max_bounces: int = 4
 ## Distance maximale (en pixels) pour que l'éclair bondisse vers un nouvel ennemi
@@ -67,9 +69,9 @@ func _propagate_chain(source_pos: Vector2, current_target: Node2D, hit_targets: 
 	# 1. Enregistrement de la cible pour éviter de la frapper à nouveau
 	hit_targets.append(current_target)
 	
-	# 2. Application instantanée des dégâts (avec type de dégât "lightning")
+	# 2. Application instantanée des dégâts (avec le type configuré)
 	if current_target.has_method("take_damage"):
-		current_target.take_damage(current_damage, "lightning")
+		current_target.take_damage(current_damage, damage_type)
 	elif current_target.has_method("on_hit"):
 		current_target.on_hit(current_damage)
 		
@@ -159,7 +161,7 @@ func _create_lightning_effect(from: Vector2, to: Vector2) -> void:
 	var gradient := Gradient.new()
 	gradient.offsets = PackedFloat32Array([0.0, 0.15, 0.85, 1.0])
 	gradient.colors = PackedColorArray([
-		Color.WHITE,
+		lightning_color,
 		lightning_color,
 		lightning_color,
 		Color(lightning_color.r, lightning_color.g, lightning_color.b, 0.8)
