@@ -55,3 +55,8 @@ func _on_reload_timer_timeout() -> void:
 		if animation_player and animation_player.has_animation("shoot"):
 			animation_player.play("shoot")
 		_shoot()
+
+
+func get_special_description() -> String:
+	var p_dmg = damage * poison_damage_ratio
+	return "Poison : %0.1f dmg/%0.1fs (%0.1fs)" % [p_dmg, poison_tick_interval, poison_duration]

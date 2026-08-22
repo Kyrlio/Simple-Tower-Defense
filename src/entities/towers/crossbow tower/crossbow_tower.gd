@@ -2,6 +2,9 @@ class_name CrossbowTower
 extends Tower
 
 @export var projectile: PackedScene
+@export var damage: float = 3.0
+@export var speed: float = 200.0
+@export var max_targets: int = 3
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var weapon: Sprite2D = $Visuals/Weapon
@@ -14,15 +17,18 @@ func _physics_process(_delta: float) -> void:
 
 
 func _shoot() -> void:
+	if not projectile or enemies.is_empty():
+		return
+		
 	var instance: CrossbowProjectile = projectile.instantiate()
 	var target: Enemy = enemies[0]
 	if not instance or not target:
 		print("no enemy")
 		return
 	
-	instance.damage = 3
-	instance.speed = 200.0
-	instance.max_targets = 3
+	instance.damage = damage
+	instance.speed = speed
+	instance.max_targets = max_targets
 	
 	var projectile_node: Node2D = get_tree().current_scene.get_node_or_null("Projectiles")
 	if projectile_node:
@@ -30,7 +36,6 @@ func _shoot() -> void:
 	else:
 		get_tree().current_scene.add_child(instance)
 	
-	#instance.shoot(muzzle.global_position, target, instance.damage)
 	instance.shoot(muzzle.global_position, weapon.rotation)
 
 
@@ -38,3 +43,7 @@ func _on_reload_timer_timeout() -> void:
 	if enemies.size() > 0 and projectile:
 		animation_player.play("shoot")
 		_shoot()
+
+
+func get_special_description() -> String:
+	return "Carreaux perforants (jusqu'à %d cibles)" % max_targets

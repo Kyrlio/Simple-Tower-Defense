@@ -54,7 +54,7 @@ script = ExtResource("1_dwuxv")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=458572293]
 script = ExtResource("2_dwuxv")
-max_health = 500
+max_health = 1000
 metadata/_custom_type_script = "uid://dyf04hfuuwm4u"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2114110181]

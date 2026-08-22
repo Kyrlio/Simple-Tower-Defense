@@ -46,8 +46,9 @@ _data = {
 [node name="ArcherTower" unique_id=1405958972 instance=ExtResource("1_3xglg")]
 script = ExtResource("1_3espf")
 projectile = ExtResource("2_arrow")
-damage = 1.0
+damage = 1.5
 speed = 125.0
+shoot_reload_time = 0.7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=2124121015]
 libraries/ = SubResource("AnimationLibrary_0miyc")

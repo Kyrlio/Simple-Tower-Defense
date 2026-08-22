@@ -10,6 +10,8 @@ func _ready() -> void:
 	health_component.health_changed.connect(_on_health_changed)
 	health_component.died.connect(_on_castle_destroyed)
 	GameEvents.castle_health_changed.emit(health_component.current_health, health_component.max_health)
+	
+	#_on_health_changed(health_component.max_health, health_component.max_health)
 
 
 func take_damage(amount: int) -> void:

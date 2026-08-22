@@ -4,11 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://cwiejn3yewt3q" path="res://src/ui/tower anchor button/tower_anchor_button.tscn" id="1_eqvli"]
 [ext_resource type="Script" uid="uid://dpn7jo2iyv81j" path="res://src/ui/hud.gd" id="1_snmo6"]
 [ext_resource type="Resource" uid="uid://bjibgfvjljn8a" path="res://src/systems/resources/stats/tower stats/archer_tower_stats.tres" id="2_4rn03"]
+[ext_resource type="PackedScene" uid="uid://77feepdrqeas" path="res://src/ui/healthbar/health_bar.tscn" id="2_je3ri"]
 [ext_resource type="Resource" uid="uid://c3sn70leljdd5" path="res://src/systems/resources/stats/tower stats/cannon_tower_stats.tres" id="4_i4jpw"]
 [ext_resource type="Resource" uid="uid://bxihyb1r1puwf" path="res://src/systems/resources/stats/tower stats/crossbow_tower_stats.tres" id="5_r2cn7"]
 [ext_resource type="Resource" uid="uid://r0rc56ynpr12" path="res://src/systems/resources/stats/tower stats/lightning_tower_stats.tres" id="6_0isw4"]
 [ext_resource type="Resource" uid="uid://cpujkohlouajf" path="res://src/systems/resources/stats/tower stats/ice_wizard_tower_stats.tres" id="7_vbpn1"]
 [ext_resource type="Resource" uid="uid://0dgywjbyehuj" path="res://src/systems/resources/stats/tower stats/poison_wizard_tower_stats.tres" id="8_yy3iv"]
+[ext_resource type="PackedScene" uid="uid://bc6d0p6lpip7r" path="res://src/ui/tower_info_panel/tower_info_panel.tscn" id="9_infopanel"]
 
 [node name="HUD" type="CanvasLayer" unique_id=1049745166]
 process_mode = 3
@@ -20,17 +22,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="HealthBar" type="ProgressBar" parent="MarginContainer" unique_id=1638185415]
-custom_minimum_size = Vector2(80, 8)
+[node name="HealthBar" parent="MarginContainer" unique_id=413240382 instance=ExtResource("2_je3ri")]
 layout_mode = 2
-size_flags_horizontal = 4
-value = 50.0
-show_percentage = false
+mouse_filter = 2
 
 [node name="GoldLabel" type="Label" parent="MarginContainer" unique_id=108345898]
 layout_mode = 2
@@ -43,6 +43,7 @@ text = "Gold : "
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_constants/separation = 3
 
 [node name="PauseButton" parent="MarginContainer/SpeedControls" unique_id=192837461 instance=ExtResource("1_animbtn")]
@@ -64,6 +65,7 @@ text = "3x"
 [node name="TowerShop" type="HBoxContainer" parent="MarginContainer" unique_id=130914113]
 layout_mode = 2
 size_flags_vertical = 8
+mouse_filter = 2
 theme_override_constants/separation = 16
 alignment = 1
 
@@ -90,3 +92,8 @@ tower_stats = ExtResource("8_yy3iv")
 [node name="TowerAnchorButton4" parent="MarginContainer/TowerShop" unique_id=1495020786 instance=ExtResource("1_eqvli")]
 layout_mode = 2
 tower_stats = ExtResource("6_0isw4")
+
+[node name="TowerInfoPanel" parent="MarginContainer" unique_id=1847109283 instance=ExtResource("9_infopanel")]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4

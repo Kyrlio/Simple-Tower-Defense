@@ -52,3 +52,8 @@ func _on_reload_timer_timeout() -> void:
 		if animation_player and animation_player.has_animation("shoot"):
 			animation_player.play("shoot")
 		_shoot()
+
+
+func get_special_description() -> String:
+	var slow_pct = int((1.0 - slow_factor) * 100.0)
+	return "Ralentit de %d%% pendant %0.1fs" % [slow_pct, slow_duration]

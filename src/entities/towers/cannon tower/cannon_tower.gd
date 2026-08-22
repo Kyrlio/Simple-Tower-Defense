@@ -50,3 +50,7 @@ func _on_reload_timer_timeout() -> void:
 			if cannon_instance:
 				get_tree().current_scene.add_child(cannon_instance)
 				cannon_instance.launch(muzzle.global_position, target, damage)
+
+
+func get_special_description() -> String:
+	return "Artillerie lourde à très longue portée"

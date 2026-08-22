@@ -51,6 +51,10 @@ radius = 60.00833
 [node name="CrossbowTower" unique_id=1405958972 instance=ExtResource("1_wosuf")]
 script = ExtResource("2_p0p0q")
 projectile = ExtResource("3_cf8br")
+damage = 3.0
+speed = 200.0
+max_targets = 3
+shoot_reload_time = 3.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=360652425]
 libraries/ = SubResource("AnimationLibrary_cf8br")

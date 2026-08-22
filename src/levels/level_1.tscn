@@ -238,14 +238,11 @@ spawn_pool = Array[Dictionary]([{
 "chance": 40,
 "scene": ExtResource("2_xk4xt")
 }, {
-"chance": 30,
+"chance": 40,
 "scene": ExtResource("4_q2d1y")
 }, {
 "chance": 20,
-"scene": ExtResource("15_svtf7")
-}, {
-"chance": 10,
-"scene": ExtResource("19_bevbp")
+"scene": ExtResource("18_sblag")
 }])
 
 [node name="Path2D" type="Path2D" parent="Spawners/SpawnerWest" unique_id=406028917]

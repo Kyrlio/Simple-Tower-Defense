@@ -3,20 +3,36 @@
 [ext_resource type="Script" uid="uid://8nnuhb1myeyy" path="res://src/entities/towers/tower.gd" id="1_kkc4k"]
 [ext_resource type="Texture2D" uid="uid://b73dubf5pe5jx" path="res://assets/Shadow.png" id="2_sco40"]
 [ext_resource type="Texture2D" uid="uid://dg28ctk1bqqn4" path="res://assets/Towers/Combat Towers/spr_tower_archer_no_bow.png" id="3_sco40"]
+[ext_resource type="Script" uid="uid://0s46xkmj1082" path="res://src/entities/towers/range_indicator.gd" id="4_range"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sco40"]
 radius = 56.142673
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_click"]
+size = Vector2(24, 32)
 
 [node name="Tower" type="Node2D" unique_id=1405958972]
 y_sort_enabled = true
 script = ExtResource("1_kkc4k")
 
+[node name="RangeIndicator" type="Node2D" parent="." unique_id=208119283]
+script = ExtResource("4_range")
+
 [node name="EnemyDetectionArea" type="Area2D" parent="." unique_id=1270546325]
 collision_layer = 0
+input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetectionArea" unique_id=615870665]
 position = Vector2(0, -9)
 shape = SubResource("CircleShape2D_sco40")
+
+[node name="ClickArea" type="Area2D" parent="." unique_id=1582739481]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=1938472910]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_click")
 
 [node name="Visuals" type="Node2D" parent="." unique_id=1200347125]
 y_sort_enabled = true

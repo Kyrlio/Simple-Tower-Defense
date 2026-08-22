@@ -43,3 +43,7 @@ func _on_reload_timer_timeout() -> void:
 	if enemies.size() > 0 and projectile:
 		animation_player.play("shoot")
 		_shoot()
+
+
+func get_special_description() -> String:
+	return "Tir de flèches rapide (Vitesse: %d px/s)" % int(speed)

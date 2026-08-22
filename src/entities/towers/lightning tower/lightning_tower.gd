@@ -255,3 +255,11 @@ func _create_fork_branch(main_points: Array[Vector2], normal: Vector2, direction
 	var fork_tween := branch.create_tween()
 	fork_tween.tween_property(branch, "modulate:a", 0.0, lightning_duration * 0.85).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	fork_tween.tween_callback(branch.queue_free)
+
+
+func get_damage_value() -> float:
+	return base_damage
+
+
+func get_special_description() -> String:
+	return "Éclair en chaîne (jusqu'à %d cibles, rebond: %dpx)" % [max_bounces, int(bounce_range)]

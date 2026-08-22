@@ -11,6 +11,7 @@ var active_tower_data: TowerStats
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	add_to_group("placement_manager")
 	if not tower_exclusion_layer:
 		tower_exclusion_layer = get_node_or_null("../Tilemaps/TowerExclusion")
 	
@@ -33,11 +34,17 @@ func _physics_process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.is_echo() and event.keycode == KEY_P:
-		if not is_placing:
-			start_placement()
-		else:
-			cancel_placement()
+	if event is InputEventKey and event.pressed and not event.is_echo():
+		if event.keycode == KEY_P:
+			if not is_placing:
+				start_placement()
+			else:
+				cancel_placement()
+		elif event.keycode == KEY_ESCAPE:
+			if is_placing:
+				cancel_placement()
+			else:
+				GameEvents.tower_uninspected.emit()
 	
 	if is_placing:
 		if event is InputEventMouseMotion:
@@ -54,9 +61,31 @@ func _unhandled_input(event: InputEvent) -> void:
 					print("Placement impossible ici")
 			elif event.button_index == MOUSE_BUTTON_RIGHT:
 				cancel_placement()
+	else:
+		if event is InputEventMouseButton and event.pressed:
+			if event.button_index == MOUSE_BUTTON_LEFT:
+				var mouse_world: Vector2 = get_canvas_transform().affine_inverse() * event.position
+				var clicked_tower: Tower = null
+				var closest_dist: float = 24.0
+				
+				for node in get_tree().get_nodes_in_group("towers"):
+					if node is Tower and is_instance_valid(node) and not node.is_queued_for_deletion():
+						var tower_center = node.global_position + Vector2(0, -10)
+						var dist = tower_center.distance_to(mouse_world)
+						if dist < closest_dist:
+							closest_dist = dist
+							clicked_tower = node
+							
+				if clicked_tower:
+					clicked_tower.select()
+				else:
+					GameEvents.tower_uninspected.emit()
+			elif event.button_index == MOUSE_BUTTON_RIGHT:
+				GameEvents.tower_uninspected.emit()
 
 
 func select_tower_to_build(tower_data: TowerStats) -> void:
+	GameEvents.tower_uninspected.emit()
 	if is_placing:
 		cancel_placement()
 	active_tower_data = tower_data
@@ -88,6 +117,10 @@ func start_placement() -> void:
 		if detection_area:
 			detection_area.monitoring = false
 			detection_area.monitorable = false
+		
+		var r_ind = preview_tower.get_node_or_null("RangeIndicator")
+		if r_ind:
+			r_ind.set_active(true)
 		
 		update_preview()
 
@@ -127,7 +160,9 @@ func is_placement_valid(map_coords: Vector2i) -> bool:
 
 func attempt_placement(map_coords: Vector2i) -> void:
 	if GoldManager.spend_gold(active_tower_data.cost):
-		var real_tower = active_tower_data.tower_scene.instantiate()
+		var real_tower = active_tower_data.tower_scene.instantiate() as Tower
+		if real_tower:
+			real_tower.stats = active_tower_data
 		var snapped_local = tower_exclusion_layer.map_to_local(map_coords)
 		real_tower.global_position = tower_exclusion_layer.to_global(snapped_local)
 		real_tower.add_to_group("towers")

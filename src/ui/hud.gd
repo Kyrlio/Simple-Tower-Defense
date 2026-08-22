@@ -4,7 +4,7 @@ class_name HUD
 enum SpeedMode { PAUSE, SPEED_1X, SPEED_2X, SPEED_3X }
 
 @onready var gold_label: Label = $MarginContainer/GoldLabel
-@onready var health_bar: ProgressBar = $MarginContainer/HealthBar
+@onready var health_bar: HealthBar = $MarginContainer/HealthBar
 @onready var pause_button: AnimatedButton = $MarginContainer/SpeedControls/PauseButton
 @onready var speed_1x_button: AnimatedButton = $MarginContainer/SpeedControls/Speed1xButton
 @onready var speed_2x_button: AnimatedButton = $MarginContainer/SpeedControls/Speed2xButton
@@ -15,6 +15,7 @@ var last_active_speed_mode: SpeedMode = SpeedMode.SPEED_1X
 
 
 func _ready() -> void:
+	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	GoldManager.gold_changed.connect(_update_gold_label)
 	GameEvents.castle_health_changed.connect(_on_castle_health_changed)
@@ -123,19 +124,7 @@ func _update_gold_label(amount: int) -> void:
 
 
 func _on_castle_health_changed(current: int, max_health: int) -> void:
-	health_bar.max_value = max_health
-	
-	var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tween.tween_property(health_bar, "value", current, 0.3)
-	
-	var health_ratio: float = float(current) / float(max_health)
-	if health_ratio > 0.6:
-		health_bar.modulate = Color(0.2, 1.0, 0.2)
-	elif health_ratio > 0.25:
-		health_bar.modulate = Color(1.0, 0.6, 0.0)
-	else:
-		health_bar.modulate = Color(1.0, 0.2, 0.2)
+	health_bar.update_bar(current, max_health)
 
 
 func _on_game_over() -> void:
