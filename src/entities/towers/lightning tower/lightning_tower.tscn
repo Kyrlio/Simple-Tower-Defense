@@ -71,7 +71,7 @@ lightning_color = Color(1, 0.78431374, 0.14509805, 1)
 lightning_width = 3.0
 lightning_duration = 1.0
 base_shoot_reload_time = 1.4
-shoot_reload_time = 0.2
+shoot_reload_time = 1.4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=1396642121]
 libraries/ = SubResource("AnimationLibrary_gb54o")

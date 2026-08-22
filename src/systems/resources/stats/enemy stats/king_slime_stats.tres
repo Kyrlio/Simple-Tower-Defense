@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EnemyStats" format=3 uid="uid://bvq0ioiqr4uwl"]
+
+[ext_resource type="Script" uid="uid://cwi7jj4fejrs2" path="res://src/systems/resources/stats/enemy_stats.gd" id="1_o5ylo"]
+
+[resource]
+script = ExtResource("1_o5ylo")
+name = "King Slime"
+max_hp = 250.0
+hp = 25.0
+speed = 2.0
+attack_speed = 5.0
+attack_damage = 50.0
+gold_reward = 200
+physical_resist = 0.95
+ice_resist = -0.19999999999999996
+poison_resist = 0.6000000000000001
+lightning_resist = -0.30000000000000004
+metadata/_custom_type_script = "uid://cwi7jj4fejrs2"

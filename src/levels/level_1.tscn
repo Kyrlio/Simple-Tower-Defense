@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://b33wwtw5af1u" path="res://src/systems/components/player_camera.gd" id="8_fcumj"]
 [ext_resource type="PackedScene" uid="uid://cryj0oh2yygls" path="res://src/entities/castle/castle.tscn" id="9_riplu"]
 [ext_resource type="PackedScene" uid="uid://0o0mcta42a61" path="res://src/entities/enemies/normal_slime/normal_slime.tscn" id="15_svtf7"]
-[ext_resource type="PackedScene" uid="uid://cfwuuxmn4g2vb" path="res://src/entities/enemies/big_slime/big_slime.tscn" id="16_7q1rl"]
+[ext_resource type="PackedScene" uid="uid://dwwgwb6i1phkn" path="res://src/entities/enemies/king_slime/king_slime.tscn" id="16_7q1rl"]
 
 [sub_resource type="Curve2D" id="Curve2D_u5ev4"]
 _data = {
@@ -55,7 +55,7 @@ spawners = [NodePath("../Spawners/SpawnerWest/EnemySpawner"), NodePath("../Spawn
 
 [node name="WaveTimer" type="Timer" parent="WaveManager" unique_id=1883366695]
 process_callback = 0
-wait_time = 10.0
+wait_time = 100.0
 autostart = true
 
 [node name="PlacementManager" parent="." unique_id=81203257 node_paths=PackedStringArray("tower_exclusion_layer", "towers_container") instance=ExtResource("4_frwdw")]
