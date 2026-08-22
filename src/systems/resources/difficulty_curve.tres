@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_sdi83")
-base_difficulty = 2.0
-log_scale = 2.0
-log_growth = 2.0
+base_difficulty = 1.2
+log_scale = 1.8
+log_growth = 0.5
 metadata/_custom_type_script = "uid://0a1gejvhss40"

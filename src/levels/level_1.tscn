@@ -16,6 +16,11 @@
 [ext_resource type="PackedScene" uid="uid://cryj0oh2yygls" path="res://src/entities/castle/castle.tscn" id="9_riplu"]
 [ext_resource type="PackedScene" uid="uid://0o0mcta42a61" path="res://src/entities/enemies/normal_slime/normal_slime.tscn" id="15_svtf7"]
 [ext_resource type="PackedScene" uid="uid://dwwgwb6i1phkn" path="res://src/entities/enemies/king_slime/king_slime.tscn" id="16_7q1rl"]
+[ext_resource type="PackedScene" uid="uid://cd8v0yyffvuor" path="res://src/entities/enemies/zombie/zombie.tscn" id="17_5ib0j"]
+[ext_resource type="PackedScene" uid="uid://cvqksiyjw5vxc" path="res://src/entities/enemies/skeleton/skeleton.tscn" id="18_sblag"]
+[ext_resource type="PackedScene" uid="uid://cfwuuxmn4g2vb" path="res://src/entities/enemies/big_slime/big_slime.tscn" id="19_bevbp"]
+[ext_resource type="PackedScene" uid="uid://d1ua1sv31egne" path="res://src/entities/enemies/ghost/ghost.tscn" id="20_cp87p"]
+[ext_resource type="PackedScene" uid="uid://chm67rxp8ehg6" path="res://src/entities/enemies/demon/demon.tscn" id="21_nv4as"]
 
 [sub_resource type="Curve2D" id="Curve2D_u5ev4"]
 _data = {
@@ -52,10 +57,11 @@ layer = 2
 difficulty_curve = ExtResource("4_vo5gq")
 wave_timer = NodePath("WaveTimer")
 spawners = [NodePath("../Spawners/SpawnerWest/EnemySpawner"), NodePath("../Spawners/SpawnerNorth/EnemySpawner"), NodePath("../Spawners/SpawnerEast/EnemySpawner"), NodePath("../Spawners/SpawnerSouth/EnemySpawner")]
+base_enemy_count = 3
 
 [node name="WaveTimer" type="Timer" parent="WaveManager" unique_id=1883366695]
 process_callback = 0
-wait_time = 100.0
+wait_time = 10.0
 autostart = true
 
 [node name="PlacementManager" parent="." unique_id=81203257 node_paths=PackedStringArray("tower_exclusion_layer", "towers_container") instance=ExtResource("4_frwdw")]
@@ -228,17 +234,17 @@ y_sort_enabled = true
 [node name="EnemySpawner" parent="Spawners/SpawnerWest" unique_id=1210251770 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]
 spawn_path = NodePath("../Path2D")
 spawn_pool = Array[Dictionary]([{
-"chance": 0,
+"chance": 40,
 "scene": ExtResource("2_xk4xt")
 }, {
-"chance": 0,
+"chance": 30,
 "scene": ExtResource("4_q2d1y")
 }, {
-"chance": 0,
+"chance": 20,
 "scene": ExtResource("15_svtf7")
 }, {
-"chance": 100,
-"scene": ExtResource("16_7q1rl")
+"chance": 10,
+"scene": ExtResource("19_bevbp")
 }])
 
 [node name="Path2D" type="Path2D" parent="Spawners/SpawnerWest" unique_id=406028917]
@@ -252,8 +258,17 @@ y_sort_enabled = true
 [node name="EnemySpawner" parent="Spawners/SpawnerNorth" unique_id=886427865 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]
 spawn_path = NodePath("../Path2D")
 spawn_pool = Array[Dictionary]([{
-"chance": 100,
-"scene": ExtResource("4_q2d1y")
+"chance": 40,
+"scene": ExtResource("17_5ib0j")
+}, {
+"chance": 30,
+"scene": ExtResource("18_sblag")
+}, {
+"chance": 20,
+"scene": ExtResource("15_svtf7")
+}, {
+"chance": 10,
+"scene": ExtResource("19_bevbp")
 }])
 
 [node name="Path2D" type="Path2D" parent="Spawners/SpawnerNorth" unique_id=1910987822]
@@ -265,7 +280,16 @@ y_sort_enabled = true
 [node name="EnemySpawner" parent="Spawners/SpawnerEast" unique_id=522756119 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]
 spawn_path = NodePath("../Path2D")
 spawn_pool = Array[Dictionary]([{
-"chance": 100,
+"chance": 20,
+"scene": ExtResource("16_7q1rl")
+}, {
+"chance": 30,
+"scene": ExtResource("20_cp87p")
+}, {
+"chance": 20,
+"scene": ExtResource("17_5ib0j")
+}, {
+"chance": 30,
 "scene": ExtResource("4_q2d1y")
 }])
 
@@ -278,8 +302,17 @@ y_sort_enabled = true
 [node name="EnemySpawner" parent="Spawners/SpawnerSouth" unique_id=55432961 node_paths=PackedStringArray("spawn_path") instance=ExtResource("3_l80tk")]
 spawn_path = NodePath("../Path2D")
 spawn_pool = Array[Dictionary]([{
-"chance": 100,
-"scene": ExtResource("4_q2d1y")
+"chance": 50,
+"scene": ExtResource("21_nv4as")
+}, {
+"chance": 10,
+"scene": ExtResource("16_7q1rl")
+}, {
+"chance": 20,
+"scene": ExtResource("20_cp87p")
+}, {
+"chance": 20,
+"scene": ExtResource("18_sblag")
 }])
 
 [node name="Path2D" type="Path2D" parent="Spawners/SpawnerSouth" unique_id=96708109]

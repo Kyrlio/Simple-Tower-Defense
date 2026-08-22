@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyStats" format=3 uid="uid://dxuijlh51306g"]
+
+[ext_resource type="Script" uid="uid://cwi7jj4fejrs2" path="res://src/systems/resources/stats/enemy_stats.gd" id="1_5e5i6"]
+
+[resource]
+script = ExtResource("1_5e5i6")
+name = "Ghost"
+max_hp = 40.0
+speed = 5.5
+gold_reward = 15
+physical_resist = 1.0
+fire_resist = -0.5
+ice_resist = -0.5
+poison_resist = -0.5
+lightning_resist = -0.5
+metadata/_custom_type_script = "uid://cwi7jj4fejrs2"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyStats" format=3 uid="uid://bqa7l8cch8pje"]
+
+[ext_resource type="Script" uid="uid://cwi7jj4fejrs2" path="res://src/systems/resources/stats/enemy_stats.gd" id="1_gn3df"]
+
+[resource]
+script = ExtResource("1_gn3df")
+name = "Demon"
+max_hp = 500.0
+hp = 25.0
+speed = 7.0
+gold_reward = 30
+physical_resist = 0.10000000000000009
+fire_resist = 1.0
+ice_resist = -1.0
+poison_resist = 0.10000000000000009
+metadata/_custom_type_script = "uid://cwi7jj4fejrs2"
