@@ -9,6 +9,7 @@ max_hp = 100.0
 hp = 10.0
 speed = 4.0
 gold_reward = 50
+physical_resist = 0.8
 ice_resist = -0.35
 poison_resist = 0.6000000000000001
 lightning_resist = -0.5

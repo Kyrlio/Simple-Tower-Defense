@@ -2,6 +2,7 @@ extends Area2D
 class_name Projectile
 
 @export var damage: float = 1.0
+@export_enum("physical", "fire", "ice", "poison", "lightning") var damage_type: String = "physical"
 @export var max_targets: int = 1
 @export var speed: float = 125.0
 @export var lifetime: float = 4.0
@@ -38,11 +39,17 @@ func try_hit(target: Node2D) -> bool:
 	hit_targets.append(target)
 	targets_hit_count += 1
 	
+	on_hit_target(target)
+	
 	if targets_hit_count >= max_targets:
 		has_hit = true
 		_on_max_targets_reached()
 	
 	return true
+
+
+func on_hit_target(_target: Node2D) -> void:
+	pass
 
 
 func _on_max_targets_reached() -> void:

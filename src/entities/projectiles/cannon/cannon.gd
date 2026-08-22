@@ -154,33 +154,6 @@ func explode() -> void:
 	get_tree().create_timer(wait_time + 0.1).timeout.connect(queue_free)
 
 
-
-
-
-#func explode() -> void:
-	#is_launched = false
-	#global_position = target_last_position
-	#
-	#if shadow_sprite and is_instance_valid(shadow_sprite):
-		#shadow_sprite.queue_free()
-	#
-	#
-	#if explosion_effect:
-		#var effect_instance = explosion_effect.instantiate()
-		#get_tree().current_scene.add_child(effect_instance)
-		#if "global_position" in effect_instance:
-			#effect_instance.global_position = target_last_position
-	#
-	#if explosion_effect2:
-		#var effect_instance = explosion_effect2.instantiate()
-		#get_tree().current_scene.add_child(effect_instance)
-		#if "global_position" in effect_instance:
-			#effect_instance.global_position = target_last_position
-		#
-	#_apply_aoe_damage()
-	#queue_free()
-
-
 func _apply_aoe_damage() -> void:
 	var damaged_targets: Array[Node2D] = []
 	

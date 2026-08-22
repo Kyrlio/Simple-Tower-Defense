@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TowerStats" format=3 uid="uid://cpujkohlouajf"]
+
+[ext_resource type="Script" uid="uid://8htlq2826sia" path="res://src/systems/resources/stats/tower_stats.gd" id="1_38lnf"]
+[ext_resource type="Texture2D" uid="uid://cm5ww1fxvm885" path="res://assets/Towers/Combat Towers/spr_tower_ice_wizard.png" id="2_h2pbn"]
+[ext_resource type="PackedScene" uid="uid://dkmvvrttgyu06" path="res://src/entities/towers/ice wizard tower/ice_wizard_tower.tscn" id="3_hjasn"]
+
+[resource]
+script = ExtResource("1_38lnf")
+tower_name = "Ice Wizard Tower"
+cost = 450
+tower_scene = ExtResource("3_hjasn")
+tower_icon = ExtResource("2_h2pbn")
+metadata/_custom_type_script = "uid://8htlq2826sia"

@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://dkmvvrttgyu06"]
+
+[ext_resource type="PackedScene" uid="uid://c1h3mwtggiunu" path="res://src/entities/towers/tower.tscn" id="1_nrojf"]
+[ext_resource type="Script" uid="uid://cb7pbjuybxabd" path="res://src/entities/towers/ice wizard tower/ice_wizard_tower.gd" id="2_cvy1i"]
+[ext_resource type="PackedScene" uid="uid://l5vnxymg61ut" path="res://src/entities/projectiles/ice ball/ice_ball.tscn" id="3_6ktnd"]
+[ext_resource type="Texture2D" uid="uid://1ikw36x5ialw" path="res://assets/Towers/Combat Towers/spr_tower_ice_wizard_no_weapon.png" id="4_p7gvv"]
+[ext_resource type="Texture2D" uid="uid://y5fpycu2p6c3" path="res://assets/Towers/Weapons/Ice Wand.png" id="5_sniie"]
+
+[sub_resource type="Animation" id="Animation_p7gvv"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_sniie"]
+resource_name = "shoot"
+length = 0.6
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eubi0"]
+_data = {
+&"RESET": SubResource("Animation_p7gvv"),
+&"shoot": SubResource("Animation_sniie")
+}
+
+[node name="IceWizardTower" unique_id=1405958972 instance=ExtResource("1_nrojf")]
+script = ExtResource("2_cvy1i")
+projectile = ExtResource("3_6ktnd")
+damage = 1.0
+speed = 125.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=1945336896]
+libraries/ = SubResource("AnimationLibrary_eubi0")
+
+[node name="Visuals" parent="." index="2" unique_id=1200347125]
+y_sort_enabled = false
+
+[node name="BaseTower" parent="Visuals" index="1" unique_id=1691048206]
+texture = ExtResource("4_p7gvv")
+
+[node name="Weapon" parent="Visuals" index="2" unique_id=1827142402]
+position = Vector2(3, -17)
+texture = ExtResource("5_sniie")
+offset = Vector2(2, 0)
+
+[node name="Muzzle" parent="Visuals/Weapon" index="0" unique_id=1526892396]
+position = Vector2(6, 0)
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

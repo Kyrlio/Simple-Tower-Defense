@@ -27,6 +27,11 @@ var difficulty_factor: float = 1.0
 var hitstop_frames: int = 0
 var hitstop_amount: int = 1
 
+# Ralentissement (Slow / Freeze)
+var slow_multiplier: float = 1.0
+var slow_time_remaining: float = 0.0
+var slow_tween: Tween
+
 
 func _ready() -> void:
 	add_to_group("enemy")
@@ -56,9 +61,15 @@ func _physics_process(delta: float) -> void:
 			stop_hitstop()
 		return
 	
+	# Gestion du ralentissement
+	if slow_time_remaining > 0.0:
+		slow_time_remaining -= delta
+		if slow_time_remaining <= 0.0:
+			_remove_slow()
+	
 	if is_instance_valid(path_follow) and stats:
 		if not is_attacking_castle:
-			path_follow.progress += stats.speed * delta
+			path_follow.progress += get_current_speed() * delta
 			global_position = path_follow.global_position
 			
 			if path_follow.progress_ratio >= 0.99:
@@ -119,9 +130,55 @@ func apply_scale_difficulty(factor: float) -> void:
 		update_debug_label()
 
 
+func get_current_speed() -> float:
+	if not stats:
+		return 0.0
+	return stats.speed * slow_multiplier
+
+
+func apply_slow(factor: float, duration: float) -> void:
+	if is_dead:
+		return
+	
+	# Immunité au gel si résistance glace >= 1.0 (100%)
+	if stats and stats.ice_resist >= 1.0:
+		return
+	
+	# Conserver le ralentissement le plus fort et rafraîchir la durée
+	slow_multiplier = minf(slow_multiplier, clampf(factor, 0.05, 1.0))
+	slow_time_remaining = maxf(slow_time_remaining, duration)
+	
+	_apply_slow_visuals()
+	update_animation_speed()
+	update_debug_label()
+
+
+func _remove_slow() -> void:
+	slow_time_remaining = 0.0
+	slow_multiplier = 1.0
+	_remove_slow_visuals()
+	update_animation_speed()
+	update_debug_label()
+
+
+func _apply_slow_visuals() -> void:
+	if slow_tween and slow_tween.is_valid():
+		slow_tween.kill()
+	if is_instance_valid(sprite):
+		sprite.modulate = Color(0.55, 0.8, 1.0, 1.0)
+
+
+func _remove_slow_visuals() -> void:
+	if slow_tween and slow_tween.is_valid():
+		slow_tween.kill()
+	if is_instance_valid(sprite):
+		slow_tween = create_tween()
+		slow_tween.tween_property(sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.25)
+
+
 func update_animation_speed() -> void:
 	if is_instance_valid(animation_player) and base_speed > 0.0 and stats:
-		var speed_ratio: float = stats.speed / base_speed
+		var speed_ratio: float = get_current_speed() / base_speed
 		var calculated_anim_speed: float = 1.0 + (speed_ratio - 1.0) * anim_speed_influence
 		animation_player.speed_scale = clampf(calculated_anim_speed, 0.1, max_anim_speed_scale)
 
@@ -130,7 +187,7 @@ func update_debug_label() -> void:
 	var label: Label = get_node_or_null("Label")
 	if label and stats:
 		label.text = "speed: %.1f\nmax_hp: %.1f\nhp: %.1f\ncur_hp: %.1f" % [
-			stats.speed,
+			get_current_speed(),
 			stats.max_hp,
 			stats.hp,
 			cur_hp
@@ -175,6 +232,10 @@ func die() -> void:
 	is_dead = true
 	
 	hitstop_frames = 0
+	slow_time_remaining = 0.0
+	slow_multiplier = 1.0
+	if slow_tween and slow_tween.is_valid():
+		slow_tween.kill()
 	if is_instance_valid(hit_flash_anim_player):
 		hit_flash_anim_player.stop()
 	
@@ -196,9 +257,12 @@ func _damage_effects() -> void:
 
 func _on_area_entered(projectile: Area2D) -> void:
 	if projectile.is_in_group("projectile"):
+		var dmg_type: String = projectile.damage_type if "damage_type" in projectile else "physical"
 		if projectile.has_method("try_hit"):
 			if projectile.try_hit(self):
-				take_damage(projectile.damage)
+				take_damage(projectile.damage, dmg_type)
 		else:
-			take_damage(projectile.damage)
+			take_damage(projectile.damage, dmg_type)
+			if projectile.has_method("on_hit_target"):
+				projectile.on_hit_target(self)
 			projectile.queue_free()
