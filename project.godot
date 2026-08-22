@@ -53,6 +53,10 @@ projectile=""
 castle=""
 pixel_trail_vfx=""
 
+[gui]
+
+theme/custom="uid://lxs2moieqs26"
+
 [input]
 
 move_up={

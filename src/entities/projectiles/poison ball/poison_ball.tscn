@@ -55,6 +55,8 @@ anim_speed_max = 1.0
 z_index = 1
 collision_layer = 2
 script = ExtResource("1_kllrg")
+damage = 4.0
+damage_type = "poison"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=622399974]
 rotation = -1.5707964

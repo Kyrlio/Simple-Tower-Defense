@@ -10,6 +10,7 @@ var active_tower_data: TowerStats
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	if not tower_exclusion_layer:
 		tower_exclusion_layer = get_node_or_null("../Tilemaps/TowerExclusion")
 	
@@ -39,7 +40,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			cancel_placement()
 	
 	if is_placing:
-		if event is InputEventMouseButton and event.pressed:
+		if event is InputEventMouseMotion:
+			update_preview()
+		elif event is InputEventMouseButton and event.pressed:
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				var mouse_pos = get_global_mouse_position()
 				var local_mouse = tower_exclusion_layer.to_local(mouse_pos)

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://kxtputpie6m3"]
 
+[ext_resource type="PackedScene" uid="uid://6lhnrxepcyy" path="res://src/ui/animated_button.tscn" id="1_animbtn"]
 [ext_resource type="PackedScene" uid="uid://cwiejn3yewt3q" path="res://src/ui/tower anchor button/tower_anchor_button.tscn" id="1_eqvli"]
 [ext_resource type="Script" uid="uid://dpn7jo2iyv81j" path="res://src/ui/hud.gd" id="1_snmo6"]
 [ext_resource type="Resource" uid="uid://bjibgfvjljn8a" path="res://src/systems/resources/stats/tower stats/archer_tower_stats.tres" id="2_4rn03"]
@@ -10,6 +11,7 @@
 [ext_resource type="Resource" uid="uid://0dgywjbyehuj" path="res://src/systems/resources/stats/tower stats/poison_wizard_tower_stats.tres" id="8_yy3iv"]
 
 [node name="HUD" type="CanvasLayer" unique_id=1049745166]
+process_mode = 3
 script = ExtResource("1_snmo6")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1006532145]
@@ -37,6 +39,28 @@ size_flags_vertical = 0
 theme_override_font_sizes/font_size = 8
 text = "Gold : "
 
+[node name="SpeedControls" type="HBoxContainer" parent="MarginContainer" unique_id=184920194]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/separation = 3
+
+[node name="PauseButton" parent="MarginContainer/SpeedControls" unique_id=192837461 instance=ExtResource("1_animbtn")]
+layout_mode = 2
+text = "||"
+
+[node name="Speed1xButton" parent="MarginContainer/SpeedControls" unique_id=192837462 instance=ExtResource("1_animbtn")]
+layout_mode = 2
+text = "1x"
+
+[node name="Speed2xButton" parent="MarginContainer/SpeedControls" unique_id=192837463 instance=ExtResource("1_animbtn")]
+layout_mode = 2
+text = "2x"
+
+[node name="Speed3xButton" parent="MarginContainer/SpeedControls" unique_id=192837464 instance=ExtResource("1_animbtn")]
+layout_mode = 2
+text = "3x"
+
 [node name="TowerShop" type="HBoxContainer" parent="MarginContainer" unique_id=130914113]
 layout_mode = 2
 size_flags_vertical = 8
@@ -47,13 +71,13 @@ alignment = 1
 layout_mode = 2
 tower_stats = ExtResource("2_4rn03")
 
-[node name="TowerAnchorButton2" parent="MarginContainer/TowerShop" unique_id=897654774 instance=ExtResource("1_eqvli")]
-layout_mode = 2
-tower_stats = ExtResource("4_i4jpw")
-
 [node name="TowerAnchorButton3" parent="MarginContainer/TowerShop" unique_id=1271804822 instance=ExtResource("1_eqvli")]
 layout_mode = 2
 tower_stats = ExtResource("5_r2cn7")
+
+[node name="TowerAnchorButton2" parent="MarginContainer/TowerShop" unique_id=897654774 instance=ExtResource("1_eqvli")]
+layout_mode = 2
+tower_stats = ExtResource("4_i4jpw")
 
 [node name="TowerAnchorButton5" parent="MarginContainer/TowerShop" unique_id=870982003 instance=ExtResource("1_eqvli")]
 layout_mode = 2

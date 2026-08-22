@@ -12,6 +12,7 @@ func _ready() -> void:
 	reload_timer.wait_time = shoot_reload_time
 	scale = Vector2.ZERO
 	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.tween_property(self, "scale", Vector2(1, 1), 0.8)
 
 

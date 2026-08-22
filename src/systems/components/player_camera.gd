@@ -37,6 +37,7 @@ var zoom_punch_offset: float = 0.0
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	target_zoom_level = zoom.x
 	current_zoom_level = zoom.x
 	target_position = global_position

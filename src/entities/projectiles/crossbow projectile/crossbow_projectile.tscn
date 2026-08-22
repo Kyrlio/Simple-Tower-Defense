@@ -20,6 +20,7 @@ z_index = 1
 collision_layer = 2
 script = ExtResource("1_dbx1x")
 max_targets = 3
+lifetime = 2.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=622399974]
 rotation = -1.5707964

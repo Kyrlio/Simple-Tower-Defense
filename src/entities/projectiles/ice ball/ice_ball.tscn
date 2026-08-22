@@ -55,6 +55,8 @@ anim_speed_max = 1.0
 z_index = 1
 collision_layer = 2
 script = ExtResource("1_1e0t5")
+damage = 3.0
+damage_type = "ice"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=622399974]
 rotation = -1.5707964
@@ -74,7 +76,7 @@ show_behind_parent = true
 material = SubResource("CanvasItemMaterial_c3q7h")
 amount = 75
 texture = ExtResource("3_5b0ew")
-lifetime = 1.5999999999999999
+lifetime = 1.6
 process_material = SubResource("ParticleProcessMaterial_mcd5s")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=961467359]

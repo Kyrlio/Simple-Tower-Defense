@@ -58,6 +58,7 @@ difficulty_curve = ExtResource("4_vo5gq")
 wave_timer = NodePath("WaveTimer")
 spawners = [NodePath("../Spawners/SpawnerWest/EnemySpawner"), NodePath("../Spawners/SpawnerNorth/EnemySpawner"), NodePath("../Spawners/SpawnerEast/EnemySpawner"), NodePath("../Spawners/SpawnerSouth/EnemySpawner")]
 base_enemy_count = 3
+wave_timer_multiplier = 1.05
 
 [node name="WaveTimer" type="Timer" parent="WaveManager" unique_id=1883366695]
 process_callback = 0

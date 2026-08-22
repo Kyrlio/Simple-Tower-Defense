@@ -41,11 +41,11 @@ func _on_wave_timer_timeout() -> void:
 	print("Pause de préparation suivante : ", wave_timer.wait_time, " secondes")
 	
 	
-	if current_wave == 5:
+	if current_wave == 10:
 		_activate_spawner(1, "Nord")
-	elif current_wave == 10:
+	elif current_wave == 25:
 		_activate_spawner(2, "Est")
-	elif current_wave == 20:
+	elif current_wave == 50:
 		_activate_spawner(3, "Sud")
 	
 	var enemy_count: int = roundi(base_enemy_count * difficulty_factor)

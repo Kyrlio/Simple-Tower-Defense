@@ -46,7 +46,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2451b"]
-radius = 88.005684
+radius = 60.00833
 
 [node name="CrossbowTower" unique_id=1405958972 instance=ExtResource("1_wosuf")]
 script = ExtResource("2_p0p0q")
