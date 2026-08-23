@@ -11,6 +11,15 @@
 [ext_resource type="Resource" uid="uid://cpujkohlouajf" path="res://src/systems/resources/stats/tower stats/ice_wizard_tower_stats.tres" id="7_vbpn1"]
 [ext_resource type="Resource" uid="uid://0dgywjbyehuj" path="res://src/systems/resources/stats/tower stats/poison_wizard_tower_stats.tres" id="8_yy3iv"]
 [ext_resource type="PackedScene" uid="uid://bc6d0p6lpip7r" path="res://src/ui/tower_info_panel/tower_info_panel.tscn" id="9_infopanel"]
+[ext_resource type="Texture2D" uid="uid://b7yluiyo04nxd" path="res://assets/ui/panel.png" id="12_k5qe1"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fwgqd"]
+texture = ExtResource("12_k5qe1")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+modulate_color = Color(0.98039216, 0.101960786, 0.23529412, 0.78431374)
 
 [node name="HUD" type="CanvasLayer" unique_id=1049745166]
 process_mode = 3
@@ -31,12 +40,31 @@ theme_override_constants/margin_bottom = 8
 [node name="HealthBar" parent="MarginContainer" unique_id=413240382 instance=ExtResource("2_je3ri")]
 layout_mode = 2
 
-[node name="GoldLabel" type="Label" parent="MarginContainer" unique_id=108345898]
+[node name="TopLeftContainer" type="VBoxContainer" parent="MarginContainer" unique_id=108345899]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="GoldLabel" type="Label" parent="MarginContainer/TopLeftContainer" unique_id=108345898]
+layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Gold : "
+
+[node name="WaveLabel" type="Label" parent="MarginContainer/TopLeftContainer" unique_id=108345900]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Wave : 1"
+
+[node name="NextWaveLabel" type="Label" parent="MarginContainer/TopLeftContainer" unique_id=108345901]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-5, -2)
+offset_transform_scale = Vector2(0.8, 0.8)
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 0.9)
+theme_override_font_sizes/font_size = 8
+text = "Next wave in 10s"
 
 [node name="SpeedControls" type="HBoxContainer" parent="MarginContainer" unique_id=184920194]
 layout_mode = 2
@@ -96,3 +124,40 @@ tower_stats = ExtResource("6_0isw4")
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
+
+[node name="WarningBanner" type="PanelContainer" parent="." unique_id=1948201949]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -115.0
+offset_top = 26.0
+offset_right = 115.0
+offset_bottom = 54.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_fwgqd")
+
+[node name="VBox" type="VBoxContainer" parent="WarningBanner" unique_id=1948201950]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="WarningTitle" type="Label" parent="WarningBanner/VBox" unique_id=1948201951]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 16
+text = "WARNING"
+horizontal_alignment = 1
+
+[node name="WarningLabel" type="Label" parent="WarningBanner/VBox" unique_id=1948201952]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 8
+text = "The enemies are coming from the North"
+horizontal_alignment = 1

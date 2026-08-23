@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Tower Defense Project"
-run/main_scene="uid://b25jloaxrq7gu"
+run/main_scene="uid://c8m8q4y1h6nla"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0.11764706, 0.43529412, 0.3137255, 1)
 boot_splash/stretch_mode=3

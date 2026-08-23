@@ -31,6 +31,7 @@ func _ready() -> void:
 	wave_timer.start()
 	
 	spawners[0].spawn_wave(1, 1.0)
+	GameEvents.wave_changed.emit(current_wave)
 
 
 func _on_wave_timer_timeout() -> void:
@@ -40,13 +41,15 @@ func _on_wave_timer_timeout() -> void:
 	print("Facteur de Difficulté : ", difficulty_factor)
 	print("Pause de préparation suivante : ", wave_timer.wait_time, " secondes")
 	
+	GameEvents.wave_changed.emit(current_wave)
+	
 	
 	if current_wave == 10:
-		_activate_spawner(1, "Nord")
+		_activate_spawner(1, "North")
 	elif current_wave == 25:
-		_activate_spawner(2, "Est")
+		_activate_spawner(2, "East")
 	elif current_wave == 50:
-		_activate_spawner(3, "Sud")
+		_activate_spawner(3, "South")
 	
 	var enemy_count: int = roundi(base_enemy_count * difficulty_factor)
 	enemy_count = max(enemy_count, base_enemy_count)
@@ -62,4 +65,5 @@ func _on_wave_timer_timeout() -> void:
 func _activate_spawner(index: int, direction_name: String) -> void:
 	if spawners.size() > index and is_instance_valid(spawners[index]):
 		spawners[index].is_active = true
-		print("Alerte ! Nouvelle menace approche par le ", direction_name)
+		print("Alert! New threat approaching from the ", direction_name)
+		GameEvents.spawner_warning.emit(direction_name)

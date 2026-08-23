@@ -48,7 +48,7 @@ script = ExtResource("1_3espf")
 projectile = ExtResource("2_arrow")
 damage = 1.5
 speed = 125.0
-shoot_reload_time = 0.7
+shoot_reload_time = 0.8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=2124121015]
 libraries/ = SubResource("AnimationLibrary_0miyc")

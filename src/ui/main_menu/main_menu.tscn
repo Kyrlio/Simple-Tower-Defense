@@ -1,0 +1,317 @@
+[gd_scene format=3 uid="uid://c8m8q4y1h6nla"]
+
+[ext_resource type="Theme" uid="uid://lxs2moieqs26" path="res://src/systems/resources/global_theme.tres" id="1_theme"]
+[ext_resource type="Script" uid="uid://blmq2p4y1m8ka" path="res://src/ui/main_menu/main_menu.gd" id="2_menu"]
+[ext_resource type="Texture2D" uid="uid://c840tt0f8k5cw" path="res://assets/Towers/Castle/spr_castle_blue.png" id="3_776kc"]
+[ext_resource type="Script" uid="uid://gxs42jl0pbe6" path="res://src/ui/animated_button.gd" id="4_animbtn"]
+[ext_resource type="Texture2D" uid="uid://cp5s34r7ufk3k" path="res://assets/ui/buttons.png" id="5_btntex"]
+[ext_resource type="AudioStream" uid="uid://bnmsuo4xexcdd" path="res://assets/Sounds/UI & Menus/Hover Over.wav" id="6_hover"]
+[ext_resource type="AudioStream" uid="uid://bix0hrhpalpir" path="res://assets/Sounds/UI & Menus/Click Bounce.wav" id="7_click"]
+[ext_resource type="AudioStream" uid="uid://3f3ato0xhvbq" path="res://assets/Sounds/UI & Menus/Start.wav" id="8_start"]
+[ext_resource type="AudioStream" uid="uid://dtaupuurb7bxe" path="res://assets/Sounds/UI & Menus/Quit Out.wav" id="9_quit"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.0705882, 0.0862745, 0.133333, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
+bg_color = Color(0.0352941, 0.0470588, 0.0784314, 0.45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctewx"]
+atlas = ExtResource("3_776kc")
+region = Rect2(0, 0, 52, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uiflr"]
+atlas = ExtResource("3_776kc")
+region = Rect2(52, 0, 52, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odgsv"]
+atlas = ExtResource("3_776kc")
+region = Rect2(104, 0, 52, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73fpq"]
+atlas = ExtResource("3_776kc")
+region = Rect2(156, 0, 52, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0thxj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctewx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uiflr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odgsv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73fpq")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_close_hover"]
+texture = ExtResource("5_btntex")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(3, 100, 10, 11)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
+color = Color(0.35, 0.42, 0.52, 0.7)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_776kc"]
+random_pitch = 1.067572
+streams_count = 1
+stream_0/stream = ExtResource("6_hover")
+
+[node name="MainMenu" type="Control" unique_id=2049182736]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_menu")
+
+[node name="Background" type="Panel" parent="." unique_id=2049182737]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="DecorativeVignette" type="Panel" parent="." unique_id=2049182738]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
+
+[node name="ContentMargin" type="MarginContainer" parent="." unique_id=2049182739]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxMain" type="VBoxContainer" parent="ContentMargin" unique_id=2049182740]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TitleContainer" type="VBoxContainer" parent="ContentMargin/VBoxMain" unique_id=2049182741]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Logo_animated" type="AnimatedSprite2D" parent="ContentMargin/VBoxMain/TitleContainer" unique_id=707140758]
+unique_name_in_owner = true
+position = Vector2(144, 20)
+sprite_frames = SubResource("SpriteFrames_0thxj")
+autoplay = "default"
+frame_progress = 0.86925113
+
+[node name="Logo" type="TextureRect" parent="ContentMargin/VBoxMain/TitleContainer" unique_id=2049182742]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="ContentMargin/VBoxMain/TitleContainer" unique_id=2049182743]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.878431, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 16
+text = "TOWER DEFENSE"
+horizontal_alignment = 1
+
+[node name="MainButtonsContainer" type="VBoxContainer" parent="ContentMargin/VBoxMain" unique_id=2049182744]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="StartButton" type="Button" parent="ContentMargin/VBoxMain/MainButtonsContainer" unique_id=2049182745]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Start Game"
+script = ExtResource("4_animbtn")
+
+[node name="SettingsButton" type="Button" parent="ContentMargin/VBoxMain/MainButtonsContainer" unique_id=2049182746]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Settings"
+script = ExtResource("4_animbtn")
+
+[node name="QuitButton" type="Button" parent="ContentMargin/VBoxMain/MainButtonsContainer" unique_id=2049182747]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Quit Game"
+script = ExtResource("4_animbtn")
+
+[node name="VersionLabel" type="Label" parent="." unique_id=2049182748]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -14.0
+offset_right = -6.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.45, 0.5, 0.6, 0.6)
+theme_override_font_sizes/font_size = 8
+text = "Game made by Cedric Roussel
+Assets by Skyel"
+horizontal_alignment = 2
+
+[node name="SettingsPanel" type="PanelContainer" parent="." unique_id=2049182749]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(170, 115)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -85.0
+offset_top = -57.5
+offset_right = 85.0
+offset_bottom = 57.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(85, 57)
+
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel" unique_id=2049182750]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="SettingsPanel/VBox" unique_id=2049182751]
+layout_mode = 2
+alignment = 1
+
+[node name="SettingsTitle" type="Label" parent="SettingsPanel/VBox/Header" unique_id=2049182752]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.4, 1)
+theme_override_font_sizes/font_size = 8
+text = "Settings"
+
+[node name="SettingsCloseButton" type="Button" parent="SettingsPanel/VBox/Header" unique_id=2049182753]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 5
+theme_override_styles/hover = SubResource("StyleBoxTexture_close_hover")
+text = "✕"
+script = ExtResource("4_animbtn")
+
+[node name="HSeparator" type="HSeparator" parent="SettingsPanel/VBox" unique_id=2049182754]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_sep")
+
+[node name="OptionsContainer" type="VBoxContainer" parent="SettingsPanel/VBox" unique_id=2049182755]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 5
+
+[node name="MasterVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182756]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="VolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182757]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Volume :"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182758]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(65, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+step = 5.0
+value = 100.0
+
+[node name="MasterVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182759]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "100%"
+horizontal_alignment = 2
+
+[node name="FullscreenRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182760]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/FullscreenRow" unique_id=2049182761]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Plein Écran :"
+
+[node name="FullscreenCheckBox" type="CheckBox" parent="SettingsPanel/VBox/OptionsContainer/FullscreenRow" unique_id=2049182762]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+
+[node name="Audio" type="Node" parent="." unique_id=2049182763]
+
+[node name="SoundHover" type="AudioStreamPlayer" parent="Audio" unique_id=2049182764]
+stream = SubResource("AudioStreamRandomizer_776kc")
+volume_db = -6.0
+
+[node name="SoundClick" type="AudioStreamPlayer" parent="Audio" unique_id=2049182765]
+stream = ExtResource("7_click")
+volume_db = -4.0
+
+[node name="SoundStart" type="AudioStreamPlayer" parent="Audio" unique_id=2049182766]
+stream = ExtResource("8_start")
+volume_db = -2.0
+
+[node name="SoundQuit" type="AudioStreamPlayer" parent="Audio" unique_id=2049182767]
+stream = ExtResource("9_quit")
+volume_db = -3.0
