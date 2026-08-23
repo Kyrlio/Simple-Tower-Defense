@@ -34,6 +34,7 @@ func _ready() -> void:
 
 
 func _pressed() -> void:
+	SoundManager.play_ui_select()
 	if tween:
 		tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
@@ -52,6 +53,8 @@ func _on_gold_changed(current_gold: int) -> void:
 
 
 func _on_mouse_entered() -> void:
+	if not disabled:
+		SoundManager.play_ui_hover()
 	if tween:
 		tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)

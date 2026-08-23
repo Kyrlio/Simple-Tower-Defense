@@ -37,6 +37,7 @@ func _shoot() -> void:
 		get_tree().current_scene.add_child(instance)
 	
 	instance.shoot(muzzle.global_position, weapon.rotation)
+	SoundManager.play_shoot("archer", muzzle.global_position)
 
 
 func _on_reload_timer_timeout() -> void:

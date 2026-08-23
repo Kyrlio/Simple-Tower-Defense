@@ -30,8 +30,11 @@ func _ready() -> void:
 	modulate.a = 0.0
 	
 	close_button.pressed.connect(_on_close_pressed)
+	close_button.mouse_entered.connect(func(): SoundManager.play_ui_hover())
 	stats_tab_btn.pressed.connect(func(): set_tab(Tab.STATS))
+	stats_tab_btn.mouse_entered.connect(func(): SoundManager.play_ui_hover())
 	upgrades_tab_btn.pressed.connect(func(): set_tab(Tab.UPGRADES))
+	upgrades_tab_btn.mouse_entered.connect(func(): SoundManager.play_ui_hover())
 	GameEvents.tower_inspected.connect(_on_tower_inspected)
 	GameEvents.tower_uninspected.connect(_on_tower_uninspected)
 	GameEvents.tower_upgraded.connect(_on_tower_upgraded)
@@ -41,19 +44,14 @@ func _ready() -> void:
 
 
 func set_tab(tab: Tab) -> void:
+	if is_open and tab != current_tab:
+		SoundManager.play_ui_click()
 	current_tab = tab
 	stats_container.visible = (tab == Tab.STATS)
 	upgrades_container.visible = (tab == Tab.UPGRADES)
 	
-	var active_color = Color(0.0, 0.596, 0.863, 1.0)
-	var inactive_color = Color(0.102, 0.098, 0.196, 1.0)
-	
 	stats_tab_btn.modulate = Color(1.0, 1.0, 1.0, 1.0) if tab == Tab.STATS else Color(0.85, 0.85, 0.85, 0.7)
 	upgrades_tab_btn.modulate = Color(1.0, 1.0, 1.0, 1.0) if tab == Tab.UPGRADES else Color(0.85, 0.85, 0.85, 0.7)
-	
-	#stats_tab_btn.add_theme_color_override("font_color", active_color if tab == Tab.STATS else inactive_color)
-	#upgrades_tab_btn.add_theme_color_override("font_color", active_color if tab == Tab.UPGRADES else inactive_color)
-
 
 
 func _on_tower_inspected(tower: Tower) -> void:
@@ -77,6 +75,7 @@ func _on_tower_uninspected() -> void:
 
 
 func _on_close_pressed() -> void:
+	SoundManager.play_ui_click()
 	GameEvents.tower_uninspected.emit()
 
 
@@ -97,6 +96,8 @@ func _on_upgrade_requested(upgrade_id: String) -> void:
 		return
 	if current_tower.upgrade(upgrade_id):
 		_punch_effect()
+	else:
+		SoundManager.play_ui_error()
 
 
 func _update_info(tower: Tower) -> void:
@@ -153,6 +154,7 @@ func _populate_upgrades(tower: Tower) -> void:
 func _open_panel() -> void:
 	is_open = true
 	visible = true
+	SoundManager.play_ui_select()
 	
 	$AnimationPlayer.play("show")
 	

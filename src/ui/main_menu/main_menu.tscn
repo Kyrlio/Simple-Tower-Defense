@@ -202,20 +202,20 @@ horizontal_alignment = 2
 [node name="SettingsPanel" type="PanelContainer" parent="." unique_id=2049182749]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(170, 115)
+custom_minimum_size = Vector2(178, 135)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -85.0
-offset_top = -57.5
-offset_right = 85.0
-offset_bottom = 57.5
+offset_left = -89.0
+offset_top = -67.5
+offset_right = 89.0
+offset_bottom = 67.5
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(85, 57)
+pivot_offset = Vector2(89, 67)
 
 [node name="VBox" type="VBoxContainer" parent="SettingsPanel" unique_id=2049182750]
 layout_mode = 2
@@ -250,22 +250,22 @@ theme_override_styles/separator = SubResource("StyleBoxLine_sep")
 [node name="OptionsContainer" type="VBoxContainer" parent="SettingsPanel/VBox" unique_id=2049182755]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 5
+theme_override_constants/separation = 4
 
 [node name="MasterVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182756]
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="VolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182757]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
-text = "Volume :"
+text = "Général :"
 
 [node name="MasterVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182758]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(65, 10)
+custom_minimum_size = Vector2(58, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -274,6 +274,66 @@ step = 5.0
 value = 100.0
 
 [node name="MasterVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182759]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SfxVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182768]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SfxVolumeTitle" type="Label" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=2049182769]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "SFX/Tours :"
+
+[node name="SfxVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=2049182770]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+step = 5.0
+value = 100.0
+
+[node name="SfxVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=2049182771]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "100%"
+horizontal_alignment = 2
+
+[node name="UiVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182772]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="UiVolumeTitle" type="Label" parent="SettingsPanel/VBox/OptionsContainer/UiVolumeRow" unique_id=2049182773]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "UI/Menus :"
+
+[node name="UiVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/UiVolumeRow" unique_id=2049182774]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+step = 5.0
+value = 100.0
+
+[node name="UiVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/UiVolumeRow" unique_id=2049182775]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
@@ -303,15 +363,19 @@ focus_mode = 0
 [node name="SoundHover" type="AudioStreamPlayer" parent="Audio" unique_id=2049182764]
 stream = SubResource("AudioStreamRandomizer_776kc")
 volume_db = -6.0
+bus = &"UI"
 
 [node name="SoundClick" type="AudioStreamPlayer" parent="Audio" unique_id=2049182765]
 stream = ExtResource("7_click")
 volume_db = -4.0
+bus = &"UI"
 
 [node name="SoundStart" type="AudioStreamPlayer" parent="Audio" unique_id=2049182766]
 stream = ExtResource("8_start")
 volume_db = -2.0
+bus = &"UI"
 
 [node name="SoundQuit" type="AudioStreamPlayer" parent="Audio" unique_id=2049182767]
 stream = ExtResource("9_quit")
 volume_db = -3.0
+bus = &"UI"

@@ -43,6 +43,7 @@ func _on_reload_timer_timeout() -> void:
 			if cannon_instance:
 				get_tree().current_scene.add_child(cannon_instance)
 				cannon_instance.launch(muzzle.global_position, target, damage, explosion_radius)
+				SoundManager.play_shoot("cannon", muzzle.global_position)
 
 
 func get_special_description() -> String:

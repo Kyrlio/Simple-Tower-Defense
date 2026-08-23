@@ -15,6 +15,7 @@ func _ready() -> void:
 
 
 func take_damage(amount: int) -> void:
+	SoundManager.play_castle_hit(global_position)
 	health_component.damage(amount)
 	
 
@@ -25,4 +26,5 @@ func _on_health_changed(current_health: int, max_health: int) -> void:
 
 
 func _on_castle_destroyed() -> void:
+	SoundManager.play_game_over()
 	GameEvents.game_over.emit()

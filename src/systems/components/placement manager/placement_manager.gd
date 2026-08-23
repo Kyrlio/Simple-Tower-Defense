@@ -58,6 +58,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				if is_placement_valid(map_pos):
 					attempt_placement(map_pos)
 				else:
+					SoundManager.play_ui_error()
 					print("Placement impossible ici")
 			elif event.button_index == MOUSE_BUTTON_RIGHT:
 				cancel_placement()
@@ -178,8 +179,10 @@ func attempt_placement(map_coords: Vector2i) -> void:
 			fx.z_index = 1
 			get_parent().add_child(fx)
 			
+		SoundManager.play_tower_placed(real_tower.global_position)
 		cancel_placement()
 	else:
+		SoundManager.play_ui_error()
 		print("Pas assez d'or !")
 
 

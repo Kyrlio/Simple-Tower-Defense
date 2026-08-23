@@ -24,6 +24,7 @@ config/icon="uid://bvqhv1ptf2253"
 Data="*uid://c1pe02x1o2dc"
 GameEvents="*uid://c1buncekydvg4"
 GoldManager="*uid://x2n0ux38gtik"
+SoundManager="*res://src/systems/autoloads/sound_manager.gd"
 
 [display]
 

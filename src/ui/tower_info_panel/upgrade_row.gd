@@ -13,6 +13,10 @@ var cost: int = 0
 
 func _ready() -> void:
 	buy_button.pressed.connect(_on_buy_pressed)
+	buy_button.mouse_entered.connect(func():
+		if not buy_button.disabled:
+			SoundManager.play_ui_hover()
+	)
 
 
 func setup(upgrade_data: Dictionary) -> void:

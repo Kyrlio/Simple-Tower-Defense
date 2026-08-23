@@ -8,6 +8,10 @@ extends Control
 @onready var settings_close_button: Button = %SettingsCloseButton
 @onready var master_slider: HSlider = %MasterVolumeSlider
 @onready var master_label: Label = %MasterVolumeLabel
+@onready var sfx_slider: HSlider = %SfxVolumeSlider
+@onready var sfx_label: Label = %SfxVolumeLabel
+@onready var ui_slider: HSlider = %UiVolumeSlider
+@onready var ui_label: Label = %UiVolumeLabel
 @onready var fullscreen_checkbox: CheckBox = %FullscreenCheckBox
 
 @onready var sound_hover: AudioStreamPlayer = $Audio/SoundHover
@@ -41,6 +45,12 @@ func _ready() -> void:
 	
 	# Connect settings controls
 	master_slider.value_changed.connect(_on_master_volume_changed)
+	master_slider.mouse_entered.connect(_play_hover_sound)
+	sfx_slider.value_changed.connect(_on_sfx_volume_changed)
+	sfx_slider.mouse_entered.connect(_play_hover_sound)
+	ui_slider.value_changed.connect(_on_ui_volume_changed)
+	ui_slider.mouse_entered.connect(_play_hover_sound)
+	
 	fullscreen_checkbox.toggled.connect(_on_fullscreen_toggled)
 	fullscreen_checkbox.mouse_entered.connect(_play_hover_sound)
 	
@@ -143,33 +153,49 @@ func _hide_settings() -> void:
 
 
 func _init_settings_values() -> void:
-	# Master volume setup
-	var master_bus_idx: int = AudioServer.get_bus_index("Master")
-	if master_bus_idx != -1:
-		var is_muted: bool = AudioServer.is_bus_mute(master_bus_idx)
-		var current_vol: float = db_to_linear(AudioServer.get_bus_volume_db(master_bus_idx))
-		master_slider.value = 0.0 if is_muted else current_vol * 100.0
-		_update_volume_label(master_slider.value)
+	_init_bus_slider("Master", master_slider, master_label)
+	_init_bus_slider("SFX", sfx_slider, sfx_label)
+	_init_bus_slider("UI", ui_slider, ui_label)
 	
 	# Fullscreen checkbox setup
 	var is_fullscreen: bool = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscreen_checkbox.button_pressed = is_fullscreen
 
 
-func _on_master_volume_changed(value: float) -> void:
-	var master_bus_idx: int = AudioServer.get_bus_index("Master")
-	if master_bus_idx != -1:
+func _init_bus_slider(bus_name: String, slider: HSlider, label: Label) -> void:
+	if not slider or not label:
+		return
+	var bus_idx: int = AudioServer.get_bus_index(bus_name)
+	if bus_idx != -1:
+		var is_muted: bool = AudioServer.is_bus_mute(bus_idx)
+		var current_vol: float = db_to_linear(AudioServer.get_bus_volume_db(bus_idx))
+		slider.value = 0.0 if is_muted else current_vol * 100.0
+		label.text = str(int(round(slider.value))) + "%"
+
+
+func _apply_bus_volume(bus_name: String, value: float, label: Label) -> void:
+	var bus_idx: int = AudioServer.get_bus_index(bus_name)
+	if bus_idx != -1:
 		if value <= 1.0:
-			AudioServer.set_bus_mute(master_bus_idx, true)
+			AudioServer.set_bus_mute(bus_idx, true)
 		else:
-			AudioServer.set_bus_mute(master_bus_idx, false)
+			AudioServer.set_bus_mute(bus_idx, false)
 			var linear_val: float = value / 100.0
-			AudioServer.set_bus_volume_db(master_bus_idx, linear_to_db(linear_val))
-	_update_volume_label(value)
+			AudioServer.set_bus_volume_db(bus_idx, linear_to_db(linear_val))
+	if label:
+		label.text = str(int(round(value))) + "%"
 
 
-func _update_volume_label(value: float) -> void:
-	master_label.text = str(int(round(value))) + "%"
+func _on_master_volume_changed(value: float) -> void:
+	_apply_bus_volume("Master", value, master_label)
+
+
+func _on_sfx_volume_changed(value: float) -> void:
+	_apply_bus_volume("SFX", value, sfx_label)
+
+
+func _on_ui_volume_changed(value: float) -> void:
+	_apply_bus_volume("UI", value, ui_label)
 
 
 func _on_fullscreen_toggled(toggled_on: bool) -> void:

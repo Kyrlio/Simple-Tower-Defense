@@ -57,6 +57,7 @@ func _fire_chain_lightning() -> void:
 	var start_pos: Vector2 = muzzle.global_position
 	
 	# Lancement de la propagation récursive
+	SoundManager.play_shoot("lightning", start_pos)
 	_propagate_chain(start_pos, first_target, hit_targets, base_damage, max_bounces)
 
 

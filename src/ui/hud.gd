@@ -171,6 +171,7 @@ func show_warning_message(message: String) -> void:
 	if not warning_banner or not warning_label:
 		return
 	
+	SoundManager.play_wave_warning()
 	warning_label.text = message
 	warning_banner.visible = true
 	warning_banner.modulate.a = 0.0

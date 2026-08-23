@@ -41,6 +41,12 @@ func _ready() -> void:
 	target_zoom_level = zoom.x
 	current_zoom_level = zoom.x
 	target_position = global_position
+	
+	# Setup 2D spatial audio listener attached to camera
+	var listener := AudioListener2D.new()
+	listener.name = "AudioListener2D"
+	add_child(listener)
+	listener.make_current()
 
 
 func _unhandled_input(event: InputEvent) -> void:

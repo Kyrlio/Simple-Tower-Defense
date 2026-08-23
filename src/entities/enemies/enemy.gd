@@ -173,6 +173,9 @@ func take_damage(amount: float, damage_type: String = "physical") -> void:
 	spawn_hit_particles()
 	update_debug_label()
 	
+	if final_damage > 0.0:
+		SoundManager.play_hit(global_position)
+	
 	if cur_hp <= 0 and not is_dead:
 		die()
 
@@ -411,6 +414,7 @@ func die() -> void:
 	if attack_timer:
 		attack_timer.queue_free()
 	
+	SoundManager.play_enemy_death(global_position)
 	GoldManager.add_gold(stats.gold_reward)
 	spawn_death_particles()
 	if is_instance_valid(path_follow):

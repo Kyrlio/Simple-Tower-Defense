@@ -147,6 +147,7 @@ func explode() -> void:
 		if "global_position" in effect_instance:
 			effect_instance.global_position = target_last_position
 		
+	SoundManager.play_explosion(target_last_position)
 	_apply_aoe_damage()
 	
 	# 4. Attendre que les dernières particules disparaissent avant de libérer le nœud

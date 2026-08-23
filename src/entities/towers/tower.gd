@@ -184,6 +184,7 @@ func upgrade(upgrade_id: String) -> bool:
 	tw.tween_property(self, "scale", Vector2(1.18, 1.18), 0.08)
 	tw.tween_property(self, "scale", Vector2(1.0, 1.0), 0.12)
 	
+	SoundManager.play_tower_upgraded(global_position)
 	GameEvents.tower_upgraded.emit(self)
 	return true
 

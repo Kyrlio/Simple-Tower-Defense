@@ -18,6 +18,7 @@ func _on_resized() -> void:
 
 
 func _pressed() -> void:
+	SoundManager.play_ui_click()
 	if tween:
 		tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
@@ -26,6 +27,8 @@ func _pressed() -> void:
 
 
 func _on_mouse_entered() -> void:
+	if not disabled:
+		SoundManager.play_ui_hover()
 	if tween:
 		tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
