@@ -38,9 +38,8 @@ func _on_reload_timer_timeout() -> void:
 		return
 	
 	if animation_player and animation_player.has_animation("shoot"):
-		var speed_ratio: float = shoot_reload_time / base_shoot_reload_time
-		var calculated_anim_speed: float = 1.0 - (speed_ratio - 1.0) 
-		animation_player.speed_scale = clampf(calculated_anim_speed, 0.1, base_shoot_reload_time)
+		var calculated_anim_speed: float = base_shoot_reload_time / maxf(0.05, shoot_reload_time)
+		animation_player.speed_scale = clampf(calculated_anim_speed, 0.1, 10.0)
 		animation_player.play("shoot")
 
 
@@ -262,4 +261,34 @@ func get_damage_value() -> float:
 
 
 func get_special_description() -> String:
-	return "Éclair en chaîne (jusqu'à %d cibles, rebond: %dpx)" % [max_bounces, int(bounce_range)]
+	return "Chain Lightning (up to %d targets, bounce: %dpx)" % [max_bounces, int(bounce_range)]
+
+
+func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
+	var next_bounces = max_bounces + 1
+	upgrades.append({
+		"id": "max_bounces",
+		"name": "Max Bounces",
+		"level": get_upgrade_level("max_bounces"),
+		"cost": _calc_cost(55, 1.45, "max_bounces"),
+		"current_text": "%d bounces" % max_bounces,
+		"next_text": "+1 (%d bounces)" % next_bounces,
+	})
+	
+	var next_brange = bounce_range * 1.2
+	upgrades.append({
+		"id": "bounce_range",
+		"name": "Bounce Range",
+		"level": get_upgrade_level("bounce_range"),
+		"cost": _calc_cost(35, 1.35, "bounce_range"),
+		"current_text": "%d px" % int(bounce_range),
+		"next_text": "+20%% (%d px)" % int(next_brange),
+	})
+
+
+func _apply_custom_upgrade(upgrade_id: String) -> void:
+	match upgrade_id:
+		"max_bounces":
+			max_bounces += 1
+		"bounce_range":
+			bounce_range *= 1.2

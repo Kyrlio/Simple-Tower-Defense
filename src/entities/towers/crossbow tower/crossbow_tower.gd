@@ -29,6 +29,8 @@ func _shoot() -> void:
 	instance.damage = damage
 	instance.speed = speed
 	instance.max_targets = max_targets
+	var cur_range = get_detection_range()
+	instance.lifetime = maxf(1.0, (cur_range * 1.3) / maxf(1.0, speed))
 	
 	var projectile_node: Node2D = get_tree().current_scene.get_node_or_null("Projectiles")
 	if projectile_node:
@@ -46,4 +48,21 @@ func _on_reload_timer_timeout() -> void:
 
 
 func get_special_description() -> String:
-	return "Carreaux perforants (jusqu'à %d cibles)" % max_targets
+	return "Go through enemies (Up to %d targets)" % max_targets
+
+
+func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
+	var next_targets = max_targets + 1
+	upgrades.append({
+		"id": "max_targets",
+		"name": "Max Targets",
+		"level": get_upgrade_level("max_targets"),
+		"cost": _calc_cost(50, 1.45, "max_targets"),
+		"current_text": "%d targets" % max_targets,
+		"next_text": "+1 (%d targets)" % next_targets,
+	})
+
+
+func _apply_custom_upgrade(upgrade_id: String) -> void:
+	if upgrade_id == "max_targets":
+		max_targets += 1

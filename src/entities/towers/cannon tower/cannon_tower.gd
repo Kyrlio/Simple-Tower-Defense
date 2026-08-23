@@ -4,6 +4,7 @@ class_name CannonTower
 @export var cannon_scene: PackedScene = preload("res://src/entities/projectiles/cannon/cannon.tscn")
 @export var damage: float = 4.0
 @export var max_weapon_rotation_degrees: float = 20.0
+@export var explosion_radius: float = 24.0
 
 @onready var muzzle: Marker2D = $Visuals/Weapon/Muzzle
 @onready var base_tower: Sprite2D = $Visuals/BaseTower
@@ -12,14 +13,6 @@ class_name CannonTower
 
 var current_target: Node2D = null
 var physical_damage_boost: float = 1.35
-
-
-#func _ready() -> void:
-	#reload_timer.timeout.connect(_on_reload_timer_timeout)
-	#reload_timer.wait_time = shoot_reload_time
-	#scale = Vector2.ZERO
-	#var tween = create_tween().set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
-	#tween.tween_property(self, "scale", Vector2(1, 1), 0.8)
 
 
 func _physics_process(delta: float) -> void:
@@ -49,8 +42,25 @@ func _on_reload_timer_timeout() -> void:
 			var cannon_instance = cannon_scene.instantiate() as Cannon
 			if cannon_instance:
 				get_tree().current_scene.add_child(cannon_instance)
-				cannon_instance.launch(muzzle.global_position, target, damage)
+				cannon_instance.launch(muzzle.global_position, target, damage, explosion_radius)
 
 
 func get_special_description() -> String:
-	return "Artillerie lourde à très longue portée"
+	return "AoE Artillery (Radius: %d px)" % int(explosion_radius)
+
+
+func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
+	var next_rad = explosion_radius * 1.2
+	upgrades.append({
+		"id": "explosion_radius",
+		"name": "Explosion Radius",
+		"level": get_upgrade_level("explosion_radius"),
+		"cost": _calc_cost(40, 1.35, "explosion_radius"),
+		"current_text": "%d px" % int(explosion_radius),
+		"next_text": "+20%% (%d px)" % int(next_rad),
+	})
+
+
+func _apply_custom_upgrade(upgrade_id: String) -> void:
+	if upgrade_id == "explosion_radius":
+		explosion_radius *= 1.2

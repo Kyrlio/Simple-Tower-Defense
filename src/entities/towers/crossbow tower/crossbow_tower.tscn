@@ -62,7 +62,7 @@ libraries/ = SubResource("AnimationLibrary_cf8br")
 [node name="CollisionShape2D" parent="EnemyDetectionArea" parent_id_path=PackedInt32Array(1270546325) index="0" unique_id=615870665]
 shape = SubResource("CircleShape2D_2451b")
 
-[node name="Visuals" parent="." index="2" unique_id=1200347125]
+[node name="Visuals" parent="." index="4" unique_id=1200347125]
 y_sort_enabled = false
 
 [node name="Shadow" parent="Visuals" index="0" unique_id=1844820111]
@@ -86,7 +86,7 @@ texture = ExtResource("4_cf8br")
 [node name="Muzzle" parent="Visuals/Weapon" index="0" unique_id=1526892396]
 position = Vector2(8, 0)
 
-[node name="ReloadTimer" parent="." index="3" unique_id=1097807576]
+[node name="ReloadTimer" parent="." index="5" unique_id=1097807576]
 wait_time = 3.0
 
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

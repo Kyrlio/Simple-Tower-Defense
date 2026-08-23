@@ -27,6 +27,8 @@ func _shoot() -> void:
 	
 	instance.damage = damage
 	instance.speed = speed
+	var cur_range = get_detection_range()
+	instance.lifetime = maxf(2.0, (cur_range * 1.3) / maxf(1.0, speed))
 	
 	var projectile_node: Node2D = get_tree().current_scene.get_node_or_null("Projectiles")
 	if projectile_node:
@@ -46,4 +48,21 @@ func _on_reload_timer_timeout() -> void:
 
 
 func get_special_description() -> String:
-	return "Tir de flèches rapide (Vitesse: %d px/s)" % int(speed)
+	return "Shoots fast arrows (Speed: %d px/s)" % int(speed)
+
+
+func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
+	var next_spd = speed * 1.25
+	upgrades.append({
+		"id": "arrow_speed",
+		"name": "Arrow Speed",
+		"level": get_upgrade_level("arrow_speed"),
+		"cost": _calc_cost(20, 1.30, "arrow_speed"),
+		"current_text": "%d px/s" % int(speed),
+		"next_text": "+25%% (%d px/s)" % int(next_spd),
+	})
+
+
+func _apply_custom_upgrade(upgrade_id: String) -> void:
+	if upgrade_id == "arrow_speed":
+		speed *= 1.25

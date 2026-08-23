@@ -30,7 +30,6 @@ theme_override_constants/margin_bottom = 8
 
 [node name="HealthBar" parent="MarginContainer" unique_id=413240382 instance=ExtResource("2_je3ri")]
 layout_mode = 2
-mouse_filter = 2
 
 [node name="GoldLabel" type="Label" parent="MarginContainer" unique_id=108345898]
 layout_mode = 2

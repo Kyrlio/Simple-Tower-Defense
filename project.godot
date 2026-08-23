@@ -56,6 +56,7 @@ pixel_trail_vfx=""
 [gui]
 
 theme/custom="uid://lxs2moieqs26"
+theme/custom_font="uid://c3er0yuvjdikm"
 
 [input]
 

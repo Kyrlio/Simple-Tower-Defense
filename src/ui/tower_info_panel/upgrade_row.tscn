@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://c6v2n7yq3p1ox"]
+
+[ext_resource type="Script" uid="uid://pgr233wgdokm" path="res://src/ui/tower_info_panel/upgrade_row.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cp5s34r7ufk3k" path="res://assets/ui/buttons.png" id="2_btn_tex"]
+[ext_resource type="Script" uid="uid://gxs42jl0pbe6" path="res://src/ui/animated_button.gd" id="3_animbtn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_norm"]
+texture = ExtResource("2_btn_tex")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(3, 84, 10, 11)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_dis"]
+texture = ExtResource("2_btn_tex")
+texture_margin_left = 3.0
+texture_margin_top = 2.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+region_rect = Rect2(19, 53, 10, 10)
+
+[node name="UpgradeRow" type="VBoxContainer" unique_id=32235464]
+offset_right = 96.0
+offset_bottom = 13.0
+size_flags_horizontal = 3
+theme_override_constants/separation = -8
+script = ExtResource("1_script")
+
+[node name="TopHBox" type="HBoxContainer" parent="." unique_id=1934252776]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TitleLabel" type="Label" parent="TopHBox" unique_id=6438173]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_font_sizes/font_size = 8
+text = "Damage (Lv.0)"
+vertical_alignment = 1
+
+[node name="BuyButton" type="Button" parent="TopHBox" unique_id=1967012929]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_norm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_norm")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_norm")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_btn_dis")
+text = "30"
+script = ExtResource("3_animbtn")
+
+[node name="DetailsLabel" type="Label" parent="." unique_id=1688143818]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-9, 2)
+offset_transform_scale = Vector2(0.7, 0.7)
+theme_override_colors/font_color = Color(0.48, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 8
+text = "1.0 -> +20% (1.2)"
+vertical_alignment = 1

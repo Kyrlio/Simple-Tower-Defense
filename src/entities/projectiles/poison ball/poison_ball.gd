@@ -1,13 +1,9 @@
 extends Projectile
 class_name PoisonBall
 
-@export_group("Poison Settings")
-## Dégâts infligés par le poison à chaque tick
-@export var poison_damage: float = 1.0
-## Durée totale du poison en secondes
-@export var poison_duration: float = 3.0
-## Intervalle entre chaque tick de dégâts de poison en secondes
-@export var poison_tick_interval: float = 0.5
+var poison_damage: float = 1.0
+var poison_duration: float = 3.0
+var poison_tick_interval: float = 0.5
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var trail_particles: GPUParticles2D = $TrailParticles
@@ -19,7 +15,7 @@ func _init() -> void:
 
 func on_hit_target(target: Node2D) -> void:
 	if is_instance_valid(target) and target.has_method("apply_poison"):
-		target.apply_poison(poison_damage, poison_duration, poison_tick_interval)
+		target.apply_poison(poison_damage, poison_duration, poison_tick_interval, source_tower)
 
 func _on_max_targets_reached() -> void:
 	set_deferred("monitoring", false)

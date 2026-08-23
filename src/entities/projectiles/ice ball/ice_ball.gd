@@ -1,11 +1,8 @@
 extends Projectile
 class_name IceBall
 
-@export_group("Freeze / Slow")
-## Facteur de vitesse pendant le ralentissement (0.5 = 50% de la vitesse normale de l'ennemi)
-@export_range(0.0, 1.0, 0.05) var slow_factor: float = 0.5
-## Durée en secondes pendant laquelle l'ennemi reste ralenti
-@export var slow_duration: float = 2.0
+var slow_factor: float = 0.5
+var slow_duration: float = 2.0
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var trail_particles: GPUParticles2D = $TrailParticles
@@ -17,7 +14,7 @@ func _init() -> void:
 
 func on_hit_target(target: Node2D) -> void:
 	if is_instance_valid(target) and target.has_method("apply_slow"):
-		target.apply_slow(slow_factor, slow_duration)
+		target.apply_slow(slow_factor, slow_duration, source_tower)
 
 func _on_max_targets_reached() -> void:
 	set_deferred("monitoring", false)

@@ -1,7 +1,16 @@
 [gd_scene format=3 uid="uid://cwiejn3yewt3q"]
 
+[ext_resource type="Texture2D" uid="uid://cp5s34r7ufk3k" path="res://assets/ui/buttons.png" id="1_kiktf"]
 [ext_resource type="Script" uid="uid://dm4lfj4oc6lrq" path="res://src/ui/tower anchor button/tower_anchor_button.gd" id="1_nnm8a"]
 [ext_resource type="Texture2D" uid="uid://cxpp8obwks88q" path="res://assets/Towers/Combat Towers/spr_tower.png" id="2_nnm8a"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_klhrl"]
+texture = ExtResource("1_kiktf")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 5.0
+region_rect = Rect2(3, 52, 10, 11)
 
 [node name="TowerAnchorButton" type="Button" unique_id=953996219]
 custom_minimum_size = Vector2(16, 16)
@@ -10,14 +19,26 @@ offset_right = 8.0
 offset_bottom = 8.0
 pivot_offset = Vector2(8, 8)
 offset_transform_enabled = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_klhrl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_klhrl")
+theme_override_styles/hover = SubResource("StyleBoxTexture_klhrl")
 script = ExtResource("1_nnm8a")
 
 [node name="IconRect" type="TextureRect" parent="." unique_id=1747460639]
-custom_minimum_size = Vector2(16, 16)
-custom_maximum_size = Vector2(16, 16)
-layout_mode = 0
-offset_right = 16.0
-offset_bottom = 16.0
+custom_minimum_size = Vector2(12, 12)
+custom_maximum_size = Vector2(14, 14)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_nnm8a")
 expand_mode = 5
 stretch_mode = 5
@@ -29,16 +50,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_right = 10.0
-offset_bottom = 12.0
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 14.0
+offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 8
 text = "99"
 
 [node name="NameLabel" type="Label" parent="." unique_id=2082894535]
-custom_minimum_size = Vector2(26, 12)
-custom_maximum_size = Vector2(26, 12)
+custom_minimum_size = Vector2(28, 12)
+custom_maximum_size = Vector2(28, 12)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -46,14 +69,14 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -13.0
-offset_top = -17.0
+offset_top = -19.0
 offset_right = 13.0
-offset_bottom = -5.0
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/line_spacing = -2
-theme_override_font_sizes/font_size = 4
-text = "Tower"
+theme_override_font_sizes/font_size = 8
+text = "Lightning Tower"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3

@@ -55,7 +55,6 @@ anim_speed_max = 1.0
 z_index = 1
 collision_layer = 2
 script = ExtResource("1_1e0t5")
-damage = 3.0
 damage_type = "ice"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=622399974]

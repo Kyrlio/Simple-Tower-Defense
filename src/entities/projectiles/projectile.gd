@@ -11,6 +11,7 @@ var direction: Vector2
 var has_hit: bool = false
 var targets_hit_count: int = 0
 var hit_targets: Array[Node2D] = []
+var source_tower: Node = null
 
 
 func _ready() -> void:

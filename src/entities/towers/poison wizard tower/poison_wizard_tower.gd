@@ -38,6 +38,9 @@ func _shoot() -> void:
 	instance.poison_damage = damage * poison_damage_ratio
 	instance.poison_duration = poison_duration
 	instance.poison_tick_interval = poison_tick_interval
+	instance.source_tower = self
+	var cur_range = get_detection_range()
+	instance.lifetime = maxf(2.0, (cur_range * 1.3) / maxf(1.0, speed))
 	
 	var projectile_node: Node2D = get_tree().current_scene.get_node_or_null("Projectiles")
 	if projectile_node:
@@ -60,3 +63,34 @@ func _on_reload_timer_timeout() -> void:
 func get_special_description() -> String:
 	var p_dmg = damage * poison_damage_ratio
 	return "Poison : %0.1f dmg/%0.1fs (%0.1fs)" % [p_dmg, poison_tick_interval, poison_duration]
+
+
+func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
+	var cur_pdmg = damage * poison_damage_ratio
+	var next_pdmg = damage * (poison_damage_ratio * 1.25)
+	upgrades.append({
+		"id": "poison_damage",
+		"name": "Poison Damage",
+		"level": get_upgrade_level("poison_damage"),
+		"cost": _calc_cost(40, 1.35, "poison_damage"),
+		"current_text": "%0.1f /tick" % cur_pdmg,
+		"next_text": "+25%% (%0.1f)" % next_pdmg,
+	})
+	
+	var next_dur = poison_duration * 1.2
+	upgrades.append({
+		"id": "poison_duration",
+		"name": "Poison Duration",
+		"level": get_upgrade_level("poison_duration"),
+		"cost": _calc_cost(35, 1.30, "poison_duration"),
+		"current_text": "%0.1fs" % poison_duration,
+		"next_text": "+20%% (%0.1fs)" % next_dur,
+	})
+
+
+func _apply_custom_upgrade(upgrade_id: String) -> void:
+	match upgrade_id:
+		"poison_damage":
+			poison_damage_ratio *= 1.25
+		"poison_duration":
+			poison_duration *= 1.2

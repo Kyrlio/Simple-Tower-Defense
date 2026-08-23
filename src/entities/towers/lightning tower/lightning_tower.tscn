@@ -79,7 +79,7 @@ libraries/ = SubResource("AnimationLibrary_gb54o")
 [node name="CollisionShape2D" parent="EnemyDetectionArea" parent_id_path=PackedInt32Array(1270546325) index="0" unique_id=615870665]
 shape = SubResource("CircleShape2D_r5gcp")
 
-[node name="Visuals" parent="." index="2" unique_id=1200347125]
+[node name="Visuals" parent="." index="4" unique_id=1200347125]
 y_sort_enabled = false
 
 [node name="Shadow" parent="Visuals" index="0" unique_id=1844820111]

@@ -30,12 +30,14 @@ var hitstop_amount: int = 1
 # Ralentissement (Slow / Freeze)
 var slow_multiplier: float = 1.0
 var slow_time_remaining: float = 0.0
+var slow_sources: Dictionary = {} # source_id (int) -> { "factor": float, "duration": float, "time_left": float }
 
 # Poison (DoT)
 var poison_damage_per_tick: float = 0.0
 var poison_time_remaining: float = 0.0
 var poison_tick_interval: float = 0.5
 var poison_tick_timer: float = 0.0
+var poison_sources: Dictionary = {} # source_id (int) -> { "damage_per_tick": float, "duration": float, "time_left": float, "tick_interval": float }
 
 # Transitions visuelles
 var status_tween: Tween
@@ -70,21 +72,57 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	# Gestion du ralentissement
-	if slow_time_remaining > 0.0:
-		slow_time_remaining -= delta
-		if slow_time_remaining <= 0.0:
-			_remove_slow()
+	if not slow_sources.is_empty():
+		var expired_slow_sources: Array = []
+		for src_id in slow_sources:
+			slow_sources[src_id]["time_left"] -= delta
+			if slow_sources[src_id]["time_left"] <= 0.0:
+				expired_slow_sources.append(src_id)
+		
+		if not expired_slow_sources.is_empty():
+			for src_id in expired_slow_sources:
+				slow_sources.erase(src_id)
+			_recalculate_slow()
+			_update_status_visuals()
+			update_animation_speed()
+			update_debug_label()
+		else:
+			var max_time: float = 0.0
+			for src_id in slow_sources:
+				max_time = maxf(max_time, slow_sources[src_id]["time_left"])
+			slow_time_remaining = max_time
+	elif slow_time_remaining > 0.0:
+		_remove_slow()
 	
 	# Gestion du poison (DoT)
-	if poison_time_remaining > 0.0 and not is_dead:
-		poison_time_remaining -= delta
-		poison_tick_timer -= delta
-		if poison_tick_timer <= 0.0:
-			poison_tick_timer = poison_tick_interval
-			take_damage(poison_damage_per_tick, "poison")
+	if not poison_sources.is_empty() and not is_dead:
+		var expired_poison_sources: Array = []
+		for src_id in poison_sources:
+			poison_sources[src_id]["time_left"] -= delta
+			if poison_sources[src_id]["time_left"] <= 0.0:
+				expired_poison_sources.append(src_id)
+		
+		if not expired_poison_sources.is_empty():
+			for src_id in expired_poison_sources:
+				poison_sources.erase(src_id)
+			_recalculate_poison()
+			_update_status_visuals()
+		
+		if not poison_sources.is_empty():
+			var max_time: float = 0.0
+			for src_id in poison_sources:
+				max_time = maxf(max_time, poison_sources[src_id]["time_left"])
+			poison_time_remaining = max_time
 			
-		if is_dead or poison_time_remaining <= 0.0:
+			poison_tick_timer -= delta
+			if poison_tick_timer <= 0.0:
+				poison_tick_timer = poison_tick_interval
+				take_damage(poison_damage_per_tick, "poison")
+				
+		if is_dead or poison_sources.is_empty():
 			_remove_poison()
+	elif poison_time_remaining > 0.0:
+		_remove_poison()
 	
 	if is_dead:
 		return
@@ -158,7 +196,7 @@ func get_current_speed() -> float:
 	return stats.speed * slow_multiplier
 
 
-func apply_slow(factor: float, duration: float) -> void:
+func apply_slow(factor: float, duration: float, source: Object = null) -> void:
 	if is_dead:
 		return
 	
@@ -166,16 +204,51 @@ func apply_slow(factor: float, duration: float) -> void:
 	if stats and stats.ice_resist >= 1.0:
 		return
 	
-	# Conserver le ralentissement le plus fort et rafraîchir la durée
-	slow_multiplier = minf(slow_multiplier, clampf(factor, 0.05, 1.0))
-	slow_time_remaining = maxf(slow_time_remaining, duration)
+	var source_id: int = source.get_instance_id() if is_instance_valid(source) else 0
+	var clamped_factor: float = clampf(factor, 0.05, 1.0)
 	
+	slow_sources[source_id] = {
+		"factor": clamped_factor,
+		"duration": duration,
+		"time_left": duration
+	}
+	
+	_recalculate_slow()
 	_update_status_visuals()
 	update_animation_speed()
 	update_debug_label()
 
 
+func _recalculate_slow() -> void:
+	if slow_sources.is_empty():
+		slow_time_remaining = 0.0
+		slow_multiplier = 1.0
+		return
+	
+	var reductions: Array[float] = []
+	var max_time: float = 0.0
+	for src_id in slow_sources:
+		var s_data: Dictionary = slow_sources[src_id]
+		var red: float = 1.0 - s_data["factor"]
+		reductions.append(red)
+		max_time = maxf(max_time, s_data["time_left"])
+	
+	reductions.sort_custom(func(a, b): return a > b)
+	
+	# Ralentissement principal : 100% de la réduction la plus forte
+	var total_reduction: float = reductions[0]
+	
+	# Ralentissements cumulés : +25% de la valeur de base de chaque autre tour
+	for i in range(1, reductions.size()):
+		total_reduction += reductions[i] * 0.25
+	
+	slow_time_remaining = max_time
+	# Plancher de sécurité à 0.1 (10% de vitesse) pour éviter que les ennemis s'arrêtent totalement (speed = 0)
+	slow_multiplier = clampf(1.0 - total_reduction, 0.1, 1.0)
+
+
 func _remove_slow() -> void:
+	slow_sources.clear()
 	slow_time_remaining = 0.0
 	slow_multiplier = 1.0
 	_update_status_visuals()
@@ -183,7 +256,7 @@ func _remove_slow() -> void:
 	update_debug_label()
 
 
-func apply_poison(damage_per_tick: float, duration: float, tick_interval: float = 0.5) -> void:
+func apply_poison(damage_per_tick: float, duration: float, tick_interval: float = 0.5, source: Object = null) -> void:
 	if is_dead:
 		return
 	
@@ -191,16 +264,55 @@ func apply_poison(damage_per_tick: float, duration: float, tick_interval: float 
 	if stats and stats.poison_resist >= 1.0:
 		return
 	
-	poison_damage_per_tick = maxf(poison_damage_per_tick, damage_per_tick)
-	poison_time_remaining = maxf(poison_time_remaining, duration)
-	poison_tick_interval = maxf(0.1, tick_interval)
+	var source_id: int = source.get_instance_id() if is_instance_valid(source) else 0
+	
+	poison_sources[source_id] = {
+		"damage_per_tick": damage_per_tick,
+		"duration": duration,
+		"time_left": duration,
+		"tick_interval": maxf(0.1, tick_interval)
+	}
+	
+	_recalculate_poison()
+	
 	if poison_tick_timer <= 0.0 or poison_tick_timer > poison_tick_interval:
 		poison_tick_timer = poison_tick_interval
 	
 	_update_status_visuals()
 
 
+func _recalculate_poison() -> void:
+	if poison_sources.is_empty():
+		poison_damage_per_tick = 0.0
+		poison_time_remaining = 0.0
+		poison_tick_interval = 0.5
+		return
+	
+	var damages: Array[float] = []
+	var max_time: float = 0.0
+	var min_interval: float = 0.5
+	for src_id in poison_sources:
+		var p_data: Dictionary = poison_sources[src_id]
+		damages.append(p_data["damage_per_tick"])
+		max_time = maxf(max_time, p_data["time_left"])
+		min_interval = minf(min_interval, p_data["tick_interval"])
+	
+	damages.sort_custom(func(a, b): return a > b)
+	
+	# Dégâts de poison principaux : 100% de la source la plus puissante
+	var total_dmg: float = damages[0]
+	
+	# Dégâts cumulés : +25% des dégâts de base de chaque autre tour
+	for i in range(1, damages.size()):
+		total_dmg += damages[i] * 0.25
+	
+	poison_damage_per_tick = total_dmg
+	poison_time_remaining = max_time
+	poison_tick_interval = maxf(0.1, min_interval)
+
+
 func _remove_poison() -> void:
+	poison_sources.clear()
 	poison_time_remaining = 0.0
 	poison_damage_per_tick = 0.0
 	poison_tick_timer = 0.0
@@ -214,8 +326,8 @@ func _update_status_visuals() -> void:
 	if status_tween and status_tween.is_valid():
 		status_tween.kill()
 	
-	var is_slowed: bool = slow_time_remaining > 0.0
-	var is_poisoned: bool = poison_time_remaining > 0.0
+	var is_slowed: bool = not slow_sources.is_empty() and slow_time_remaining > 0.0
+	var is_poisoned: bool = not poison_sources.is_empty() and poison_time_remaining > 0.0
 	
 	var target_color: Color = Color.WHITE
 	if is_slowed and is_poisoned:
@@ -251,14 +363,14 @@ func update_debug_label() -> void:
 
 
 func spawn_hit_particles() -> void:
-	if hit_particles_scene:
+	if hit_particles_scene and is_inside_tree() and get_tree() and get_tree().current_scene:
 		var instance: GPUParticles2D = hit_particles_scene.instantiate()
 		get_tree().current_scene.add_child(instance)
 		instance.global_position = global_position
 
 
 func spawn_death_particles() -> void:
-	if death_particles_scene:
+	if death_particles_scene and is_inside_tree() and get_tree() and get_tree().current_scene:
 		var instance: GPUParticles2D = death_particles_scene.instantiate()
 		get_tree().current_scene.add_child(instance)
 		instance.global_position = global_position
@@ -288,11 +400,8 @@ func die() -> void:
 	is_dead = true
 	
 	hitstop_frames = 0
-	slow_time_remaining = 0.0
-	slow_multiplier = 1.0
-	poison_time_remaining = 0.0
-	poison_damage_per_tick = 0.0
-	poison_tick_timer = 0.0
+	_remove_slow()
+	_remove_poison()
 	
 	if status_tween and status_tween.is_valid():
 		status_tween.kill()

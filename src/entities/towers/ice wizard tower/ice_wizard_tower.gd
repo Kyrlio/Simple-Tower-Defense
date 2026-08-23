@@ -35,6 +35,9 @@ func _shoot() -> void:
 	instance.speed = speed
 	instance.slow_factor = slow_factor
 	instance.slow_duration = slow_duration
+	instance.source_tower = self
+	var cur_range = get_detection_range()
+	instance.lifetime = maxf(2.0, (cur_range * 1.3) / maxf(1.0, speed))
 	
 	var projectile_node: Node2D = get_tree().current_scene.get_node_or_null("Projectiles")
 	if projectile_node:
@@ -56,4 +59,37 @@ func _on_reload_timer_timeout() -> void:
 
 func get_special_description() -> String:
 	var slow_pct = int((1.0 - slow_factor) * 100.0)
-	return "Ralentit de %d%% pendant %0.1fs" % [slow_pct, slow_duration]
+	return "Slows enemies by %d%% for %0.1fs" % [slow_pct, slow_duration]
+
+
+func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
+	var cur_pct = int((1.0 - slow_factor) * 100.0)
+	var next_factor = maxf(0.05, slow_factor * 0.85)
+	var next_pct = int((1.0 - next_factor) * 100.0)
+	
+	upgrades.append({
+		"id": "slow_power",
+		"name": "Slow Power",
+		"level": get_upgrade_level("slow_power"),
+		"cost": _calc_cost(45, 1.35, "slow_power"),
+		"current_text": "%d%% slow" % cur_pct,
+		"next_text": "+slow (%d%%)" % next_pct,
+	})
+	
+	var next_dur = slow_duration * 1.2
+	upgrades.append({
+		"id": "slow_duration",
+		"name": "Slow Duration",
+		"level": get_upgrade_level("slow_duration"),
+		"cost": _calc_cost(35, 1.30, "slow_duration"),
+		"current_text": "%0.1fs" % slow_duration,
+		"next_text": "+20%% (%0.1fs)" % next_dur,
+	})
+
+
+func _apply_custom_upgrade(upgrade_id: String) -> void:
+	match upgrade_id:
+		"slow_power":
+			slow_factor = maxf(0.05, slow_factor * 0.85)
+		"slow_duration":
+			slow_duration *= 1.2

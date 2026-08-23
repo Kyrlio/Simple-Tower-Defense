@@ -52,6 +52,7 @@ script = ExtResource("2_2j754")
 cannon_scene = ExtResource("3_g200b")
 damage = 4.0
 max_weapon_rotation_degrees = 20.0
+explosion_radius = 24.0
 shoot_reload_time = 3.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=1785204184]
@@ -60,7 +61,7 @@ libraries/ = SubResource("AnimationLibrary_h0b3c")
 [node name="CollisionShape2D" parent="EnemyDetectionArea" parent_id_path=PackedInt32Array(1270546325) index="0" unique_id=615870665]
 shape = SubResource("CircleShape2D_b8eky")
 
-[node name="Visuals" parent="." index="2" unique_id=1200347125]
+[node name="Visuals" parent="." index="4" unique_id=1200347125]
 y_sort_enabled = false
 
 [node name="Shadow" parent="Visuals" index="0" unique_id=1844820111]

@@ -94,29 +94,29 @@ func set_speed_mode(mode: SpeedMode) -> void:
 
 
 func _update_speed_buttons_ui() -> void:
-	var dim_color: Color = Color(1.0, 1.0, 1.0, 0.506)
+	var dim_color: Color = Color(1.0, 1.0, 1.0, 0.784)
 	
 	match current_speed_mode:
 		SpeedMode.PAUSE:
-			pause_button.modulate = Color(1.0, 0.85, 0.2, 1.0) # Jaune / Ambre
+			pause_button.modulate = Color(1.0, 0.635, 0.078, 1.0) # Jaune / Ambre
 			speed_1x_button.modulate = dim_color
 			speed_2x_button.modulate = dim_color
 			speed_3x_button.modulate = dim_color
 		SpeedMode.SPEED_1X:
 			pause_button.modulate = dim_color
-			speed_1x_button.modulate = Color(0.35, 0.9, 1.0, 1.0) # Cyan
+			speed_1x_button.modulate = Color(0.0, 0.661, 0.954, 1.0) # Cyan
 			speed_2x_button.modulate = dim_color
 			speed_3x_button.modulate = dim_color
 		SpeedMode.SPEED_2X:
 			pause_button.modulate = dim_color
 			speed_1x_button.modulate = dim_color
-			speed_2x_button.modulate = Color(0.3, 1.0, 0.5, 1.0) # Vert
+			speed_2x_button.modulate = Color(0.353, 0.773, 0.31, 1.0) # Vert
 			speed_3x_button.modulate = dim_color
 		SpeedMode.SPEED_3X:
 			pause_button.modulate = dim_color
 			speed_1x_button.modulate = dim_color
 			speed_2x_button.modulate = dim_color
-			speed_3x_button.modulate = Color(1.0, 0.45, 0.65, 1.0) # Rose / Corail vif
+			speed_3x_button.modulate = Color(0.918, 0.196, 0.235, 1.0) # Rose / Corail vif
 
 
 func _update_gold_label(amount: int) -> void:

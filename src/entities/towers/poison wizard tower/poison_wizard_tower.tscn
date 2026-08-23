@@ -22,17 +22,17 @@ _data = {
 [node name="PoisonWizardTower" unique_id=1405958972 instance=ExtResource("1_3ri4g")]
 script = ExtResource("2_5lbni")
 projectile = ExtResource("3_tfkiv")
-damage = 1.0
+damage = 2.5
 speed = 125.0
-poison_damage = 1.0
+poison_damage_ratio = 0.5
 poison_duration = 3.0
 poison_tick_interval = 0.5
-shoot_reload_time = 5.0
+shoot_reload_time = 3.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=1945336896]
 libraries/ = SubResource("AnimationLibrary_eubi0")
 
-[node name="Visuals" parent="." index="2" unique_id=1200347125]
+[node name="Visuals" parent="." index="4" unique_id=1200347125]
 y_sort_enabled = false
 
 [node name="BaseTower" parent="Visuals" index="1" unique_id=1691048206]
