@@ -61,18 +61,16 @@ libraries/ = SubResource("AnimationLibrary_h0b3c")
 [node name="CollisionShape2D" parent="EnemyDetectionArea" parent_id_path=PackedInt32Array(1270546325) index="0" unique_id=615870665]
 shape = SubResource("CircleShape2D_b8eky")
 
-[node name="Visuals" parent="." index="4" unique_id=1200347125]
-y_sort_enabled = false
-
-[node name="Shadow" parent="Visuals" index="0" unique_id=1844820111]
+[node name="Shadow" parent="Visuals" parent_id_path=PackedInt32Array(1200347125) index="0" unique_id=1844820111]
 position = Vector2(0, 5.9604645e-08)
 scale = Vector2(1.669643, 1.7968751)
 
-[node name="BaseTower" parent="Visuals" index="1" unique_id=1691048206]
+[node name="BaseTower" parent="Visuals" parent_id_path=PackedInt32Array(1200347125) index="1" unique_id=1691048206]
 texture = ExtResource("2_b8eky")
 offset = Vector2(0, -13)
 
-[node name="Weapon" parent="Visuals" index="2" unique_id=1827142402]
+[node name="Weapon" parent="Visuals" parent_id_path=PackedInt32Array(1200347125) index="2" unique_id=1827142402]
+z_index = 1
 position = Vector2(0, -21)
 texture = ExtResource("5_g200b")
 offset = Vector2(0, -2)

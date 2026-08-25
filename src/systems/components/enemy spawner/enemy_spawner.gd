@@ -12,6 +12,9 @@ class_name EnemySpawner
 ]
 @export var spawn_delay: float = 1.5 
 
+## Numéro de vague locale pour ce spawner (permet à la courbe de difficulté de démarrer à 1 lors de l'activation)
+var local_wave_index: int = 0 
+
 
 func spawn_enemy(difficulty_factor: float) -> void:
 	if not is_active or spawn_pool.is_empty():

@@ -18,9 +18,9 @@ class_name IceWizardTower
 
 func _setup_upgrade_costs() -> void:
 	damage_upgrade_base_cost = 120
-	damage_upgrade_cost_mult = 1.35
+	damage_upgrade_cost_mult = 1.5
 	reload_upgrade_base_cost = 130
-	reload_upgrade_cost_mult = 1.35
+	reload_upgrade_cost_mult = 1.5
 	range_upgrade_base_cost = 100
 	range_upgrade_cost_mult = 1.30
 

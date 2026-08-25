@@ -22,7 +22,7 @@ _data = {
 [node name="PoisonWizardTower" unique_id=1405958972 instance=ExtResource("1_3ri4g")]
 script = ExtResource("2_5lbni")
 projectile = ExtResource("3_tfkiv")
-damage = 2.5
+damage = 3.0
 speed = 125.0
 poison_damage_ratio = 0.5
 poison_duration = 3.0

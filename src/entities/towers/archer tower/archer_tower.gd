@@ -11,10 +11,10 @@ class_name ArcherTower
 
 
 func _setup_upgrade_costs() -> void:
-	damage_upgrade_base_cost = 20
-	damage_upgrade_cost_mult = 1.30
+	damage_upgrade_base_cost = 25
+	damage_upgrade_cost_mult = 1.35
 	reload_upgrade_base_cost = 20
-	reload_upgrade_cost_mult = 1.30
+	reload_upgrade_cost_mult = 1.25
 	range_upgrade_base_cost = 15
 	range_upgrade_cost_mult = 1.25
 

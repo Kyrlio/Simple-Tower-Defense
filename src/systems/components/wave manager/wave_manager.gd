@@ -37,12 +37,11 @@ func _ready() -> void:
 func _on_wave_timer_timeout() -> void:
 	difficulty_factor = difficulty_curve.get_difficulty_factor(current_wave)
 	
-	print("\n--- DEBUT VAGUE ", current_wave, " ---")
-	print("Facteur de Difficulté : ", difficulty_factor)
+	print("\n--- DEBUT VAGUE GLOBALE ", current_wave, " ---")
+	print("Facteur de Difficulté Global : ", difficulty_factor)
 	print("Pause de préparation suivante : ", wave_timer.wait_time, " secondes")
 	
 	GameEvents.wave_changed.emit(current_wave)
-	
 	
 	if current_wave == 15:
 		_activate_spawner(1, "North")
@@ -51,12 +50,14 @@ func _on_wave_timer_timeout() -> void:
 	elif current_wave == 35:
 		_activate_spawner(3, "South")
 	
-	var enemy_count: int = roundi(base_enemy_count * difficulty_factor)
-	enemy_count = max(enemy_count, base_enemy_count)
-	
 	for spawner in spawners:
 		if spawner.is_active:
-			spawner.spawn_wave(enemy_count, difficulty_factor)
+			spawner.local_wave_index += 1
+			var spawner_factor: float = difficulty_curve.get_difficulty_factor(spawner.local_wave_index)
+			var enemy_count: int = max(base_enemy_count, roundi(base_enemy_count * spawner_factor))
+			var lane_name: String = spawner.get_parent().name if spawner.get_parent() else spawner.name
+			print(" -> Spawner [", lane_name, "] : Vague locale ", spawner.local_wave_index, " | Diff: ", spawner_factor, " | Ennemis: ", enemy_count)
+			spawner.spawn_wave(enemy_count, spawner_factor)
 	
 	current_wave += 1
 	wave_timer.wait_time = wave_timer.wait_time * wave_timer_multiplier

@@ -13,11 +13,11 @@ extends Tower
 
 func _setup_upgrade_costs() -> void:
 	damage_upgrade_base_cost = 50
-	damage_upgrade_cost_mult = 1.35
+	damage_upgrade_cost_mult = 1.5
 	reload_upgrade_base_cost = 50
-	reload_upgrade_cost_mult = 1.35
+	reload_upgrade_cost_mult = 1.5
 	range_upgrade_base_cost = 40
-	range_upgrade_cost_mult = 1.30
+	range_upgrade_cost_mult = 1.45
 
 
 func _physics_process(_delta: float) -> void:

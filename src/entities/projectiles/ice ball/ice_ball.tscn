@@ -56,6 +56,7 @@ z_index = 1
 collision_layer = 2
 script = ExtResource("1_1e0t5")
 damage_type = "ice"
+max_targets = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=622399974]
 rotation = -1.5707964

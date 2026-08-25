@@ -17,11 +17,11 @@ var physical_damage_boost: float = 1.35
 
 func _setup_upgrade_costs() -> void:
 	damage_upgrade_base_cost = 90
-	damage_upgrade_cost_mult = 1.35
+	damage_upgrade_cost_mult = 1.5
 	reload_upgrade_base_cost = 90
-	reload_upgrade_cost_mult = 1.35
+	reload_upgrade_cost_mult = 1.5
 	range_upgrade_base_cost = 70
-	range_upgrade_cost_mult = 1.30
+	range_upgrade_cost_mult = 1.45
 
 
 func _physics_process(delta: float) -> void:
