@@ -215,6 +215,7 @@ offset_bottom = 67.5
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(89, 67)
+offset_transform_enabled = true
 
 [node name="VBox" type="VBoxContainer" parent="SettingsPanel" unique_id=2049182750]
 layout_mode = 2

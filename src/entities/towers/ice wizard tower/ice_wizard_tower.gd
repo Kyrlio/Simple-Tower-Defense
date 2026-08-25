@@ -16,6 +16,15 @@ class_name IceWizardTower
 @onready var muzzle: Marker2D = $Visuals/Weapon/Muzzle
 
 
+func _setup_upgrade_costs() -> void:
+	damage_upgrade_base_cost = 120
+	damage_upgrade_cost_mult = 1.35
+	reload_upgrade_base_cost = 130
+	reload_upgrade_cost_mult = 1.35
+	range_upgrade_base_cost = 100
+	range_upgrade_cost_mult = 1.30
+
+
 func _physics_process(_delta: float) -> void:
 	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
 	
@@ -72,9 +81,9 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "slow_power",
 		"name": "Slow Power",
 		"level": get_upgrade_level("slow_power"),
-		"cost": _calc_cost(45, 1.35, "slow_power"),
+		"cost": _calc_cost(140, 1.35, "slow_power"),
 		"current_text": "%d%% slow" % cur_pct,
-		"next_text": "+slow (%d%%)" % next_pct,
+		"next_text": "%d%% slow (+slow)" % next_pct,
 	})
 	
 	var next_dur = slow_duration * 1.2
@@ -82,9 +91,9 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "slow_duration",
 		"name": "Slow Duration",
 		"level": get_upgrade_level("slow_duration"),
-		"cost": _calc_cost(35, 1.30, "slow_duration"),
+		"cost": _calc_cost(120, 1.30, "slow_duration"),
 		"current_text": "%0.1fs" % slow_duration,
-		"next_text": "+20%% (%0.1fs)" % next_dur,
+		"next_text": "%0.1fs (+20%%)" % next_dur,
 	})
 
 

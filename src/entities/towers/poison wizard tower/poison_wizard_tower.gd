@@ -18,6 +18,15 @@ class_name PoisonWizardTower
 @onready var muzzle: Marker2D = $Visuals/Weapon/Muzzle
 
 
+func _setup_upgrade_costs() -> void:
+	damage_upgrade_base_cost = 180
+	damage_upgrade_cost_mult = 1.35
+	reload_upgrade_base_cost = 180
+	reload_upgrade_cost_mult = 1.35
+	range_upgrade_base_cost = 140
+	range_upgrade_cost_mult = 1.30
+
+
 func _physics_process(_delta: float) -> void:
 	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
 	
@@ -73,9 +82,9 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "poison_damage",
 		"name": "Poison Damage",
 		"level": get_upgrade_level("poison_damage"),
-		"cost": _calc_cost(40, 1.35, "poison_damage"),
+		"cost": _calc_cost(160, 1.35, "poison_damage"),
 		"current_text": "%0.1f /tick" % cur_pdmg,
-		"next_text": "+25%% (%0.1f)" % next_pdmg,
+		"next_text": "%0.1f /tick (+25%%)" % next_pdmg,
 	})
 	
 	var next_dur = poison_duration * 1.2
@@ -83,9 +92,9 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "poison_duration",
 		"name": "Poison Duration",
 		"level": get_upgrade_level("poison_duration"),
-		"cost": _calc_cost(35, 1.30, "poison_duration"),
+		"cost": _calc_cost(140, 1.30, "poison_duration"),
 		"current_text": "%0.1fs" % poison_duration,
-		"next_text": "+20%% (%0.1fs)" % next_dur,
+		"next_text": "%0.1fs (+20%%)" % next_dur,
 	})
 
 

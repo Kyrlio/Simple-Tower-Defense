@@ -15,6 +15,15 @@ var current_target: Node2D = null
 var physical_damage_boost: float = 1.35
 
 
+func _setup_upgrade_costs() -> void:
+	damage_upgrade_base_cost = 90
+	damage_upgrade_cost_mult = 1.35
+	reload_upgrade_base_cost = 90
+	reload_upgrade_cost_mult = 1.35
+	range_upgrade_base_cost = 70
+	range_upgrade_cost_mult = 1.30
+
+
 func _physics_process(delta: float) -> void:
 	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
 	
@@ -56,9 +65,9 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "explosion_radius",
 		"name": "Explosion Radius",
 		"level": get_upgrade_level("explosion_radius"),
-		"cost": _calc_cost(40, 1.35, "explosion_radius"),
+		"cost": _calc_cost(95, 1.35, "explosion_radius"),
 		"current_text": "%d px" % int(explosion_radius),
-		"next_text": "+20%% (%d px)" % int(next_rad),
+		"next_text": "%d px (+20%%)" % int(next_rad),
 	})
 
 

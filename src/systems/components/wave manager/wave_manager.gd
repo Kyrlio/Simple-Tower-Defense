@@ -44,7 +44,7 @@ func _on_wave_timer_timeout() -> void:
 	GameEvents.wave_changed.emit(current_wave)
 	
 	
-	if current_wave == 10:
+	if current_wave == 15:
 		_activate_spawner(1, "North")
 	elif current_wave == 25:
 		_activate_spawner(2, "East")

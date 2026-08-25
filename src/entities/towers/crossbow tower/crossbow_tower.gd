@@ -11,6 +11,15 @@ extends Tower
 @onready var muzzle: Marker2D = $Visuals/Weapon/Muzzle
 
 
+func _setup_upgrade_costs() -> void:
+	damage_upgrade_base_cost = 50
+	damage_upgrade_cost_mult = 1.35
+	reload_upgrade_base_cost = 50
+	reload_upgrade_cost_mult = 1.35
+	range_upgrade_base_cost = 40
+	range_upgrade_cost_mult = 1.30
+
+
 func _physics_process(_delta: float) -> void:
 	if enemies.size() > 0:
 		weapon.look_at(enemies[0].global_position)
@@ -58,9 +67,9 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "max_targets",
 		"name": "Max Targets",
 		"level": get_upgrade_level("max_targets"),
-		"cost": _calc_cost(50, 1.45, "max_targets"),
+		"cost": _calc_cost(75, 1.45, "max_targets"),
 		"current_text": "%d targets" % max_targets,
-		"next_text": "+1 (%d targets)" % next_targets,
+		"next_text": "%d targets (+1)" % next_targets,
 	})
 
 

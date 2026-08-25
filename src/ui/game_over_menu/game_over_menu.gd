@@ -56,7 +56,7 @@ func open_game_over_menu() -> void:
 	_menu_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	_menu_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	_menu_tween.tween_property(self, "modulate:a", 1.0, 0.25).from(0.0)
-	_menu_tween.tween_property(game_over_container, "scale", Vector2.ONE, 0.3).from(Vector2(0.85, 0.85))
+	_menu_tween.tween_property(game_over_container, "offset_transform_scale", Vector2.ONE, 0.3).from(Vector2(0.85, 0.85))
 
 
 func _on_restart_pressed() -> void:

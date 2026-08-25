@@ -134,7 +134,7 @@ func _show_settings() -> void:
 		_settings_tween.kill()
 	_settings_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	_settings_tween.tween_property(settings_panel, "modulate:a", 1.0, 0.25)
-	_settings_tween.tween_property(settings_panel, "scale", Vector2.ONE, 0.25).from(Vector2(0.85, 0.85))
+	_settings_tween.tween_property(settings_panel, "offset_transform_scale", Vector2.ONE, 0.25).from(Vector2(0.85, 0.85))
 	
 	# Make main buttons non-interactable while settings is open
 	main_buttons_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -145,7 +145,7 @@ func _hide_settings() -> void:
 		_settings_tween.kill()
 	_settings_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	_settings_tween.tween_property(settings_panel, "modulate:a", 0.0, 0.15)
-	_settings_tween.tween_property(settings_panel, "scale", Vector2(0.85, 0.85), 0.15)
+	_settings_tween.tween_property(settings_panel, "offset_transform_scale", Vector2(0.85, 0.85), 0.15)
 	_settings_tween.chain().tween_callback(func() -> void:
 		settings_panel.visible = false
 		main_buttons_container.mouse_filter = Control.MOUSE_FILTER_STOP

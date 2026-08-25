@@ -10,6 +10,15 @@ class_name ArcherTower
 @onready var muzzle: Marker2D = $Visuals/Weapon/Muzzle
 
 
+func _setup_upgrade_costs() -> void:
+	damage_upgrade_base_cost = 20
+	damage_upgrade_cost_mult = 1.30
+	reload_upgrade_base_cost = 20
+	reload_upgrade_cost_mult = 1.30
+	range_upgrade_base_cost = 15
+	range_upgrade_cost_mult = 1.25
+
+
 func _physics_process(_delta: float) -> void:
 	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
 	
@@ -58,9 +67,9 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "arrow_speed",
 		"name": "Arrow Speed",
 		"level": get_upgrade_level("arrow_speed"),
-		"cost": _calc_cost(20, 1.30, "arrow_speed"),
+		"cost": _calc_cost(15, 1.25, "arrow_speed"),
 		"current_text": "%d px/s" % int(speed),
-		"next_text": "+25%% (%d px/s)" % int(next_spd),
+		"next_text": "%d px/s (+25%%)" % int(next_spd),
 	})
 
 

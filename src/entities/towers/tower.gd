@@ -3,6 +3,14 @@ class_name Tower
 
 @export var shoot_reload_time: float = 1.0
 
+@export_group("Upgrade Settings")
+@export var damage_upgrade_base_cost: int = 20
+@export var damage_upgrade_cost_mult: float = 1.30
+@export var reload_upgrade_base_cost: int = 20
+@export var reload_upgrade_cost_mult: float = 1.30
+@export var range_upgrade_base_cost: int = 15
+@export var range_upgrade_cost_mult: float = 1.25
+
 @onready var reload_timer: Timer = $ReloadTimer
 @onready var range_indicator: Node2D = get_node_or_null("RangeIndicator")
 @onready var click_area: Area2D = get_node_or_null("ClickArea")
@@ -12,9 +20,11 @@ var stats: TowerStats = null
 var is_selected: bool = false
 var is_preview: bool = false
 var upgrade_levels: Dictionary = {}
+var _costs_initialized: bool = false
 
 
 func _ready() -> void:
+	_ensure_upgrade_costs()
 	reload_timer.wait_time = shoot_reload_time
 	
 	# Isolation de la ressource de collision par instance pour éviter d'impacter les autres tours
@@ -140,23 +150,9 @@ func get_upgrade_level(upgrade_id: String) -> int:
 
 
 func get_upgrade_cost(upgrade_id: String) -> int:
-	match upgrade_id:
-		"damage": return _calc_cost(30, 1.35, "damage")
-		"reload_speed": return _calc_cost(35, 1.35, "reload_speed")
-		"range": return _calc_cost(25, 1.35, "range")
-		"arrow_speed": return _calc_cost(20, 1.30, "arrow_speed")
-		"explosion_radius": return _calc_cost(40, 1.35, "explosion_radius")
-		"max_targets": return _calc_cost(50, 1.45, "max_targets")
-		"slow_power": return _calc_cost(45, 1.35, "slow_power")
-		"slow_duration": return _calc_cost(35, 1.30, "slow_duration")
-		"poison_damage": return _calc_cost(40, 1.35, "poison_damage")
-		"poison_duration": return _calc_cost(35, 1.30, "poison_duration")
-		"max_bounces": return _calc_cost(55, 1.45, "max_bounces")
-		"bounce_range": return _calc_cost(35, 1.35, "bounce_range")
-		_:
-			for upg in get_available_upgrades():
-				if upg["id"] == upgrade_id:
-					return upg["cost"]
+	for upg in get_available_upgrades():
+		if upg["id"] == upgrade_id:
+			return upg.get("cost", 0)
 	return 0
 
 
@@ -212,49 +208,60 @@ func _apply_upgrade(upgrade_id: String) -> void:
 			_apply_custom_upgrade(upgrade_id)
 
 
+func _ensure_upgrade_costs() -> void:
+	if not _costs_initialized:
+		_costs_initialized = true
+		_setup_upgrade_costs()
+
+
+func _setup_upgrade_costs() -> void:
+	pass
+
+
 func _apply_custom_upgrade(_upgrade_id: String) -> void:
 	pass
 
 
 func get_available_upgrades() -> Array[Dictionary]:
+	_ensure_upgrade_costs()
 	var upgrades: Array[Dictionary] = []
 	
 	# 1. Damage (+20%)
 	var dmg = get_damage_value()
-	var next_dmg = dmg * 1.1
+	var next_dmg = dmg * 1.2
 	upgrades.append({
 		"id": "damage",
 		"name": "Damage",
 		"level": get_upgrade_level("damage"),
-		"cost": _calc_cost(50, 1.8, "damage"),
+		"cost": _calc_cost(damage_upgrade_base_cost, damage_upgrade_cost_mult, "damage"),
 		"current_text": _format_num(dmg),
-		"next_text": "+20% (" + _format_num(next_dmg) + ")",
+		"next_text": _format_num(next_dmg) + " (+20%)",
 	})
 	
 	# 2. Reload Speed (-10% reload time)
 	var r_time = get_reload_time()
-	var next_r_time = maxf(0.05, r_time * 0.95)
+	var next_r_time = maxf(0.05, r_time * 0.9)
 	var cur_spd = get_attack_speed()
 	var next_spd = 1.0 / next_r_time
 	upgrades.append({
 		"id": "reload_speed",
 		"name": "Reload Speed",
 		"level": get_upgrade_level("reload_speed"),
-		"cost": _calc_cost(45, 1.8, "reload_speed"),
+		"cost": _calc_cost(reload_upgrade_base_cost, reload_upgrade_cost_mult, "reload_speed"),
 		"current_text": "%0.2fs (%0.1f/s)" % [r_time, cur_spd],
-		"next_text": "-10%% (%0.2fs)" % next_r_time,
+		"next_text": "%0.2fs (-10%%)" % next_r_time,
 	})
 	
 	# 3. Range (+15%)
 	var rng = get_detection_range()
-	var next_rng = rng * 1.05
+	var next_rng = rng * 1.15
 	upgrades.append({
 		"id": "range",
 		"name": "Range",
 		"level": get_upgrade_level("range"),
-		"cost": _calc_cost(35, 1.35, "range"),
+		"cost": _calc_cost(range_upgrade_base_cost, range_upgrade_cost_mult, "range"),
 		"current_text": "%d px" % int(rng),
-		"next_text": "+15%% (%d px)" % int(next_rng),
+		"next_text": "%d px (+15%%)" % int(next_rng),
 	})
 	
 	# Améliorations personnalisées par sous-classe

@@ -25,6 +25,15 @@ extends Tower
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
+func _setup_upgrade_costs() -> void:
+	damage_upgrade_base_cost = 500
+	damage_upgrade_cost_mult = 2
+	reload_upgrade_base_cost = 400
+	reload_upgrade_cost_mult = 2
+	range_upgrade_base_cost = 225
+	range_upgrade_cost_mult = 1.5
+
+
 ## Nettoie la liste des ennemis des références invalides ou supprimées
 func _clean_enemies() -> void:
 	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
@@ -273,7 +282,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"level": get_upgrade_level("max_bounces"),
 		"cost": _calc_cost(350, 1.45, "max_bounces"),
 		"current_text": "%d bounces" % max_bounces,
-		"next_text": "+1 (%d bounces)" % next_bounces,
+		"next_text": "%d bounces (+1)" % next_bounces,
 	})
 	
 	var next_brange = bounce_range * 1.2
@@ -281,9 +290,9 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "bounce_range",
 		"name": "Bounce Range",
 		"level": get_upgrade_level("bounce_range"),
-		"cost": _calc_cost(75, 1.35, "bounce_range"),
+		"cost": _calc_cost(180, 1.35, "bounce_range"),
 		"current_text": "%d px" % int(bounce_range),
-		"next_text": "+20%% (%d px)" % int(next_brange),
+		"next_text": "%d px (+20%%)" % int(next_brange),
 	})
 
 

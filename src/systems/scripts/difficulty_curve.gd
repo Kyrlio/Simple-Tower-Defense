@@ -6,12 +6,13 @@ extends Resource
 
 @export_group("Base Configuration")
 @export var base_difficulty: float = 1.0
+## Croissance par vague (ex: 0.25 = +25% de base par vague)
+@export var linear_growth: float = 0.25
 
-@export_group("Logarithmic Growth")
-## Facteur multiplicateur de la croissance logarithmique (hauteur globale de la courbe)
-@export var log_scale: float = 1.5
-## Vitesse de la croissance logarithmique initiale (plus la valeur est élevée, plus la courbe grimpe vite au départ)
-@export var log_growth: float = 0.3
+@export_group("Growth Settings")
+## Facteur exponentiel pour faire exploser la difficulté en mid/late game
+@export var exponential_power: float = 1.2
+@export var exponential_scale: float = 0.08
 
 @export_group("Wavy Oscillations")
 ## Amplitude des oscillations (hauteur des pics de difficulté et profondeur des creux de récupération)
@@ -22,18 +23,14 @@ extends Resource
 
 ## Calcule le coefficient multiplicateur de difficulté pour une vague donnée
 func get_difficulty_factor(wave_num: int) -> float:
-	# On décale wave_num pour commencer à x = 0 pour la vague 1
 	var x: float = float(wave_num - 1)
 	
-	# 1. Composante Logarithmique (croissance globale stable qui s'adoucit en fin de partie)
-	# log() dans GDScript est le logarithme népérien (ln)
-	var log_part: float = log_scale * log(log_growth * x + 1.0)
+	# Croissance linéaire de base + accélération exponentielle
+	var linear_part: float = linear_growth * x
+	var expo_part: float = exponential_scale * pow(x, exponential_power)
 	
-	# 2. Composante Ondulatoire (génère les phases d'assaut intenses puis de calme)
+	# Oscillations de tension / répit
 	var wave_part: float = wave_amplitude * sin(wave_frequency * x)
 	
-	# 3. Somme finale
-	var final_factor: float = base_difficulty + log_part + wave_part
-	
-	# Protection pour éviter un multiplicateur négatif ou nul sur les vagues de très bas niveau
+	var final_factor: float = base_difficulty + linear_part + expo_part + wave_part
 	return maxf(final_factor, 0.1)

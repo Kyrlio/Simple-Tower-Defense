@@ -1,13 +1,13 @@
-[gd_scene format=3 uid="uid://cp6o4w7m9j1qv"]
+[gd_scene format=3 uid="uid://cp6o4w7naj1qv"]
 
 [ext_resource type="Theme" uid="uid://lxs2moieqs26" path="res://src/systems/resources/global_theme.tres" id="1_theme"]
-[ext_resource type="Script" path="res://src/ui/game_over_menu/game_over_menu.gd" id="2_gameover"]
+[ext_resource type="Script" uid="uid://d3oqfomxar6p3" path="res://src/ui/game_over_menu/game_over_menu.gd" id="2_gameover"]
 [ext_resource type="Script" uid="uid://gxs42jl0pbe6" path="res://src/ui/animated_button.gd" id="3_animbtn"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
 color = Color(0.45, 0.25, 0.3, 0.7)
 
-[node name="GameOverMenu" type="Control"]
+[node name="GameOverMenu" type="Control" unique_id=2104054351]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -18,7 +18,7 @@ grow_vertical = 2
 theme = ExtResource("1_theme")
 script = ExtResource("2_gameover")
 
-[node name="Backdrop" type="ColorRect" parent="."]
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1329189376]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,7 +27,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.06, 0.02, 0.03, 0.75)
 
-[node name="GameOverContainer" type="PanelContainer" parent="."]
+[node name="GameOverContainer" type="PanelContainer" parent="." unique_id=978678567]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 110)
 layout_mode = 1
@@ -43,20 +43,21 @@ offset_bottom = 55.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(65, 55)
+offset_transform_enabled = true
 
-[node name="VBox" type="VBoxContainer" parent="GameOverContainer"]
+[node name="VBox" type="VBoxContainer" parent="GameOverContainer" unique_id=108561422]
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="GameOverTitle" type="Label" parent="GameOverContainer/VBox"]
+[node name="GameOverTitle" type="Label" parent="GameOverContainer/VBox" unique_id=28076564]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.26, 0.26, 1)
 theme_override_font_sizes/font_size = 12
 text = "GAME OVER"
 horizontal_alignment = 1
 
-[node name="WavesSurvivedLabel" type="Label" parent="GameOverContainer/VBox"]
+[node name="WavesSurvivedLabel" type="Label" parent="GameOverContainer/VBox" unique_id=304435900]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.88, 0.5, 1)
@@ -64,17 +65,17 @@ theme_override_font_sizes/font_size = 8
 text = "Waves Survived: 0"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="GameOverContainer/VBox"]
+[node name="HSeparator" type="HSeparator" parent="GameOverContainer/VBox" unique_id=1127022866]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_sep")
 
-[node name="ButtonsContainer" type="VBoxContainer" parent="GameOverContainer/VBox"]
+[node name="ButtonsContainer" type="VBoxContainer" parent="GameOverContainer/VBox" unique_id=589709089]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="RestartButton" type="Button" parent="GameOverContainer/VBox/ButtonsContainer"]
+[node name="RestartButton" type="Button" parent="GameOverContainer/VBox/ButtonsContainer" unique_id=1806887638]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 18)
 layout_mode = 2
@@ -84,7 +85,7 @@ theme_override_font_sizes/font_size = 8
 text = "Restart"
 script = ExtResource("3_animbtn")
 
-[node name="QuitButton" type="Button" parent="GameOverContainer/VBox/ButtonsContainer"]
+[node name="QuitButton" type="Button" parent="GameOverContainer/VBox/ButtonsContainer" unique_id=1319113863]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(75, 18)
 layout_mode = 2
