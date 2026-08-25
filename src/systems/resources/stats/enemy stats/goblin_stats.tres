@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_lln5a")
 name = "Goblin"
-max_hp = 25.0
 hp = 3.0
 speed = 8.0
 gold_reward = 15

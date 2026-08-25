@@ -221,38 +221,38 @@ func get_available_upgrades() -> Array[Dictionary]:
 	
 	# 1. Damage (+20%)
 	var dmg = get_damage_value()
-	var next_dmg = dmg * 1.2
+	var next_dmg = dmg * 1.1
 	upgrades.append({
 		"id": "damage",
 		"name": "Damage",
 		"level": get_upgrade_level("damage"),
-		"cost": _calc_cost(30, 1.35, "damage"),
+		"cost": _calc_cost(50, 1.8, "damage"),
 		"current_text": _format_num(dmg),
 		"next_text": "+20% (" + _format_num(next_dmg) + ")",
 	})
 	
 	# 2. Reload Speed (-10% reload time)
 	var r_time = get_reload_time()
-	var next_r_time = maxf(0.05, r_time * 0.9)
+	var next_r_time = maxf(0.05, r_time * 0.95)
 	var cur_spd = get_attack_speed()
 	var next_spd = 1.0 / next_r_time
 	upgrades.append({
 		"id": "reload_speed",
 		"name": "Reload Speed",
 		"level": get_upgrade_level("reload_speed"),
-		"cost": _calc_cost(35, 1.35, "reload_speed"),
+		"cost": _calc_cost(45, 1.8, "reload_speed"),
 		"current_text": "%0.2fs (%0.1f/s)" % [r_time, cur_spd],
 		"next_text": "-10%% (%0.2fs)" % next_r_time,
 	})
 	
 	# 3. Range (+15%)
 	var rng = get_detection_range()
-	var next_rng = rng * 1.15
+	var next_rng = rng * 1.05
 	upgrades.append({
 		"id": "range",
 		"name": "Range",
 		"level": get_upgrade_level("range"),
-		"cost": _calc_cost(25, 1.35, "range"),
+		"cost": _calc_cost(35, 1.35, "range"),
 		"current_text": "%d px" % int(rng),
 		"next_text": "+15%% (%d px)" % int(next_rng),
 	})

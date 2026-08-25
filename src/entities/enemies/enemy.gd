@@ -185,7 +185,7 @@ func apply_scale_difficulty(factor: float) -> void:
 		if base_speed <= 0.0:
 			base_speed = stats.speed
 		stats = stats.duplicate()
-		stats.hp = clampf(stats.hp * factor, stats.hp, stats.max_hp)
+		stats.hp = maxf(1.0, stats.hp * factor)
 		stats.speed = stats.speed * (1.0 + (factor - 1.0) * 0.2)
 		cur_hp = stats.hp
 		difficulty_factor = factor
@@ -357,9 +357,8 @@ func update_animation_speed() -> void:
 func update_debug_label() -> void:
 	var label: Label = get_node_or_null("Label")
 	if label and stats:
-		label.text = "speed: %.1f\nmax_hp: %.1f\nhp: %.1f\ncur_hp: %.1f" % [
+		label.text = "speed: %.1f\nhp: %.1f\ncur_hp: %.1f" % [
 			get_current_speed(),
-			stats.max_hp,
 			stats.hp,
 			cur_hp
 		]

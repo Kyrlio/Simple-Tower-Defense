@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_qtjvt")
 name = "Zombie"
-max_hp = 125.0
 hp = 3.0
 speed = 8.0
 gold_reward = 40

@@ -1,0 +1,265 @@
+[gd_scene format=3 uid="uid://bv5e6h6x2qwer"]
+
+[ext_resource type="Theme" uid="uid://lxs2moieqs26" path="res://src/systems/resources/global_theme.tres" id="1_theme"]
+[ext_resource type="Script" uid="uid://ckc63lcnvn25v" path="res://src/ui/pause_menu/pause_menu.gd" id="2_pause"]
+[ext_resource type="Script" uid="uid://gxs42jl0pbe6" path="res://src/ui/animated_button.gd" id="3_animbtn"]
+[ext_resource type="Texture2D" uid="uid://cp5s34r7ufk3k" path="res://assets/ui/buttons.png" id="4_btntex"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
+color = Color(0.35, 0.42, 0.52, 0.7)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_close_hover"]
+texture = ExtResource("4_btntex")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(3, 100, 10, 11)
+
+[node name="PauseMenu" type="Control" unique_id=-1275683555]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_pause")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=-1275683554]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.08, 0.65)
+
+[node name="PauseContainer" type="PanelContainer" parent="." unique_id=-1275683553]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 110)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -55.0
+offset_right = 65.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(65, 55)
+
+[node name="VBox" type="VBoxContainer" parent="PauseContainer" unique_id=-1275683552]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="PauseTitle" type="Label" parent="PauseContainer/VBox" unique_id=-1275683551]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.4, 1)
+theme_override_font_sizes/font_size = 10
+text = "Pause"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PauseContainer/VBox" unique_id=-1275683550]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_sep")
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="PauseContainer/VBox" unique_id=-1275683549]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="ResumeButton" type="Button" parent="PauseContainer/VBox/ButtonsContainer" unique_id=-1275683548]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Resume"
+script = ExtResource("3_animbtn")
+
+[node name="SettingsButton" type="Button" parent="PauseContainer/VBox/ButtonsContainer" unique_id=-1275683547]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Settings"
+script = ExtResource("3_animbtn")
+
+[node name="QuitButton" type="Button" parent="PauseContainer/VBox/ButtonsContainer" unique_id=-1275683546]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Main Menu"
+script = ExtResource("3_animbtn")
+
+[node name="SettingsPanel" type="PanelContainer" parent="." unique_id=-1275683545]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(178, 135)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -89.0
+offset_top = -67.5
+offset_right = 89.0
+offset_bottom = 67.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(89, 67)
+
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel" unique_id=-1275683544]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="SettingsPanel/VBox" unique_id=-1275683543]
+layout_mode = 2
+alignment = 1
+
+[node name="SettingsTitle" type="Label" parent="SettingsPanel/VBox/Header" unique_id=-1275683542]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.4, 1)
+theme_override_font_sizes/font_size = 8
+text = "Settings"
+
+[node name="SettingsCloseButton" type="Button" parent="SettingsPanel/VBox/Header" unique_id=-1275683541]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 5
+theme_override_styles/hover = SubResource("StyleBoxTexture_close_hover")
+text = "✕"
+script = ExtResource("3_animbtn")
+
+[node name="HSeparator" type="HSeparator" parent="SettingsPanel/VBox" unique_id=-1275683540]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_sep")
+
+[node name="OptionsContainer" type="VBoxContainer" parent="SettingsPanel/VBox" unique_id=-1275683539]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="MasterVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=-1275683538]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="VolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=-1275683537]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Master :"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=-1275683536]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+step = 5.0
+value = 100.0
+
+[node name="MasterVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=-1275683535]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SfxVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=-1275683534]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SfxVolumeTitle" type="Label" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=-1275683533]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "SFX/Towers :"
+
+[node name="SfxVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=-1275683532]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+step = 5.0
+value = 100.0
+
+[node name="SfxVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=-1275683531]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "100%"
+horizontal_alignment = 2
+
+[node name="UiVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=-1275683530]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="UiVolumeTitle" type="Label" parent="SettingsPanel/VBox/OptionsContainer/UiVolumeRow" unique_id=-1275683529]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "UI/Menus :"
+
+[node name="UiVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/UiVolumeRow" unique_id=-1275683528]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+step = 5.0
+value = 100.0
+
+[node name="UiVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/UiVolumeRow" unique_id=-1275683527]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "100%"
+horizontal_alignment = 2
+
+[node name="FullscreenRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=-1275683526]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/FullscreenRow" unique_id=-1275683525]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Plein Écran :"
+
+[node name="FullscreenCheckBox" type="CheckBox" parent="SettingsPanel/VBox/OptionsContainer/FullscreenRow" unique_id=-1275683524]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0

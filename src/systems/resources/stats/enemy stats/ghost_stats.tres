@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_5e5i6")
 name = "Ghost"
-max_hp = 40.0
+hp = 4.0
 speed = 5.5
 gold_reward = 20
 physical_resist = 1.0

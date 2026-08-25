@@ -5,12 +5,11 @@
 [resource]
 script = ExtResource("1_gn3df")
 name = "Demon"
-max_hp = 500.0
 hp = 25.0
 speed = 7.0
 gold_reward = 30
-physical_resist = 0.10000000000000009
+physical_resist = 0.10000000000000007
 fire_resist = 1.0
 ice_resist = -1.0
-poison_resist = 0.10000000000000009
+poison_resist = 0.10000000000000007
 metadata/_custom_type_script = "uid://cwi7jj4fejrs2"

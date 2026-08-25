@@ -43,8 +43,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_ESCAPE:
 			if is_placing:
 				cancel_placement()
+				get_viewport().set_input_as_handled()
 			else:
-				GameEvents.tower_uninspected.emit()
+				var has_inspected_tower: bool = false
+				for t in get_tree().get_nodes_in_group("towers"):
+					if t is Tower and t.is_selected:
+						has_inspected_tower = true
+						break
+				if has_inspected_tower:
+					GameEvents.tower_uninspected.emit()
+					get_viewport().set_input_as_handled()
 	
 	if is_placing:
 		if event is InputEventMouseMotion:

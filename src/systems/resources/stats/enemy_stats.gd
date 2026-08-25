@@ -2,7 +2,6 @@ extends Resource
 class_name EnemyStats
 
 @export var name: String = "Enemy"
-@export var max_hp: float = 10.0
 @export var hp: float = 2.0
 @export var speed: float = 25.0
 @export var attack_speed: float = 3.5

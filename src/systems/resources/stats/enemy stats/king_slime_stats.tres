@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_o5ylo")
 name = "King Slime"
-max_hp = 250.0
 hp = 25.0
 speed = 2.0
 attack_speed = 5.0

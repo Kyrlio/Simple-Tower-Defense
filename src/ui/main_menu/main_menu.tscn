@@ -201,7 +201,6 @@ horizontal_alignment = 2
 
 [node name="SettingsPanel" type="PanelContainer" parent="." unique_id=2049182749]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(178, 135)
 layout_mode = 1
 anchors_preset = 8
@@ -234,7 +233,7 @@ text = "Settings"
 
 [node name="SettingsCloseButton" type="Button" parent="SettingsPanel/VBox/Header" unique_id=2049182753]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(12, 12)
+custom_minimum_size = Vector2(14, 14)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -261,7 +260,7 @@ custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
-text = "Général :"
+text = "Master :"
 
 [node name="MasterVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182758]
 unique_name_in_owner = true
@@ -291,7 +290,7 @@ custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
-text = "SFX/Tours :"
+text = "SFX/Towers :"
 
 [node name="SfxVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=2049182770]
 unique_name_in_owner = true
@@ -343,6 +342,7 @@ text = "100%"
 horizontal_alignment = 2
 
 [node name="FullscreenRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182760]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 4
 
@@ -351,7 +351,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
-text = "Plein Écran :"
+text = "Fullscreen :"
 
 [node name="FullscreenCheckBox" type="CheckBox" parent="SettingsPanel/VBox/OptionsContainer/FullscreenRow" unique_id=2049182762]
 unique_name_in_owner = true
@@ -363,19 +363,15 @@ focus_mode = 0
 [node name="SoundHover" type="AudioStreamPlayer" parent="Audio" unique_id=2049182764]
 stream = SubResource("AudioStreamRandomizer_776kc")
 volume_db = -6.0
-bus = &"UI"
 
 [node name="SoundClick" type="AudioStreamPlayer" parent="Audio" unique_id=2049182765]
 stream = ExtResource("7_click")
 volume_db = -4.0
-bus = &"UI"
 
 [node name="SoundStart" type="AudioStreamPlayer" parent="Audio" unique_id=2049182766]
 stream = ExtResource("8_start")
 volume_db = -2.0
-bus = &"UI"
 
 [node name="SoundQuit" type="AudioStreamPlayer" parent="Audio" unique_id=2049182767]
 stream = ExtResource("9_quit")
 volume_db = -3.0
-bus = &"UI"

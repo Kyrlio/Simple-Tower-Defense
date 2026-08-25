@@ -271,7 +271,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "max_bounces",
 		"name": "Max Bounces",
 		"level": get_upgrade_level("max_bounces"),
-		"cost": _calc_cost(55, 1.45, "max_bounces"),
+		"cost": _calc_cost(350, 1.45, "max_bounces"),
 		"current_text": "%d bounces" % max_bounces,
 		"next_text": "+1 (%d bounces)" % next_bounces,
 	})
@@ -281,7 +281,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "bounce_range",
 		"name": "Bounce Range",
 		"level": get_upgrade_level("bounce_range"),
-		"cost": _calc_cost(35, 1.35, "bounce_range"),
+		"cost": _calc_cost(75, 1.35, "bounce_range"),
 		"current_text": "%d px" % int(bounce_range),
 		"next_text": "+20%% (%d px)" % int(next_brange),
 	})

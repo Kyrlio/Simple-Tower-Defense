@@ -48,7 +48,7 @@ func _on_wave_timer_timeout() -> void:
 		_activate_spawner(1, "North")
 	elif current_wave == 25:
 		_activate_spawner(2, "East")
-	elif current_wave == 50:
+	elif current_wave == 35:
 		_activate_spawner(3, "South")
 	
 	var enemy_count: int = roundi(base_enemy_count * difficulty_factor)

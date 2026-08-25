@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://cp6o4w7m9j1qv"]
+
+[ext_resource type="Theme" uid="uid://lxs2moieqs26" path="res://src/systems/resources/global_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://src/ui/game_over_menu/game_over_menu.gd" id="2_gameover"]
+[ext_resource type="Script" uid="uid://gxs42jl0pbe6" path="res://src/ui/animated_button.gd" id="3_animbtn"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
+color = Color(0.45, 0.25, 0.3, 0.7)
+
+[node name="GameOverMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_gameover")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06, 0.02, 0.03, 0.75)
+
+[node name="GameOverContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 110)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -55.0
+offset_right = 65.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(65, 55)
+
+[node name="VBox" type="VBoxContainer" parent="GameOverContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="GameOverTitle" type="Label" parent="GameOverContainer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.26, 0.26, 1)
+theme_override_font_sizes/font_size = 12
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="WavesSurvivedLabel" type="Label" parent="GameOverContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.5, 1)
+theme_override_font_sizes/font_size = 8
+text = "Waves Survived: 0"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="GameOverContainer/VBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_sep")
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="GameOverContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOverContainer/VBox/ButtonsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Restart"
+script = ExtResource("3_animbtn")
+
+[node name="QuitButton" type="Button" parent="GameOverContainer/VBox/ButtonsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Main Menu"
+script = ExtResource("3_animbtn")

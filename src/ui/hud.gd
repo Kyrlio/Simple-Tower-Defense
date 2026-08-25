@@ -16,6 +16,7 @@ enum SpeedMode { PAUSE, SPEED_1X, SPEED_2X, SPEED_3X }
 
 var current_speed_mode: SpeedMode = SpeedMode.SPEED_1X
 var last_active_speed_mode: SpeedMode = SpeedMode.SPEED_1X
+var is_game_over: bool = false
 var wave_manager: WaveManager = null
 var _warning_tween: Tween = null
 
@@ -44,6 +45,8 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_game_over:
+		return
 	if event is InputEventKey and event.pressed and not event.is_echo():
 		if event.keycode == KEY_SPACE:
 			_toggle_pause()
@@ -145,6 +148,7 @@ func _on_castle_health_changed(current: int, max_health: int) -> void:
 
 
 func _on_game_over() -> void:
+	is_game_over = true
 	print("Game Over")
 
 

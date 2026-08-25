@@ -12,6 +12,8 @@
 [ext_resource type="Resource" uid="uid://0dgywjbyehuj" path="res://src/systems/resources/stats/tower stats/poison_wizard_tower_stats.tres" id="8_yy3iv"]
 [ext_resource type="PackedScene" uid="uid://bc6d0p6lpip7r" path="res://src/ui/tower_info_panel/tower_info_panel.tscn" id="9_infopanel"]
 [ext_resource type="Texture2D" uid="uid://b7yluiyo04nxd" path="res://assets/ui/panel.png" id="12_k5qe1"]
+[ext_resource type="PackedScene" uid="uid://bv5e6h6x2qwer" path="res://src/ui/pause_menu/pause_menu.tscn" id="13_pausemenu"]
+[ext_resource type="PackedScene" uid="uid://cp6o4w7m9j1qv" path="res://src/ui/game_over_menu/game_over_menu.tscn" id="14_gameover"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fwgqd"]
 texture = ExtResource("12_k5qe1")
@@ -160,3 +162,9 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 8
 text = "The enemies are coming from the North"
 horizontal_alignment = 1
+
+[node name="PauseMenu" parent="." unique_id=1049745167 instance=ExtResource("13_pausemenu")]
+visible = false
+
+[node name="GameOverMenu" parent="." unique_id=1049745168 instance=ExtResource("14_gameover")]
+visible = false
