@@ -58,13 +58,8 @@ func _spawn_baby_slimes() -> void:
 		push_error("PathFollow2D parent is not a Path2D")
 		return
 	
-	# Récupération du facteur de difficulté actuel (vague en cours)
+	# Facteur de difficulté local hérité du spawner
 	var current_difficulty: float = self.difficulty_factor
-	var wave_manager = get_tree().get_first_node_in_group("wave_manager") as WaveManager
-	if not wave_manager:
-		wave_manager = get_tree().root.find_child("WaveManager", true, false) as WaveManager
-	if wave_manager:
-		current_difficulty = wave_manager.difficulty_factor
 	
 	var current_progress: float = path_follow.progress
 	

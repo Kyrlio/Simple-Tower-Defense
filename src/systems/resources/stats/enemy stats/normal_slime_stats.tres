@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_mof3a")
 name = "Normal Slime"
-hp = 6.0
+hp = 4.0
 speed = 8.0
 gold_reward = 15
 physical_resist = 0.25

@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_ujg33")
 tower_name = "Poison Wizard Tower"
-cost = 400
+cost = 350
 tower_scene = ExtResource("3_7sbgr")
 tower_icon = ExtResource("2_tbte8")
 metadata/_custom_type_script = "uid://8htlq2826sia"

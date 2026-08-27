@@ -16,6 +16,7 @@ class_name PauseMenu
 @onready var ui_slider: HSlider = %UiVolumeSlider
 @onready var ui_label: Label = %UiVolumeLabel
 @onready var fullscreen_checkbox: CheckBox = %FullscreenCheckBox
+@onready var deactivate_particles_checkbox: CheckBox = %DeactivateParticlesCheckBox
 
 var is_open: bool = false
 var is_game_over: bool = false
@@ -44,6 +45,8 @@ func _ready() -> void:
 	sfx_slider.value_changed.connect(_on_sfx_volume_changed)
 	ui_slider.value_changed.connect(_on_ui_volume_changed)
 	fullscreen_checkbox.toggled.connect(_on_fullscreen_toggled)
+	deactivate_particles_checkbox.toggled.connect(_on_deactivate_particles_toggled)
+
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -73,7 +76,8 @@ func open_pause_menu() -> void:
 	
 	pause_container.visible = true
 	pause_container.modulate.a = 1.0
-	pause_container.scale = Vector2.ONE
+	#pause_container.scale = Vector2.ONE
+	pause_container.offset_transform_scale = Vector2.ONE
 	settings_panel.visible = false
 	
 	if _menu_tween and _menu_tween.is_valid():
@@ -82,7 +86,7 @@ func open_pause_menu() -> void:
 	_menu_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	_menu_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	_menu_tween.tween_property(self, "modulate:a", 1.0, 0.2).from(0.0)
-	_menu_tween.tween_property(pause_container, "scale", Vector2.ONE, 0.25).from(Vector2(0.85, 0.85))
+	_menu_tween.tween_property(pause_container, "offset_transform_scale", Vector2.ONE, 0.25).from(Vector2(0.1, 0.1))
 
 
 func resume_game() -> void:
@@ -113,8 +117,8 @@ func open_settings() -> void:
 		
 	_settings_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	_settings_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	_settings_tween.tween_property(settings_panel, "modulate:a", 1.0, 0.25).from(0.0)
-	_settings_tween.tween_property(settings_panel, "scale", Vector2.ONE, 0.25).from(Vector2(0.85, 0.85))
+	_settings_tween.tween_property(settings_panel, "modulate:a", 1.0, 0.2).from(0.0)
+	_settings_tween.tween_property(settings_panel, "offset_transform_scale", Vector2.ONE, 0.25).from(Vector2.ZERO)
 
 
 func close_settings() -> void:
@@ -128,7 +132,8 @@ func close_settings() -> void:
 		settings_panel.visible = false
 		pause_container.visible = true
 		pause_container.modulate.a = 1.0
-		pause_container.scale = Vector2.ONE
+		#pause_container.scale = Vector2.ONE
+		pause_container.offset_transform_scale = Vector2.ONE
 	)
 
 
@@ -147,6 +152,8 @@ func _init_settings_values() -> void:
 	
 	var is_fullscreen: bool = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscreen_checkbox.button_pressed = is_fullscreen
+	if deactivate_particles_checkbox:
+		deactivate_particles_checkbox.button_pressed = Data.deactivate_particles
 
 
 func _init_bus_slider(bus_name: String, slider: HSlider, label: Label) -> void:
@@ -190,3 +197,7 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+
+func _on_deactivate_particles_toggled(toggled_on: bool) -> void:
+	Data.deactivate_particles = toggled_on

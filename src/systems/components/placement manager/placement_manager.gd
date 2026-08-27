@@ -181,7 +181,7 @@ func attempt_placement(map_coords: Vector2i) -> void:
 		else:
 			get_parent().add_child(real_tower)
 	
-		if particle_effect:
+		if not Data.deactivate_particles and particle_effect:
 			var fx = particle_effect.instantiate()
 			fx.global_position = real_tower.global_position
 			fx.z_index = 1
@@ -192,6 +192,7 @@ func attempt_placement(map_coords: Vector2i) -> void:
 	else:
 		SoundManager.play_ui_error()
 		print("Pas assez d'or !")
+
 
 
 func cancel_placement() -> void:

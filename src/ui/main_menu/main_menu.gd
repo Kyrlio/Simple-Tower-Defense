@@ -13,8 +13,8 @@ extends Control
 @onready var ui_slider: HSlider = %UiVolumeSlider
 @onready var ui_label: Label = %UiVolumeLabel
 @onready var fullscreen_checkbox: CheckBox = %FullscreenCheckBox
+@onready var deactivate_particles_checkbox: CheckBox = %DeactivateParticlesCheckBox
 
-@onready var sound_hover: AudioStreamPlayer = $Audio/SoundHover
 @onready var sound_click: AudioStreamPlayer = $Audio/SoundClick
 @onready var sound_start: AudioStreamPlayer = $Audio/SoundStart
 @onready var sound_quit: AudioStreamPlayer = $Audio/SoundQuit
@@ -39,23 +39,16 @@ func _ready() -> void:
 	quit_button.pressed.connect(_on_quit_pressed)
 	settings_close_button.pressed.connect(_on_settings_close_pressed)
 	
-	# Connect hover sound to all interactive buttons
-	for btn: Button in [start_button, settings_button, quit_button, settings_close_button]:
-		btn.mouse_entered.connect(_play_hover_sound)
-	
 	# Connect settings controls
 	master_slider.value_changed.connect(_on_master_volume_changed)
-	master_slider.mouse_entered.connect(_play_hover_sound)
 	sfx_slider.value_changed.connect(_on_sfx_volume_changed)
-	sfx_slider.mouse_entered.connect(_play_hover_sound)
 	ui_slider.value_changed.connect(_on_ui_volume_changed)
-	ui_slider.mouse_entered.connect(_play_hover_sound)
-	
 	fullscreen_checkbox.toggled.connect(_on_fullscreen_toggled)
-	fullscreen_checkbox.mouse_entered.connect(_play_hover_sound)
+	deactivate_particles_checkbox.toggled.connect(_on_deactivate_particles_toggled)
 	
 	# Initialize settings UI state
 	_init_settings_values()
+
 	
 	# Settings panel initial hidden state
 	settings_panel.visible = false
@@ -160,6 +153,8 @@ func _init_settings_values() -> void:
 	# Fullscreen checkbox setup
 	var is_fullscreen: bool = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscreen_checkbox.button_pressed = is_fullscreen
+	if deactivate_particles_checkbox:
+		deactivate_particles_checkbox.button_pressed = Data.deactivate_particles
 
 
 func _init_bus_slider(bus_name: String, slider: HSlider, label: Label) -> void:
@@ -206,10 +201,10 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 
-func _play_hover_sound() -> void:
-	sound_hover.play()
-	#if sound_hover and not sound_hover.playing:
-		#sound_hover.play()
+func _on_deactivate_particles_toggled(toggled_on: bool) -> void:
+	_play_click_sound()
+	Data.deactivate_particles = toggled_on
+
 
 
 func _play_click_sound() -> void:

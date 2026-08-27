@@ -11,7 +11,6 @@ class_name CannonTower
 @onready var weapon: Sprite2D = $Visuals/Weapon
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-var current_target: Node2D = null
 var physical_damage_boost: float = 1.35
 
 
@@ -25,10 +24,9 @@ func _setup_upgrade_costs() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
+	super._physics_process(delta)
 	
-	if enemies.size() > 0:
-		current_target = enemies[0]
+	if current_target:
 		var dir: Vector2 = current_target.global_position - weapon.global_position
 		# Calcul de l'angle par rapport au HAUT (Vector2.UP)
 		var angle_to_target: float = Vector2.UP.angle_to(dir)
@@ -36,23 +34,21 @@ func _physics_process(delta: float) -> void:
 		var clamped_angle: float = clampf(angle_to_target, -max_rad, max_rad)
 		weapon.rotation = lerp_angle(weapon.rotation, clamped_angle, 10.0 * delta)
 	else:
-		current_target = null
 		weapon.rotation = lerp_angle(weapon.rotation, 0.0, 10.0 * delta)
 
 
 func _on_reload_timer_timeout() -> void:
-	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
-	
-	if enemies.size() > 0:
-		var target: Node2D = enemies[0]
+	if not _is_target_valid(current_target):
+		_update_current_target()
+	if current_target:
 		animation_player.play("shoot")
 		
 		if cannon_scene:
-			var cannon_instance = cannon_scene.instantiate() as Cannon
+			var cannon_instance = ProjectilePool.spawn_projectile(cannon_scene) as Cannon
 			if cannon_instance:
-				get_tree().current_scene.add_child(cannon_instance)
-				cannon_instance.launch(muzzle.global_position, target, damage, explosion_radius)
+				cannon_instance.launch(muzzle.global_position, current_target, damage, explosion_radius)
 				SoundManager.play_shoot("cannon", muzzle.global_position)
+
 
 
 func get_special_description() -> String:

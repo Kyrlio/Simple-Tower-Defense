@@ -52,6 +52,7 @@ offset_bottom = 55.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(65, 55)
+offset_transform_enabled = true
 
 [node name="VBox" type="VBoxContainer" parent="PauseContainer" unique_id=-1275683552]
 layout_mode = 2
@@ -121,6 +122,7 @@ offset_bottom = 67.5
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(89, 67)
+offset_transform_enabled = true
 
 [node name="VBox" type="VBoxContainer" parent="SettingsPanel" unique_id=-1275683544]
 layout_mode = 2
@@ -246,6 +248,23 @@ theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 8
 text = "100%"
 horizontal_alignment = 2
+
+[node name="DeactivateParticlesRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=-1275683523]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="DeactivateParticlesLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/DeactivateParticlesRow" unique_id=-1275683522]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Deactivate Particles :"
+
+[node name="DeactivateParticlesCheckBox" type="CheckBox" parent="SettingsPanel/VBox/OptionsContainer/DeactivateParticlesRow" unique_id=-1275683521]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(16, 16)
+layout_mode = 2
+focus_mode = 0
 
 [node name="FullscreenRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=-1275683526]
 visible = false

@@ -5,6 +5,10 @@ class_name Enemy
 @export var hit_particles_scene: PackedScene = preload("uid://dtr5lw5ocrg3p")
 @export var death_particles_scene: PackedScene = preload("uid://d4fjkvjerbdpm")
 
+@export_group("Speed Settings")
+## Plafond maximal absolu de vitesse de déplacement pour l'ennemi
+@export var max_speed: float = 80.0
+
 @export_group("Animation Settings")
 ## Facteur d'influence de l'augmentation de vitesse sur l'animation (ex: 0.35 = l'animation n'accélère que de 35% de la hausse de vitesse)
 @export var anim_speed_influence: float = 0.35
@@ -39,8 +43,21 @@ var poison_tick_interval: float = 0.5
 var poison_tick_timer: float = 0.0
 var poison_sources: Dictionary = {} # source_id (int) -> { "damage_per_tick": float, "duration": float, "time_left": float, "tick_interval": float }
 
+# Particle Throttling (Anti-lag late game)
+static var _last_hit_fx_frame: int = -1
+static var _hit_fx_count_this_frame: int = 0
+const MAX_HIT_FX_PER_FRAME: int = 3
+
+static var _last_death_fx_frame: int = -1
+static var _death_fx_count_this_frame: int = 0
+const MAX_DEATH_FX_PER_FRAME: int = 3
+
 # Transitions visuelles
 var status_tween: Tween
+
+# Culling hors écran (Dirty Rectangles / Performance)
+var is_on_screen: bool = true
+var screen_notifier: VisibleOnScreenNotifier2D = null
 
 
 func _ready() -> void:
@@ -49,15 +66,56 @@ func _ready() -> void:
 		cur_hp = stats.hp
 		attack_timer.wait_time = stats.attack_speed
 		if base_speed <= 0.0:
-			base_speed = stats.speed
+			base_speed = minf(stats.speed, max_speed)
+	
+	_setup_screen_culling()
 	update_animation_speed()
 	update_debug_label()
 
 
+func _setup_screen_culling() -> void:
+	screen_notifier = get_node_or_null("VisibleOnScreenNotifier2D")
+	if not screen_notifier:
+		screen_notifier = VisibleOnScreenNotifier2D.new()
+		screen_notifier.name = "VisibleOnScreenNotifier2D"
+		screen_notifier.rect = Rect2(-32, -32, 64, 64)
+		add_child(screen_notifier)
+		
+	screen_notifier.screen_entered.connect(_on_screen_entered)
+	screen_notifier.screen_exited.connect(_on_screen_exited)
+	# Par défaut au spawn, on garde l'ennemi visible et actif
+	is_on_screen = true
+
+
+func _on_screen_entered() -> void:
+	is_on_screen = true
+	if is_instance_valid(sprite):
+		sprite.visible = true
+	if is_instance_valid(animation_player):
+		animation_player.active = true
+	_update_status_visuals()
+	update_animation_speed()
+	update_debug_label()
+
+
+func _on_screen_exited() -> void:
+	is_on_screen = false
+	_apply_off_screen_state()
+
+
+func _apply_off_screen_state() -> void:
+	if is_instance_valid(sprite):
+		sprite.visible = false
+	if is_instance_valid(animation_player):
+		animation_player.active = false
+
+
 func setup(new_path_follow: PathFollow2D) -> void:
 	path_follow = new_path_follow
+
 	path_follow.loop = false
 	path_follow.rotates = false
+
 
 
 func _physics_process(delta: float) -> void:
@@ -73,47 +131,56 @@ func _physics_process(delta: float) -> void:
 	
 	# Gestion du ralentissement
 	if not slow_sources.is_empty():
-		var expired_slow_sources: Array = []
+		var has_expired_slow: bool = false
+		var max_time: float = 0.0
 		for src_id in slow_sources:
-			slow_sources[src_id]["time_left"] -= delta
-			if slow_sources[src_id]["time_left"] <= 0.0:
-				expired_slow_sources.append(src_id)
+			var data: Dictionary = slow_sources[src_id]
+			data["time_left"] -= delta
+			if data["time_left"] <= 0.0:
+				has_expired_slow = true
+			else:
+				max_time = maxf(max_time, data["time_left"])
 		
-		if not expired_slow_sources.is_empty():
-			for src_id in expired_slow_sources:
+		if has_expired_slow:
+			var to_remove: Array = []
+			for src_id in slow_sources:
+				if slow_sources[src_id]["time_left"] <= 0.0:
+					to_remove.append(src_id)
+			for src_id in to_remove:
 				slow_sources.erase(src_id)
 			_recalculate_slow()
 			_update_status_visuals()
 			update_animation_speed()
 			update_debug_label()
 		else:
-			var max_time: float = 0.0
-			for src_id in slow_sources:
-				max_time = maxf(max_time, slow_sources[src_id]["time_left"])
 			slow_time_remaining = max_time
 	elif slow_time_remaining > 0.0:
 		_remove_slow()
 	
 	# Gestion du poison (DoT)
 	if not poison_sources.is_empty() and not is_dead:
-		var expired_poison_sources: Array = []
+		var has_expired_poison: bool = false
+		var max_time: float = 0.0
 		for src_id in poison_sources:
-			poison_sources[src_id]["time_left"] -= delta
-			if poison_sources[src_id]["time_left"] <= 0.0:
-				expired_poison_sources.append(src_id)
+			var data: Dictionary = poison_sources[src_id]
+			data["time_left"] -= delta
+			if data["time_left"] <= 0.0:
+				has_expired_poison = true
+			else:
+				max_time = maxf(max_time, data["time_left"])
 		
-		if not expired_poison_sources.is_empty():
-			for src_id in expired_poison_sources:
+		if has_expired_poison:
+			var to_remove: Array = []
+			for src_id in poison_sources:
+				if poison_sources[src_id]["time_left"] <= 0.0:
+					to_remove.append(src_id)
+			for src_id in to_remove:
 				poison_sources.erase(src_id)
 			_recalculate_poison()
 			_update_status_visuals()
 		
 		if not poison_sources.is_empty():
-			var max_time: float = 0.0
-			for src_id in poison_sources:
-				max_time = maxf(max_time, poison_sources[src_id]["time_left"])
 			poison_time_remaining = max_time
-			
 			poison_tick_timer -= delta
 			if poison_tick_timer <= 0.0:
 				poison_tick_timer = poison_tick_interval
@@ -183,10 +250,10 @@ func take_damage(amount: float, damage_type: String = "physical") -> void:
 func apply_scale_difficulty(factor: float) -> void:
 	if stats:
 		if base_speed <= 0.0:
-			base_speed = stats.speed
+			base_speed = minf(stats.speed, max_speed)
 		stats = stats.duplicate()
 		stats.hp = maxf(1.0, stats.hp * factor)
-		stats.speed = stats.speed * (1.0 + (factor - 1.0) * 0.2)
+		stats.speed = minf(stats.speed * (1.0 + (factor - 1.0) * 0.2), max_speed)
 		cur_hp = stats.hp
 		difficulty_factor = factor
 		update_animation_speed()
@@ -196,7 +263,7 @@ func apply_scale_difficulty(factor: float) -> void:
 func get_current_speed() -> float:
 	if not stats:
 		return 0.0
-	return stats.speed * slow_multiplier
+	return minf(stats.speed, max_speed) * slow_multiplier
 
 
 func apply_slow(factor: float, duration: float, source: Object = null) -> void:
@@ -323,7 +390,7 @@ func _remove_poison() -> void:
 
 
 func _update_status_visuals() -> void:
-	if is_dead or not is_instance_valid(sprite):
+	if is_dead or not is_instance_valid(sprite) or not is_on_screen:
 		return
 	
 	if status_tween and status_tween.is_valid():
@@ -355,8 +422,10 @@ func update_animation_speed() -> void:
 
 
 func update_debug_label() -> void:
+	if not is_on_screen:
+		return
 	var label: Label = get_node_or_null("Label")
-	if label and stats:
+	if label and label.visible and stats:
 		label.text = "speed: %.1f\nhp: %.1f\ncur_hp: %.1f" % [
 			get_current_speed(),
 			stats.hp,
@@ -365,17 +434,43 @@ func update_debug_label() -> void:
 
 
 func spawn_hit_particles() -> void:
+	if Data.deactivate_particles or not is_on_screen:
+		return
+	var cur_frame := Engine.get_process_frames()
+	if _last_hit_fx_frame != cur_frame:
+		_last_hit_fx_frame = cur_frame
+		_hit_fx_count_this_frame = 0
+	if _hit_fx_count_this_frame >= MAX_HIT_FX_PER_FRAME:
+		return
+	_hit_fx_count_this_frame += 1
+	
 	if hit_particles_scene and is_inside_tree() and get_tree() and get_tree().current_scene:
 		var instance: GPUParticles2D = hit_particles_scene.instantiate()
-		get_tree().current_scene.add_child(instance)
 		instance.global_position = global_position
+		get_tree().current_scene.add_child(instance)
+		instance.restart()
+		instance.emitting = true
 
 
 func spawn_death_particles() -> void:
+	if Data.deactivate_particles or not is_on_screen:
+		return
+	var cur_frame := Engine.get_process_frames()
+	if _last_death_fx_frame != cur_frame:
+		_last_death_fx_frame = cur_frame
+		_death_fx_count_this_frame = 0
+	if _death_fx_count_this_frame >= MAX_DEATH_FX_PER_FRAME:
+		return
+	_death_fx_count_this_frame += 1
+	
 	if death_particles_scene and is_inside_tree() and get_tree() and get_tree().current_scene:
 		var instance: GPUParticles2D = death_particles_scene.instantiate()
-		get_tree().current_scene.add_child(instance)
 		instance.global_position = global_position
+		get_tree().current_scene.add_child(instance)
+		instance.restart()
+		instance.emitting = true
+
+
 
 
 func start_hitstop() -> void:
@@ -421,7 +516,7 @@ func die() -> void:
 
 
 func _damage_effects() -> void:
-	if is_dead:
+	if is_dead or not is_on_screen:
 		return
 	if is_instance_valid(hit_flash_anim_player):
 		hit_flash_anim_player.play("hit_flash")
@@ -437,4 +532,7 @@ func _on_area_entered(projectile: Area2D) -> void:
 			take_damage(projectile.damage, dmg_type)
 			if projectile.has_method("on_hit_target"):
 				projectile.on_hit_target(self)
-			projectile.queue_free()
+			if projectile.has_method("release"):
+				projectile.release()
+			else:
+				projectile.queue_free()

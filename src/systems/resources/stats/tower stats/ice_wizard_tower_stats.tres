@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_38lnf")
 tower_name = "Ice Wizard Tower"
-cost = 350
+cost = 300
 tower_scene = ExtResource("3_hjasn")
 tower_icon = ExtResource("2_h2pbn")
 metadata/_custom_type_script = "uid://8htlq2826sia"

@@ -25,18 +25,21 @@ func _setup_upgrade_costs() -> void:
 	range_upgrade_cost_mult = 1.30
 
 
-func _physics_process(_delta: float) -> void:
-	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
-	
-	if enemies.size() > 0:
-		weapon.look_at(enemies[0].global_position)
+func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
+	if current_target:
+		weapon.look_at(current_target.global_position)
 
 
 func _shoot() -> void:
-	if not projectile or enemies.is_empty():
+	if not projectile:
+		return
+	if not _is_target_valid(current_target):
+		_update_current_target()
+	if not current_target:
 		return
 	
-	var instance: IceBall = projectile.instantiate() as IceBall
+	var instance: IceBall = ProjectilePool.spawn_projectile(projectile) as IceBall
 	if not instance:
 		return
 	
@@ -47,24 +50,18 @@ func _shoot() -> void:
 	instance.source_tower = self
 	var cur_range = get_detection_range()
 	instance.lifetime = maxf(2.0, (cur_range * 1.3) / maxf(1.0, speed))
-	
-	var projectile_node: Node2D = get_tree().current_scene.get_node_or_null("Projectiles")
-	if projectile_node:
-		projectile_node.add_child(instance)
-	else:
-		get_tree().current_scene.add_child(instance)
-	
 	instance.shoot(muzzle.global_position, weapon.rotation)
 	SoundManager.play_shoot("ice_wizard", muzzle.global_position)
 
 
 func _on_reload_timer_timeout() -> void:
-	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
-	
-	if enemies.size() > 0 and projectile:
+	if not _is_target_valid(current_target):
+		_update_current_target()
+	if current_target and projectile:
 		if animation_player and animation_player.has_animation("shoot"):
 			animation_player.play("shoot")
 		_shoot()
+
 
 
 func get_special_description() -> String:
@@ -81,7 +78,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "slow_power",
 		"name": "Slow Power",
 		"level": get_upgrade_level("slow_power"),
-		"cost": _calc_cost(140, 1.35, "slow_power"),
+		"cost": _calc_cost(200, 1.6, "slow_power"),
 		"current_text": "%d%% slow" % cur_pct,
 		"next_text": "%d%% slow (+slow)" % next_pct,
 	})
@@ -91,7 +88,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "slow_duration",
 		"name": "Slow Duration",
 		"level": get_upgrade_level("slow_duration"),
-		"cost": _calc_cost(120, 1.30, "slow_duration"),
+		"cost": _calc_cost(180, 1.5, "slow_duration"),
 		"current_text": "%0.1fs" % slow_duration,
 		"next_text": "%0.1fs (+20%%)" % next_dur,
 	})

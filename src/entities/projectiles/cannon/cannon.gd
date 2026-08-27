@@ -65,15 +65,31 @@ func launch(from_pos: Vector2, target_or_pos: Variant, dmg_amount: float = 25.0,
 	damage = dmg_amount
 	time_elapsed = 0.0
 	previous_position = from_pos
+	monitoring = false
+	monitorable = false
 	
 	_update_explosion_radius_from_shape()
 	if override_radius > 0.0:
 		explosion_radius = override_radius
 		
+	$Sprite2D.visible = true
+	var col = get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if col:
+		col.set_deferred("disabled", true)
+		
 	if shadow_sprite and is_instance_valid(shadow_sprite):
 		shadow_sprite.visible = true
 		shadow_sprite.global_position = from_pos
 		shadow_sprite.scale = Vector2(min_shadow_scale, min_shadow_scale * 0.5)
+	
+	if trail_particles:
+		if not Data.deactivate_particles:
+			trail_particles.emitting = true
+			trail_particles.restart()
+		else:
+			trail_particles.emitting = false
+		
+	_reset_visual_effects()
 	
 	if target_or_pos is Node2D and is_instance_valid(target_or_pos):
 		target_last_position = target_or_pos.global_position
@@ -119,83 +135,109 @@ func _physics_process(delta: float) -> void:
 		explode()
 
 
+func try_hit(_target: Node2D) -> bool:
+	# Le boulet de canon survole le champ de bataille et n'explose qu'à destination
+	return false
+
+
+func reactivate() -> void:
+	super.reactivate()
+	monitoring = false
+	monitorable = false
+	is_launched = false
+	time_elapsed = 0.0
+	$Sprite2D.visible = true
+	var col = get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if col:
+		col.set_deferred("disabled", true)
+	if shadow_sprite and is_instance_valid(shadow_sprite):
+		shadow_sprite.visible = false
+	if trail_particles:
+		trail_particles.emitting = false
+	_reset_visual_effects()
+
+
+func deactivate() -> void:
+	super.deactivate()
+	is_launched = false
+	if shadow_sprite and is_instance_valid(shadow_sprite):
+		shadow_sprite.visible = false
+	if trail_particles:
+		trail_particles.emitting = false
+	_reset_visual_effects()
+
+
 func explode() -> void:
 	is_launched = false
 	global_position = target_last_position
 	
 	# 1. Masquer le boulet et l'ombre immédiatement
 	$Sprite2D.visible = false
-	if $CollisionShape2D:
-		$CollisionShape2D.set_deferred("disabled", true)
 	if shadow_sprite and is_instance_valid(shadow_sprite):
-		shadow_sprite.queue_free()
-	
-	# 2. Stopper l'émission (les particules existantes continuent leur vie)
-	if trail_particles and is_instance_valid(trail_particles):
+		shadow_sprite.visible = false
+	if trail_particles:
 		trail_particles.emitting = false
+	_reset_visual_effects()
 	
-	# 3. Spawns des explosions et application des dégâts
-	if explosion_effect:
-		var effect_instance = explosion_effect.instantiate()
-		get_tree().current_scene.add_child(effect_instance)
-		if "global_position" in effect_instance:
-			effect_instance.global_position = target_last_position
-	
-	if explosion_effect2:
-		var effect_instance = explosion_effect2.instantiate()
-		get_tree().current_scene.add_child(effect_instance)
-		if "global_position" in effect_instance:
-			effect_instance.global_position = target_last_position
+	# 2. Spawns des explosions et application des dégâts (uniquement si les particules sont activées)
+	var scene_root = get_tree().current_scene
+	if not Data.deactivate_particles and scene_root:
+		if explosion_effect:
+			var effect_instance = explosion_effect.instantiate()
+			if "global_position" in effect_instance:
+				effect_instance.global_position = target_last_position
+			scene_root.add_child(effect_instance)
+			if effect_instance is GPUParticles2D:
+				effect_instance.restart()
+				effect_instance.emitting = true
+		
+		if explosion_effect2:
+			var effect_instance = explosion_effect2.instantiate()
+			if "global_position" in effect_instance:
+				effect_instance.global_position = target_last_position
+			scene_root.add_child(effect_instance)
+			if effect_instance is GPUParticles2D:
+				effect_instance.restart()
+				effect_instance.emitting = true
 		
 	SoundManager.play_explosion(target_last_position)
 	_apply_aoe_damage()
-	
-	# 4. Attendre que les dernières particules disparaissent avant de libérer le nœud
-	var wait_time: float = trail_particles.lifetime if trail_particles else 0.0
-	get_tree().create_timer(wait_time + 0.1).timeout.connect(queue_free)
+	release()
+
+
 
 
 func _apply_aoe_damage() -> void:
-	var damaged_targets: Array[Node2D] = []
+	var damaged_targets: Dictionary = {}
 	
-	if explosion_area and is_instance_valid(explosion_area):
+	# Requête spatiale directe et ultra-rapide via le moteur physique (DirectSpaceState2D)
+	var space_state = get_world_2d().direct_space_state
+	if space_state:
+		var shape_query := PhysicsShapeQueryParameters2D.new()
+		var circle := CircleShape2D.new()
+		circle.radius = explosion_radius
+		shape_query.shape = circle
+		shape_query.transform = Transform2D(0.0, target_last_position)
+		shape_query.collision_mask = enemy_collision_mask
+		shape_query.collide_with_areas = true
+		shape_query.collide_with_bodies = false
+		
+		var results = space_state.intersect_shape(shape_query, 128)
+		for result in results:
+			var collider = result.get("collider")
+			if is_instance_valid(collider) and not damaged_targets.has(collider):
+				damaged_targets[collider] = true
+				if collider.has_method("take_damage"):
+					collider.take_damage(damage, "physical")
+				elif collider.get_parent() and collider.get_parent().has_method("take_damage"):
+					collider.get_parent().take_damage(damage, "physical")
+	elif explosion_area and is_instance_valid(explosion_area):
 		explosion_area.global_position = target_last_position
-		
-		var areas: Array[Area2D] = explosion_area.get_overlapping_areas()
-		var bodies: Array[Node2D] = explosion_area.get_overlapping_bodies()
-		
-		for target in (areas + bodies):
-			if is_instance_valid(target) and target not in damaged_targets:
-				damaged_targets.append(target)
+		for target in explosion_area.get_overlapping_areas():
+			if is_instance_valid(target) and not damaged_targets.has(target):
+				damaged_targets[target] = true
 				if target.has_method("take_damage"):
 					target.take_damage(damage, "physical")
 				elif target.get_parent() and target.get_parent().has_method("take_damage"):
 					target.get_parent().take_damage(damage, "physical")
-					
-		var collision_shape: CollisionShape2D = explosion_area.get_node_or_null("CollisionShape2D")
-		if collision_shape and collision_shape.shape:
-			var space_state = get_world_2d().direct_space_state
-			if space_state:
-				var query = PhysicsShapeQueryParameters2D.new()
-				query.shape = collision_shape.shape
-				query.transform = collision_shape.global_transform
-				query.collision_mask = explosion_area.collision_mask if explosion_area.collision_mask != 0 else enemy_collision_mask
-				query.collide_with_areas = true
-				query.collide_with_bodies = true
-				
-				var results = space_state.intersect_shape(query)
-				for result in results:
-					var collider = result.get("collider") as Node2D
-					if is_instance_valid(collider) and collider not in damaged_targets:
-						damaged_targets.append(collider)
-						if collider.has_method("take_damage"):
-							collider.take_damage(damage, "physical")
-						elif collider.get_parent() and collider.get_parent().has_method("take_damage"):
-							collider.get_parent().take_damage(damage, "physical")
 
-	for node in get_tree().get_nodes_in_group("enemies"):
-		if is_instance_valid(node) and node not in damaged_targets:
-			if node.global_position.distance_to(target_last_position) <= explosion_radius:
-				damaged_targets.append(node)
-				if node.has_method("take_damage"):
-					node.take_damage(damage, "physical")

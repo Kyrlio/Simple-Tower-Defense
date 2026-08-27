@@ -11,11 +11,17 @@ class_name Tower
 @export var range_upgrade_base_cost: int = 15
 @export var range_upgrade_cost_mult: float = 1.25
 
+@export_group("Targeting Performance")
+## Intervalle en secondes entre chaque recherche de cible (throttling anti-lag)
+@export var target_scan_interval: float = 0.1
+
 @onready var reload_timer: Timer = $ReloadTimer
 @onready var range_indicator: Node2D = get_node_or_null("RangeIndicator")
 @onready var click_area: Area2D = get_node_or_null("ClickArea")
 
 var enemies: Array
+var current_target: Node2D = null
+var _target_scan_timer: float = 0.0
 var stats: TowerStats = null
 var is_selected: bool = false
 var is_preview: bool = false
@@ -26,6 +32,8 @@ var _costs_initialized: bool = false
 func _ready() -> void:
 	_ensure_upgrade_costs()
 	reload_timer.wait_time = shoot_reload_time
+	# Décalage initial aléatoire pour désynchroniser les calculs des différentes tours (staggering)
+	_target_scan_timer = randf_range(0.0, target_scan_interval)
 	
 	# Isolation de la ressource de collision par instance pour éviter d'impacter les autres tours
 	var detection_area = get_node_or_null("EnemyDetectionArea")
@@ -49,18 +57,58 @@ func _ready() -> void:
 			click_area.input_event.connect(_on_click_area_input_event)
 
 
-func _physics_process(_delta: float) -> void:
-	pass
+func _physics_process(delta: float) -> void:
+	_target_scan_timer -= delta
+	if _target_scan_timer <= 0.0 or not _is_target_valid(current_target):
+		_target_scan_timer = target_scan_interval
+		_update_current_target()
+
+
+func _is_target_valid(target: Node2D) -> bool:
+	if not is_instance_valid(target) or target.is_queued_for_deletion():
+		return false
+	if "is_dead" in target and target.is_dead:
+		return false
+	return target in enemies
+
+
+func _update_current_target() -> void:
+	current_target = _get_first_valid_enemy()
+
+
+func _get_first_valid_enemy() -> Node2D:
+	while enemies.size() > 0:
+		var e = enemies[0]
+		if is_instance_valid(e) and not e.is_queued_for_deletion() and not ("is_dead" in e and e.is_dead):
+			return e
+		enemies.pop_front()
+	return null
+
+
+func _clean_enemies() -> void:
+	var write_idx: int = 0
+	for i in range(enemies.size()):
+		var e = enemies[i]
+		if is_instance_valid(e) and not e.is_queued_for_deletion() and not ("is_dead" in e and e.is_dead):
+			enemies[write_idx] = e
+			write_idx += 1
+	enemies.resize(write_idx)
 
 
 func _on_enemy_detection_area_area_entered(area: Area2D) -> void:
 	if area not in enemies:
 		enemies.append(area)
+		if not _is_target_valid(current_target):
+			current_target = area
 
 
 func _on_enemy_detection_area_area_exited(area: Area2D) -> void:
 	if area in enemies:
 		enemies.erase(area)
+	if area == current_target:
+		current_target = null
+		_update_current_target()
+
 
 
 func _on_click_area_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:

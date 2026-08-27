@@ -26,12 +26,12 @@ extends Tower
 
 
 func _setup_upgrade_costs() -> void:
-	damage_upgrade_base_cost = 500
-	damage_upgrade_cost_mult = 2
-	reload_upgrade_base_cost = 400
-	reload_upgrade_cost_mult = 2
+	damage_upgrade_base_cost = 400
+	damage_upgrade_cost_mult = 1.6
+	reload_upgrade_base_cost = 300
+	reload_upgrade_cost_mult = 1.45
 	range_upgrade_base_cost = 225
-	range_upgrade_cost_mult = 1.5
+	range_upgrade_cost_mult = 1.6
 
 
 ## Nettoie la liste des ennemis des références invalides ou supprimées
@@ -96,60 +96,56 @@ func _propagate_chain(source_pos: Vector2, current_target: Node2D, hit_targets: 
 			_propagate_chain(target_pos, next_target, hit_targets, next_damage, remaining_bounces - 1)
 
 
-## Recherche l'ennemi le plus proche de la cible actuelle dans le rayon de rebond
+## Recherche l'ennemi le plus proche de la cible actuelle dans le rayon de rebond via PhysicsDirectSpaceState2D
 func _find_next_bounce_target(origin_enemy: Node2D, hit_targets: Array[Enemy]) -> Node2D:
 	var closest_enemy: Node2D = null
-	var closest_distance: float = bounce_range
+	var bounce_range_sq: float = bounce_range * bounce_range
+	var closest_distance_sq: float = bounce_range_sq
 	var origin_pos: Vector2 = origin_enemy.global_position
 	
-	var candidate_enemies: Array[Node2D] = []
-	var seen: Dictionary = {}
-	
-	# 1. Ennemis dans le groupe "enemy"
-	for node in get_tree().get_nodes_in_group("enemy"):
-		if node is Node2D and is_instance_valid(node) and not node.is_queued_for_deletion():
-			if not seen.has(node):
-				seen[node] = true
-				candidate_enemies.append(node)
-				
-	# 2. Requête spatiale 2D directe (détecte les Area2D enemies même sans groupe explicite)
-	var space_state := get_world_2d().direct_space_state
-	if space_state:
-		var query := PhysicsShapeQueryParameters2D.new()
-		var shape := CircleShape2D.new()
-		shape.radius = bounce_range
-		query.shape = shape
-		query.transform = Transform2D(0.0, origin_pos)
-		query.collide_with_areas = true
-		query.collide_with_bodies = false
-		query.collision_mask = 1
-		var results := space_state.intersect_shape(query, 32)
-		for res in results:
-			var collider = res.get("collider")
-			if is_instance_valid(collider) and collider is Node2D and not collider.is_queued_for_deletion():
-				if not seen.has(collider):
-					seen[collider] = true
-					candidate_enemies.append(collider)
-					
-	# 3. Ennemis actuellement dans la zone de détection de la tour
+	# 1. Vérification ultra-rapide sur les ennemis de la tour (zone locale)
 	for enemy in enemies:
-		if is_instance_valid(enemy) and not enemy.is_queued_for_deletion() and not seen.has(enemy):
-			seen[enemy] = true
-			candidate_enemies.append(enemy)
-			
-	# Sélection du candidat le plus proche non encore touché
-	for enemy in candidate_enemies:
+		if not is_instance_valid(enemy) or enemy.is_queued_for_deletion() or ("is_dead" in enemy and enemy.is_dead):
+			continue
 		if enemy in hit_targets or enemy == origin_enemy:
 			continue
-		if not (enemy.has_method("take_damage") or enemy.has_method("on_hit") or enemy is Enemy):
-			continue
-			
-		var dist: float = origin_pos.distance_to(enemy.global_position)
-		if dist <= closest_distance:
-			closest_distance = dist
+		var dist_sq: float = origin_pos.distance_squared_to(enemy.global_position)
+		if dist_sq <= closest_distance_sq:
+			closest_distance_sq = dist_sq
 			closest_enemy = enemy
 			
+	if closest_enemy != null:
+		return closest_enemy
+		
+	# 2. Requête spatiale bas niveau directe via le moteur physique (évite de parcourir l'arbre complet de nœuds)
+	var space_state = get_world_2d().direct_space_state
+	if space_state:
+		var shape_query := PhysicsShapeQueryParameters2D.new()
+		var circle := CircleShape2D.new()
+		circle.radius = bounce_range
+		shape_query.shape = circle
+		shape_query.transform = Transform2D(0.0, origin_pos)
+		shape_query.collision_mask = 1 # Layer 1: Enemies
+		shape_query.collide_with_areas = true
+		shape_query.collide_with_bodies = false
+		
+		var results = space_state.intersect_shape(shape_query, 32)
+		for res in results:
+			var col = res.get("collider")
+			if not is_instance_valid(col) or col.is_queued_for_deletion():
+				continue
+			var candidate = col if col is Enemy else (col.get_parent() if col.get_parent() is Enemy else null)
+			if not is_instance_valid(candidate) or candidate.is_queued_for_deletion() or ("is_dead" in candidate and candidate.is_dead):
+				continue
+			if candidate in hit_targets or candidate == origin_enemy:
+				continue
+			var dist_sq: float = origin_pos.distance_squared_to(candidate.global_position)
+			if dist_sq <= closest_distance_sq:
+				closest_distance_sq = dist_sq
+				closest_enemy = candidate
+			
 	return closest_enemy
+
 
 
 ## Rendu visuel de l'arc électrique en zig-zag avec perturbations chaotiques perpendiculaires

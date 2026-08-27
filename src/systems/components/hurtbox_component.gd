@@ -34,13 +34,15 @@ func _handle_hit(hitbox_component: HitboxComponent):
 			health_component.damage(hitbox_component.damage)
 		
 		# Instantiate hit particles if configured
-		if hit_particles_scene:
+		if not Data.deactivate_particles and hit_particles_scene:
 			_play_hit_particles(hitbox_component)
 		
 		hit_by_hitbox.emit(hitbox_component)
 
 
 func _play_hit_particles(hitbox_component: HitboxComponent) -> void:
+	if Data.deactivate_particles or not hit_particles_scene:
+		return
 	var particles: GPUParticles2D = hit_particles_scene.instantiate()
 		
 	# Determine hit direction (away from hitbox)
@@ -60,6 +62,8 @@ func _play_hit_particles(hitbox_component: HitboxComponent) -> void:
 
 
 func spawn_particles() -> void:
+	if Data.deactivate_particles or not hit_particles_scene:
+		return
 	var particles: GPUParticles2D = hit_particles_scene.instantiate()
 	
 	var scene_root = get_tree().current_scene
@@ -67,6 +71,7 @@ func spawn_particles() -> void:
 		scene_root.add_child(particles)
 		particles.emitting = true
 		particles.finished.connect(particles.queue_free)
+
 
 
 func _on_area_entered(other_area: Area2D) -> void:

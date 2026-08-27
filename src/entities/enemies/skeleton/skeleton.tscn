@@ -195,6 +195,9 @@ _data = {
 radius = 6.0
 
 [sub_resource type="FontFile" id="FontFile_ctewx"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/variation_coordinates = {}
 cache/0/face_index = 0
 cache/0/embolden = 0.0
@@ -220,6 +223,7 @@ y_sort_enabled = true
 collision_mask = 2
 script = ExtResource("1_1cx2y")
 stats = ExtResource("2_dfp4x")
+max_speed = 60.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=800983565]
 libraries/ = SubResource("AnimationLibrary_a3dji")

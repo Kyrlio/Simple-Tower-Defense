@@ -5,12 +5,12 @@
 [resource]
 script = ExtResource("1_o5ylo")
 name = "King Slime"
-hp = 25.0
-speed = 2.0
+hp = 15.0
+speed = 4.0
 attack_speed = 5.0
 attack_damage = 50.0
 gold_reward = 50
-physical_resist = 0.95
+physical_resist = 0.8
 ice_resist = -0.6
 poison_resist = 0.3500000000000001
 lightning_resist = -0.85

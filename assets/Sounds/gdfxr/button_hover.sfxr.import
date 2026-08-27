@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.gdfxr.importer"
+type="AudioStreamWAV"
+uid="uid://bt1nlug800p77"
+path="res://.godot/imported/button_hover.sfxr-23488b2449caddba7a189091e862d8ed.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/gdfxr/button_hover.sfxr"
+dest_files=["res://.godot/imported/button_hover.sfxr-23488b2449caddba7a189091e862d8ed.sample"]
+
+[params]
+
+loop=false
+bit_depth=1
+sample_rate=0

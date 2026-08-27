@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.gdfxr.importer"
+type="AudioStreamWAV"
+uid="uid://bgj8ic7y3lh3h"
+path="res://.godot/imported/click.sfxr-47681b4abb843d78b8d29106d423be25.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/gdfxr/click.sfxr"
+dest_files=["res://.godot/imported/click.sfxr-47681b4abb843d78b8d29106d423be25.sample"]
+
+[params]
+
+loop=false
+bit_depth=0
+sample_rate=0

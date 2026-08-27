@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ptkfo")
 name = "Big Slime"
-hp = 10.0
+hp = 8.0
 speed = 4.0
 gold_reward = 30
 physical_resist = 0.5

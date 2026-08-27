@@ -5,8 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c840tt0f8k5cw" path="res://assets/Towers/Castle/spr_castle_blue.png" id="3_776kc"]
 [ext_resource type="Script" uid="uid://gxs42jl0pbe6" path="res://src/ui/animated_button.gd" id="4_animbtn"]
 [ext_resource type="Texture2D" uid="uid://cp5s34r7ufk3k" path="res://assets/ui/buttons.png" id="5_btntex"]
-[ext_resource type="AudioStream" uid="uid://bnmsuo4xexcdd" path="res://assets/Sounds/UI & Menus/Hover Over.wav" id="6_hover"]
-[ext_resource type="AudioStream" uid="uid://bix0hrhpalpir" path="res://assets/Sounds/UI & Menus/Click Bounce.wav" id="7_click"]
+[ext_resource type="AudioStream" uid="uid://bgj8ic7y3lh3h" path="res://assets/Sounds/gdfxr/click.sfxr" id="6_2rik1"]
 [ext_resource type="AudioStream" uid="uid://3f3ato0xhvbq" path="res://assets/Sounds/UI & Menus/Start.wav" id="8_start"]
 [ext_resource type="AudioStream" uid="uid://dtaupuurb7bxe" path="res://assets/Sounds/UI & Menus/Quit Out.wav" id="9_quit"]
 
@@ -63,11 +62,6 @@ region_rect = Rect2(3, 100, 10, 11)
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
 color = Color(0.35, 0.42, 0.52, 0.7)
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_776kc"]
-random_pitch = 1.067572
-streams_count = 1
-stream_0/stream = ExtResource("6_hover")
-
 [node name="MainMenu" type="Control" unique_id=2049182736]
 layout_mode = 3
 anchors_preset = 15
@@ -119,9 +113,14 @@ layout_mode = 2
 theme_override_constants/separation = 2
 alignment = 1
 
-[node name="Logo_animated" type="AnimatedSprite2D" parent="ContentMargin/VBoxMain/TitleContainer" unique_id=707140758]
+[node name="Control" type="Control" parent="ContentMargin/VBoxMain/TitleContainer" unique_id=1328808529]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Logo_animated" type="AnimatedSprite2D" parent="ContentMargin/VBoxMain/TitleContainer/Control" unique_id=707140758]
 unique_name_in_owner = true
-position = Vector2(144, 20)
+position = Vector2(0, 18)
 sprite_frames = SubResource("SpriteFrames_0thxj")
 autoplay = "default"
 frame_progress = 0.86925113
@@ -141,7 +140,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 16
-text = "TOWER DEFENSE"
+text = "HOLD THE CASTLE"
 horizontal_alignment = 1
 
 [node name="MainButtonsContainer" type="VBoxContainer" parent="ContentMargin/VBoxMain" unique_id=2049182744]
@@ -196,11 +195,12 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0.45, 0.5, 0.6, 0.6)
 theme_override_font_sizes/font_size = 8
 text = "Game made by Cedric Roussel
-Assets by Skyel"
+Assetpack by Skyel"
 horizontal_alignment = 2
 
 [node name="SettingsPanel" type="PanelContainer" parent="." unique_id=2049182749]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(178, 135)
 layout_mode = 1
 anchors_preset = 8
@@ -342,6 +342,22 @@ theme_override_font_sizes/font_size = 8
 text = "100%"
 horizontal_alignment = 2
 
+[node name="DeactivateParticlesRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182780]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="DeactivateParticlesLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/DeactivateParticlesRow" unique_id=2049182781]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Deactivate Particles :"
+
+[node name="DeactivateParticlesCheckBox" type="CheckBox" parent="SettingsPanel/VBox/OptionsContainer/DeactivateParticlesRow" unique_id=2049182782]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+
 [node name="FullscreenRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182760]
 visible = false
 layout_mode = 2
@@ -359,14 +375,11 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 
+
 [node name="Audio" type="Node" parent="." unique_id=2049182763]
 
-[node name="SoundHover" type="AudioStreamPlayer" parent="Audio" unique_id=2049182764]
-stream = SubResource("AudioStreamRandomizer_776kc")
-volume_db = -6.0
-
 [node name="SoundClick" type="AudioStreamPlayer" parent="Audio" unique_id=2049182765]
-stream = ExtResource("7_click")
+stream = ExtResource("6_2rik1")
 volume_db = -4.0
 
 [node name="SoundStart" type="AudioStreamPlayer" parent="Audio" unique_id=2049182766]

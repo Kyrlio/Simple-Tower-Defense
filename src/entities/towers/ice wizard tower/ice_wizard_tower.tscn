@@ -24,8 +24,8 @@ script = ExtResource("2_cvy1i")
 projectile = ExtResource("3_6ktnd")
 damage = 2.0
 speed = 125.0
-slow_factor = 0.5
-slow_duration = 2.0
+slow_factor = 0.35
+slow_duration = 1.5
 shoot_reload_time = 2.5
 damage_upgrade_base_cost = 150
 

@@ -19,18 +19,21 @@ func _setup_upgrade_costs() -> void:
 	range_upgrade_cost_mult = 1.25
 
 
-func _physics_process(_delta: float) -> void:
-	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
-	
-	if enemies.size() > 0:
-		weapon.look_at(enemies[0].global_position)
+func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
+	if current_target:
+		weapon.look_at(current_target.global_position)
 
 
 func _shoot() -> void:
-	if not projectile or enemies.is_empty():
+	if not projectile:
+		return
+	if not _is_target_valid(current_target):
+		_update_current_target()
+	if not current_target:
 		return
 	
-	var instance: Arrow = projectile.instantiate() as Arrow
+	var instance: Arrow = ProjectilePool.spawn_projectile(projectile) as Arrow
 	if not instance:
 		return
 	
@@ -38,23 +41,17 @@ func _shoot() -> void:
 	instance.speed = speed
 	var cur_range = get_detection_range()
 	instance.lifetime = maxf(2.0, (cur_range * 1.3) / maxf(1.0, speed))
-	
-	var projectile_node: Node2D = get_tree().current_scene.get_node_or_null("Projectiles")
-	if projectile_node:
-		projectile_node.add_child(instance)
-	else:
-		get_tree().current_scene.add_child(instance)
-	
 	instance.shoot(muzzle.global_position, weapon.rotation)
 	SoundManager.play_shoot("archer", muzzle.global_position)
 
 
 func _on_reload_timer_timeout() -> void:
-	enemies = enemies.filter(func(e): return is_instance_valid(e) and not e.is_queued_for_deletion())
-	
-	if enemies.size() > 0 and projectile:
+	if not _is_target_valid(current_target):
+		_update_current_target()
+	if current_target and projectile:
 		animation_player.play("shoot")
 		_shoot()
+
 
 
 func get_special_description() -> String:

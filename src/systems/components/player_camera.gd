@@ -66,8 +66,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		# Anchor drag 1:1 with ground under mouse pointer
 		var delta_drag = (event.relative / current_zoom_level) * drag_acceleration
 		target_position -= delta_drag
-		# Store instant velocity for momentum after drag release
-		drag_velocity = -delta_drag / max(get_process_delta_time(), 0.001)
+		# Store instant velocity for momentum after drag release (unscaled by time_scale)
+		var time_scale = Engine.time_scale if Engine.time_scale > 0.0001 else 1.0
+		var unscaled_dt: float = get_process_delta_time() / time_scale
+		drag_velocity = -delta_drag / maxf(unscaled_dt, 0.001)
 
 
 func _zoom_by_factor(factor: float) -> void:
@@ -94,8 +96,11 @@ func _zoom_by_factor(factor: float) -> void:
 
 
 func _process(delta: float) -> void:
-	_update_zoom(delta)
-	_update_movement(delta)
+	# Keep camera navigation and zoom at constant real-time speed regardless of Engine.time_scale
+	var time_scale = Engine.time_scale if Engine.time_scale > 0.0001 else 1.0
+	var unscaled_delta: float = delta / time_scale
+	_update_zoom(unscaled_delta)
+	_update_movement(unscaled_delta)
 
 
 func _update_zoom(delta: float) -> void:

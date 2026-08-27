@@ -5,9 +5,9 @@ const POOL_SIZE_2D: int = 36
 const POOL_SIZE_UI: int = 10
 
 ## Preloaded Audio Streams
-const SOUND_HOVER = preload("res://assets/Sounds/UI & Menus/Hover Over.wav")
-const SOUND_CLICK = preload("res://assets/Sounds/UI & Menus/Click Bounce.wav")
-const SOUND_SELECT = preload("res://assets/Sounds/UI & Menus/Select.wav")
+const SOUND_HOVER = preload("uid://bt1nlug800p77")
+const SOUND_CLICK = preload("uid://bgj8ic7y3lh3h")
+const SOUND_SELECT = preload("uid://c2t8r8q3xtutk")
 const SOUND_ERROR = preload("res://assets/Sounds/UI & Menus/Error.wav")
 const SOUND_NOTIFICATION = preload("res://assets/Sounds/UI & Menus/Notification.wav")
 
@@ -17,7 +17,7 @@ const SOUND_TOWER_UPGRADE = preload("res://assets/Sounds/Medieval/Weapon Upgrade
 const SOUND_SHOOT_ARCHER = preload("res://assets/Sounds/Medieval/Bow Shoot.wav")
 const SOUND_SHOOT_CROSSBOW = preload("res://assets/Sounds/Medieval/Metal Twang.wav")
 const SOUND_SHOOT_CANNON = preload("uid://v1qi8fn6o4uf")
-const SOUND_EXPLOSION_CANNON = preload("res://assets/Sounds/Hollywood/Mega Bomb.wav")
+const SOUND_EXPLOSION_CANNON = preload("uid://0wf23p1nw7b3")
 const SOUND_SHOOT_ICE = preload("res://assets/Sounds/Magic/Ice Attack.wav")
 const SOUND_SHOOT_POISON = preload("res://assets/Sounds/Magic/Acid Attack.wav")
 const SOUND_SHOOT_LIGHTNING = preload("res://assets/Sounds/Magic/Air Attack.wav")
@@ -232,15 +232,15 @@ func play_wave_warning() -> void:
 ## --- UI Sounds ---
 
 func play_ui_hover() -> void:
-	play_ui(SOUND_HOVER, -14.0, randf_range(0.9, 1.05))
+	play_ui(SOUND_HOVER, -12.0, randf_range(0.9, 1.05))
 
 
 func play_ui_click() -> void:
-	play_ui(SOUND_CLICK, -8.0, randf_range(0.9, 1.04))
+	play_ui(SOUND_CLICK, -12.0, randf_range(0.9, 1.04))
 
 
 func play_ui_select() -> void:
-	play_ui(SOUND_SELECT, -7.0, randf_range(0.9, 1.05))
+	play_ui(SOUND_SELECT, -12.0, randf_range(0.9, 1.05))
 
 
 func play_ui_error() -> void:
