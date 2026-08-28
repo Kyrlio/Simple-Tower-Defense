@@ -223,7 +223,7 @@ y_sort_enabled = true
 collision_mask = 2
 script = ExtResource("1_2gnb7")
 stats = ExtResource("2_etdj2")
-max_speed = 50.0
+max_speed = 35.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=800983565]
 libraries/ = SubResource("AnimationLibrary_a3dji")
@@ -252,6 +252,7 @@ offset = Vector2(0, -3)
 hframes = 4
 
 [node name="Label" type="Label" parent="." unique_id=46562595]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

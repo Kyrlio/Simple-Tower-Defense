@@ -4,4 +4,4 @@ extends Node2D
 
 
 func _ready() -> void:
-	GoldManager.add_gold(5000000)
+	GoldManager.add_gold(000000)

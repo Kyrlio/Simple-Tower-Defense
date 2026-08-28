@@ -4,13 +4,21 @@
 [ext_resource type="Texture2D" uid="uid://cp5s34r7ufk3k" path="res://assets/ui/buttons.png" id="3_rfwen"]
 [ext_resource type="Script" uid="uid://gxs42jl0pbe6" path="res://src/ui/animated_button.gd" id="4_wrg04"]
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rfwen"]
+texture = ExtResource("3_rfwen")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 3.0
+texture_margin_bottom = 9.0
+region_rect = Rect2(3, 20, 10, 11)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wrg04"]
 texture = ExtResource("3_rfwen")
-texture_margin_left = 2.0
-texture_margin_top = 2.0
-texture_margin_right = 2.0
-texture_margin_bottom = 4.0
-region_rect = Rect2(3, 100, 10, 11)
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 3.0
+texture_margin_bottom = 9.0
+region_rect = Rect2(3, 20, 10, 11)
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
 color = Color(1, 1, 1, 1)
@@ -166,14 +174,15 @@ autowrap_mode = 3
 
 [node name="CloseButton" type="Button" parent="VBox/Header" unique_id=1588602556]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(12, 13)
-custom_maximum_size = Vector2(12, 13)
+custom_minimum_size = Vector2(12, 12)
+custom_maximum_size = Vector2(12, 12)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
-theme_override_font_sizes/font_size = 5
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxTexture_rfwen")
 theme_override_styles/hover = SubResource("StyleBoxTexture_wrg04")
-text = "✕"
+text = "x"
 script = ExtResource("4_wrg04")
 metadata/_custom_type_script = "uid://gxs42jl0pbe6"
 

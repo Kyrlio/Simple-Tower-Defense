@@ -5,9 +5,10 @@
 [resource]
 script = ExtResource("1_gn3df")
 name = "Demon"
-hp = 25.0
+hp = 15.0
 speed = 7.0
-gold_reward = 40
+attack_damage = 8.0
+gold_reward = 15
 physical_resist = 0.10000000000000007
 fire_resist = 1.0
 ice_resist = -1.0

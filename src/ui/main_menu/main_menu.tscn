@@ -51,12 +51,20 @@ animations = [{
 "speed": 4.0
 }]
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2rik1"]
+texture = ExtResource("5_btntex")
+texture_margin_left = 5.0
+texture_margin_top = 4.0
+texture_margin_right = 3.0
+texture_margin_bottom = 9.0
+region_rect = Rect2(3, 20, 10, 11)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_close_hover"]
 texture = ExtResource("5_btntex")
-texture_margin_left = 2.0
+texture_margin_left = 4.0
 texture_margin_top = 2.0
 texture_margin_right = 2.0
-texture_margin_bottom = 4.0
+texture_margin_bottom = 7.0
 region_rect = Rect2(3, 100, 10, 11)
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
@@ -200,26 +208,25 @@ horizontal_alignment = 2
 
 [node name="SettingsPanel" type="PanelContainer" parent="." unique_id=2049182749]
 unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(178, 135)
+custom_minimum_size = Vector2(224, 156)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -89.0
-offset_top = -67.5
-offset_right = 89.0
-offset_bottom = 67.5
+offset_left = -112.0
+offset_top = -78.0
+offset_right = 112.0
+offset_bottom = 78.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(89, 67)
+pivot_offset = Vector2(112, 78)
 offset_transform_enabled = true
 
 [node name="VBox" type="VBoxContainer" parent="SettingsPanel" unique_id=2049182750]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="Header" type="HBoxContainer" parent="SettingsPanel/VBox" unique_id=2049182751]
 layout_mode = 2
@@ -234,38 +241,64 @@ text = "Settings"
 
 [node name="SettingsCloseButton" type="Button" parent="SettingsPanel/VBox/Header" unique_id=2049182753]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(14, 14)
+custom_minimum_size = Vector2(15, 16)
+custom_maximum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
-theme_override_font_sizes/font_size = 5
+theme_override_styles/normal = SubResource("StyleBoxTexture_2rik1")
 theme_override_styles/hover = SubResource("StyleBoxTexture_close_hover")
-text = "✕"
+text = "x"
+script = ExtResource("4_animbtn")
+
+[node name="TabButtonsContainer" type="HBoxContainer" parent="SettingsPanel/VBox" unique_id=2049182783]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TabGeneralButton" type="Button" parent="SettingsPanel/VBox/TabButtonsContainer" unique_id=2049182784]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "General / Audio"
+script = ExtResource("4_animbtn")
+
+[node name="TabWavesButton" type="Button" parent="SettingsPanel/VBox/TabButtonsContainer" unique_id=2049182785]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Waves & Diff."
 script = ExtResource("4_animbtn")
 
 [node name="HSeparator" type="HSeparator" parent="SettingsPanel/VBox" unique_id=2049182754]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_sep")
 
-[node name="OptionsContainer" type="VBoxContainer" parent="SettingsPanel/VBox" unique_id=2049182755]
+[node name="GeneralTab" type="VBoxContainer" parent="SettingsPanel/VBox" unique_id=2049182755]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
-[node name="MasterVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182756]
+[node name="MasterVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/GeneralTab" unique_id=2049182756]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
-[node name="VolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182757]
-custom_minimum_size = Vector2(46, 0)
+[node name="VolumeLabel" type="Label" parent="SettingsPanel/VBox/GeneralTab/MasterVolumeRow" unique_id=2049182757]
+custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
 text = "Master :"
 
-[node name="MasterVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182758]
+[node name="MasterVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/GeneralTab/MasterVolumeRow" unique_id=2049182758]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(58, 10)
+custom_minimum_size = Vector2(50, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -273,29 +306,39 @@ focus_mode = 0
 step = 5.0
 value = 100.0
 
-[node name="MasterVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/MasterVolumeRow" unique_id=2049182759]
+[node name="MasterVolumeLabel" type="Label" parent="SettingsPanel/VBox/GeneralTab/MasterVolumeRow" unique_id=2049182759]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(24, 0)
+custom_minimum_size = Vector2(22, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 8
 text = "100%"
 horizontal_alignment = 2
 
-[node name="SfxVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182768]
+[node name="MasterVolumeResetBtn" type="Button" parent="SettingsPanel/VBox/GeneralTab/MasterVolumeRow" unique_id=2049182786]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
 layout_mode = 2
-theme_override_constants/separation = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
 
-[node name="SfxVolumeTitle" type="Label" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=2049182769]
-custom_minimum_size = Vector2(46, 0)
+[node name="SfxVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/GeneralTab" unique_id=2049182768]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="SfxVolumeTitle" type="Label" parent="SettingsPanel/VBox/GeneralTab/SfxVolumeRow" unique_id=2049182769]
+custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
 text = "SFX/Towers :"
 
-[node name="SfxVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=2049182770]
+[node name="SfxVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/GeneralTab/SfxVolumeRow" unique_id=2049182770]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(58, 10)
+custom_minimum_size = Vector2(50, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -303,29 +346,39 @@ focus_mode = 0
 step = 5.0
 value = 100.0
 
-[node name="SfxVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/SfxVolumeRow" unique_id=2049182771]
+[node name="SfxVolumeLabel" type="Label" parent="SettingsPanel/VBox/GeneralTab/SfxVolumeRow" unique_id=2049182771]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(24, 0)
+custom_minimum_size = Vector2(22, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 8
 text = "100%"
 horizontal_alignment = 2
 
-[node name="UiVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182772]
+[node name="SfxVolumeResetBtn" type="Button" parent="SettingsPanel/VBox/GeneralTab/SfxVolumeRow" unique_id=2049182787]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
 layout_mode = 2
-theme_override_constants/separation = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
 
-[node name="UiVolumeTitle" type="Label" parent="SettingsPanel/VBox/OptionsContainer/UiVolumeRow" unique_id=2049182773]
-custom_minimum_size = Vector2(46, 0)
+[node name="UiVolumeRow" type="HBoxContainer" parent="SettingsPanel/VBox/GeneralTab" unique_id=2049182772]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="UiVolumeTitle" type="Label" parent="SettingsPanel/VBox/GeneralTab/UiVolumeRow" unique_id=2049182773]
+custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
 text = "UI/Menus :"
 
-[node name="UiVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/OptionsContainer/UiVolumeRow" unique_id=2049182774]
+[node name="UiVolumeSlider" type="HSlider" parent="SettingsPanel/VBox/GeneralTab/UiVolumeRow" unique_id=2049182774]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(58, 10)
+custom_minimum_size = Vector2(50, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -333,48 +386,434 @@ focus_mode = 0
 step = 5.0
 value = 100.0
 
-[node name="UiVolumeLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/UiVolumeRow" unique_id=2049182775]
+[node name="UiVolumeLabel" type="Label" parent="SettingsPanel/VBox/GeneralTab/UiVolumeRow" unique_id=2049182775]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(24, 0)
+custom_minimum_size = Vector2(22, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 8
 text = "100%"
 horizontal_alignment = 2
 
-[node name="DeactivateParticlesRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182780]
+[node name="UiVolumeResetBtn" type="Button" parent="SettingsPanel/VBox/GeneralTab/UiVolumeRow" unique_id=2049182788]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
+
+[node name="DeactivateParticlesRow" type="HBoxContainer" parent="SettingsPanel/VBox/GeneralTab" unique_id=2049182780]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="DeactivateParticlesLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/DeactivateParticlesRow" unique_id=2049182781]
+[node name="DeactivateParticlesLabel" type="Label" parent="SettingsPanel/VBox/GeneralTab/DeactivateParticlesRow" unique_id=2049182781]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
 text = "Deactivate Particles :"
 
-[node name="DeactivateParticlesCheckBox" type="CheckBox" parent="SettingsPanel/VBox/OptionsContainer/DeactivateParticlesRow" unique_id=2049182782]
+[node name="DeactivateParticlesCheckBox" type="CheckBox" parent="SettingsPanel/VBox/GeneralTab/DeactivateParticlesRow" unique_id=2049182782]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 
-[node name="FullscreenRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=2049182760]
+[node name="ShowEnemyDebugLabelsRow" type="HBoxContainer" parent="SettingsPanel/VBox/GeneralTab" unique_id=2049182828]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ShowEnemyDebugLabelsLabel" type="Label" parent="SettingsPanel/VBox/GeneralTab/ShowEnemyDebugLabelsRow" unique_id=2049182829]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Show Enemy Stats :"
+
+[node name="ShowEnemyDebugLabelsCheckBox" type="CheckBox" parent="SettingsPanel/VBox/GeneralTab/ShowEnemyDebugLabelsRow" unique_id=2049182830]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+
+[node name="FullscreenRow" type="HBoxContainer" parent="SettingsPanel/VBox/GeneralTab" unique_id=2049182760]
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/FullscreenRow" unique_id=2049182761]
+[node name="FullscreenLabel" type="Label" parent="SettingsPanel/VBox/GeneralTab/FullscreenRow" unique_id=2049182761]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
 text = "Fullscreen :"
 
-[node name="FullscreenCheckBox" type="CheckBox" parent="SettingsPanel/VBox/OptionsContainer/FullscreenRow" unique_id=2049182762]
+[node name="FullscreenCheckBox" type="CheckBox" parent="SettingsPanel/VBox/GeneralTab/FullscreenRow" unique_id=2049182762]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 
+[node name="WavesTab" type="VBoxContainer" parent="SettingsPanel/VBox" unique_id=2049182789]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 3
+
+[node name="WavesScroll" type="ScrollContainer" parent="SettingsPanel/VBox/WavesTab" unique_id=2049182790]
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="WavesContent" type="VBoxContainer" parent="SettingsPanel/VBox/WavesTab/WavesScroll" unique_id=2049182791]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="BaseDiffRow" type="HBoxContainer" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent" unique_id=2049182792]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/BaseDiffRow" unique_id=2049182793]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Base Diff. :"
+
+[node name="BaseDiffSlider" type="HSlider" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/BaseDiffRow" unique_id=2049182794]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.1
+max_value = 3.0
+step = 0.1
+value = 1.0
+
+[node name="BaseDiffLabel" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/BaseDiffRow" unique_id=2049182795]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "1.0"
+horizontal_alignment = 2
+
+[node name="BaseDiffResetBtn" type="Button" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/BaseDiffRow" unique_id=2049182796]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
+
+[node name="LinearGrowthRow" type="HBoxContainer" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent" unique_id=2049182797]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/LinearGrowthRow" unique_id=2049182798]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Growth / Wave :"
+
+[node name="LinearGrowthSlider" type="HSlider" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/LinearGrowthRow" unique_id=2049182799]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+max_value = 1.0
+step = 0.05
+value = 0.25
+
+[node name="LinearGrowthLabel" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/LinearGrowthRow" unique_id=2049182800]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "0.25"
+horizontal_alignment = 2
+
+[node name="LinearGrowthResetBtn" type="Button" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/LinearGrowthRow" unique_id=2049182801]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
+
+[node name="BaseEnemyRow" type="HBoxContainer" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent" unique_id=2049182802]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/BaseEnemyRow" unique_id=2049182803]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Base Enemies :"
+
+[node name="BaseEnemySlider" type="HSlider" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/BaseEnemyRow" unique_id=2049182804]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 1.0
+max_value = 20.0
+value = 4.0
+
+[node name="BaseEnemyLabel" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/BaseEnemyRow" unique_id=2049182805]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "4"
+horizontal_alignment = 2
+
+[node name="BaseEnemyResetBtn" type="Button" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/BaseEnemyRow" unique_id=2049182806]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
+
+[node name="MaxEnemyRow" type="HBoxContainer" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent" unique_id=2049182807]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/MaxEnemyRow" unique_id=2049182808]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Max Enemies :"
+
+[node name="MaxEnemySlider" type="HSlider" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/MaxEnemyRow" unique_id=2049182809]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 10.0
+max_value = 150.0
+step = 5.0
+value = 80.0
+
+[node name="MaxEnemyLabel" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/MaxEnemyRow" unique_id=2049182810]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "80"
+horizontal_alignment = 2
+
+[node name="MaxEnemyResetBtn" type="Button" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/MaxEnemyRow" unique_id=2049182811]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
+
+[node name="TimerMultRow" type="HBoxContainer" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent" unique_id=2049182812]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/TimerMultRow" unique_id=2049182813]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Delay Mult. :"
+
+[node name="TimerMultSlider" type="HSlider" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/TimerMultRow" unique_id=2049182814]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 1.0
+max_value = 1.05
+step = 0.005
+value = 1.015
+
+[node name="TimerMultLabel" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/TimerMultRow" unique_id=2049182815]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "1.015"
+horizontal_alignment = 2
+
+[node name="TimerMultResetBtn" type="Button" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/TimerMultRow" unique_id=2049182816]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
+
+[node name="SpawnerRatioRow" type="HBoxContainer" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent" unique_id=2049182817]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/SpawnerRatioRow" unique_id=2049182818]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Start Ratio :"
+
+[node name="SpawnerRatioSlider" type="HSlider" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/SpawnerRatioRow" unique_id=2049182819]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 0.05
+max_value = 1.0
+step = 0.05
+value = 0.2
+
+[node name="SpawnerRatioLabel" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/SpawnerRatioRow" unique_id=2049182820]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "20%"
+horizontal_alignment = 2
+
+[node name="SpawnerRatioResetBtn" type="Button" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/SpawnerRatioRow" unique_id=2049182821]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
+
+[node name="ExpoPowerRow" type="HBoxContainer" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent" unique_id=2049182822]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/ExpoPowerRow" unique_id=2049182823]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Expo Power :"
+
+[node name="ExpoPowerSlider" type="HSlider" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/ExpoPowerRow" unique_id=2049182824]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+min_value = 1.0
+max_value = 2.5
+step = 0.1
+value = 1.6
+
+[node name="ExpoPowerLabel" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/ExpoPowerRow" unique_id=2049182825]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "1.6"
+horizontal_alignment = 2
+
+[node name="ExpoPowerResetBtn" type="Button" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/ExpoPowerRow" unique_id=2049182826]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
+
+[node name="GoldScaleRow" type="HBoxContainer" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent" unique_id=2049182831]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Label" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/GoldScaleRow" unique_id=2049182832]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Gold Scaling :"
+
+[node name="GoldScaleSlider" type="HSlider" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/GoldScaleRow" unique_id=2049182833]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(46, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+focus_mode = 0
+max_value = 0.5
+step = 0.01
+value = 0.08
+
+[node name="GoldScaleLabel" type="Label" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/GoldScaleRow" unique_id=2049182834]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 8
+text = "+8%"
+horizontal_alignment = 2
+
+[node name="GoldScaleResetBtn" type="Button" parent="SettingsPanel/VBox/WavesTab/WavesScroll/WavesContent/GoldScaleRow" unique_id=2049182835]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(14, 12)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "R"
+script = ExtResource("4_animbtn")
+
+[node name="ResetAllWavesBtn" type="Button" parent="SettingsPanel/VBox/WavesTab" unique_id=2049182827]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+text = "Reset All"
+script = ExtResource("4_animbtn")
 
 [node name="Audio" type="Node" parent="." unique_id=2049182763]
 

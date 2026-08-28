@@ -6,15 +6,63 @@ extends Control
 
 @onready var settings_panel: PanelContainer = %SettingsPanel
 @onready var settings_close_button: Button = %SettingsCloseButton
+
+# Tab switching
+@onready var tab_general_button: Button = %TabGeneralButton
+@onready var tab_waves_button: Button = %TabWavesButton
+@onready var general_tab: VBoxContainer = %GeneralTab
+@onready var waves_tab: VBoxContainer = %WavesTab
+
+# General / Audio Controls
 @onready var master_slider: HSlider = %MasterVolumeSlider
 @onready var master_label: Label = %MasterVolumeLabel
+@onready var master_reset_btn: Button = %MasterVolumeResetBtn
 @onready var sfx_slider: HSlider = %SfxVolumeSlider
 @onready var sfx_label: Label = %SfxVolumeLabel
+@onready var sfx_reset_btn: Button = %SfxVolumeResetBtn
 @onready var ui_slider: HSlider = %UiVolumeSlider
 @onready var ui_label: Label = %UiVolumeLabel
+@onready var ui_reset_btn: Button = %UiVolumeResetBtn
 @onready var fullscreen_checkbox: CheckBox = %FullscreenCheckBox
 @onready var deactivate_particles_checkbox: CheckBox = %DeactivateParticlesCheckBox
+@onready var show_enemy_debug_labels_checkbox: CheckBox = %ShowEnemyDebugLabelsCheckBox
 
+# Wave Manager & Difficulty Controls
+@onready var base_diff_slider: HSlider = %BaseDiffSlider
+@onready var base_diff_label: Label = %BaseDiffLabel
+@onready var base_diff_reset_btn: Button = %BaseDiffResetBtn
+
+@onready var linear_growth_slider: HSlider = %LinearGrowthSlider
+@onready var linear_growth_label: Label = %LinearGrowthLabel
+@onready var linear_growth_reset_btn: Button = %LinearGrowthResetBtn
+
+@onready var base_enemy_slider: HSlider = %BaseEnemySlider
+@onready var base_enemy_label: Label = %BaseEnemyLabel
+@onready var base_enemy_reset_btn: Button = %BaseEnemyResetBtn
+
+@onready var max_enemy_slider: HSlider = %MaxEnemySlider
+@onready var max_enemy_label: Label = %MaxEnemyLabel
+@onready var max_enemy_reset_btn: Button = %MaxEnemyResetBtn
+
+@onready var timer_mult_slider: HSlider = %TimerMultSlider
+@onready var timer_mult_label: Label = %TimerMultLabel
+@onready var timer_mult_reset_btn: Button = %TimerMultResetBtn
+
+@onready var spawner_ratio_slider: HSlider = %SpawnerRatioSlider
+@onready var spawner_ratio_label: Label = %SpawnerRatioLabel
+@onready var spawner_ratio_reset_btn: Button = %SpawnerRatioResetBtn
+
+@onready var expo_power_slider: HSlider = %ExpoPowerSlider
+@onready var expo_power_label: Label = %ExpoPowerLabel
+@onready var expo_power_reset_btn: Button = %ExpoPowerResetBtn
+
+@onready var gold_scale_slider: HSlider = %GoldScaleSlider
+@onready var gold_scale_label: Label = %GoldScaleLabel
+@onready var gold_scale_reset_btn: Button = %GoldScaleResetBtn
+
+@onready var reset_all_waves_btn: Button = %ResetAllWavesBtn
+
+# Sounds & Visuals
 @onready var sound_click: AudioStreamPlayer = $Audio/SoundClick
 @onready var sound_start: AudioStreamPlayer = $Audio/SoundStart
 @onready var sound_quit: AudioStreamPlayer = $Audio/SoundQuit
@@ -39,16 +87,48 @@ func _ready() -> void:
 	quit_button.pressed.connect(_on_quit_pressed)
 	settings_close_button.pressed.connect(_on_settings_close_pressed)
 	
-	# Connect settings controls
+	# Connect tab navigation
+	tab_general_button.pressed.connect(func() -> void: _switch_tab(false))
+	tab_waves_button.pressed.connect(func() -> void: _switch_tab(true))
+	
+	# Connect general/audio controls
 	master_slider.value_changed.connect(_on_master_volume_changed)
 	sfx_slider.value_changed.connect(_on_sfx_volume_changed)
 	ui_slider.value_changed.connect(_on_ui_volume_changed)
+	master_reset_btn.pressed.connect(func() -> void: master_slider.value = 100.0)
+	sfx_reset_btn.pressed.connect(func() -> void: sfx_slider.value = 100.0)
+	ui_reset_btn.pressed.connect(func() -> void: ui_slider.value = 100.0)
 	fullscreen_checkbox.toggled.connect(_on_fullscreen_toggled)
 	deactivate_particles_checkbox.toggled.connect(_on_deactivate_particles_toggled)
+	show_enemy_debug_labels_checkbox.toggled.connect(_on_show_enemy_debug_labels_toggled)
 	
-	# Initialize settings UI state
+	# Connect wave settings sliders
+	base_diff_slider.value_changed.connect(_on_base_diff_changed)
+	linear_growth_slider.value_changed.connect(_on_linear_growth_changed)
+	base_enemy_slider.value_changed.connect(_on_base_enemy_changed)
+	max_enemy_slider.value_changed.connect(_on_max_enemy_changed)
+	timer_mult_slider.value_changed.connect(_on_timer_mult_changed)
+	spawner_ratio_slider.value_changed.connect(_on_spawner_ratio_changed)
+	expo_power_slider.value_changed.connect(_on_expo_power_changed)
+	gold_scale_slider.value_changed.connect(_on_gold_scale_changed)
+	
+	# Connect individual wave reset buttons
+	base_diff_reset_btn.pressed.connect(func() -> void: _reset_single_wave_setting("base_difficulty", base_diff_slider))
+	linear_growth_reset_btn.pressed.connect(func() -> void: _reset_single_wave_setting("linear_growth", linear_growth_slider))
+	base_enemy_reset_btn.pressed.connect(func() -> void: _reset_single_wave_setting("base_enemy_count", base_enemy_slider))
+	max_enemy_reset_btn.pressed.connect(func() -> void: _reset_single_wave_setting("max_enemies_per_spawner", max_enemy_slider))
+	timer_mult_reset_btn.pressed.connect(func() -> void: _reset_single_wave_setting("wave_timer_multiplier", timer_mult_slider))
+	spawner_ratio_reset_btn.pressed.connect(func() -> void: _reset_single_wave_setting("spawner_start_wave_ratio", spawner_ratio_slider))
+	expo_power_reset_btn.pressed.connect(func() -> void: _reset_single_wave_setting("exponential_power", expo_power_slider))
+	gold_scale_reset_btn.pressed.connect(func() -> void: _reset_single_wave_setting("gold_scale_influence", gold_scale_slider))
+	
+	# Connect reset all wave settings button
+	reset_all_waves_btn.pressed.connect(_on_reset_all_waves_pressed)
+	
+	# Initialize settings values
 	_init_settings_values()
-
+	_init_wave_settings_values()
+	_switch_tab(false)
 	
 	# Settings panel initial hidden state
 	settings_panel.visible = false
@@ -64,6 +144,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		if settings_panel.visible:
 			_hide_settings()
 			get_viewport().set_input_as_handled()
+
+
+func _switch_tab(to_waves: bool) -> void:
+	_play_click_sound()
+	general_tab.visible = not to_waves
+	waves_tab.visible = to_waves
+	
+	if to_waves:
+		tab_general_button.modulate = Color(0.7, 0.7, 0.7, 1.0)
+		tab_waves_button.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	else:
+		tab_general_button.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		tab_waves_button.modulate = Color(0.7, 0.7, 0.7, 1.0)
 
 
 func _start_logo_animation() -> void:
@@ -145,6 +238,8 @@ func _hide_settings() -> void:
 	)
 
 
+## --- Initialisation & Gestion Audio / Général ---
+
 func _init_settings_values() -> void:
 	_init_bus_slider("Master", master_slider, master_label)
 	_init_bus_slider("SFX", sfx_slider, sfx_label)
@@ -155,6 +250,8 @@ func _init_settings_values() -> void:
 	fullscreen_checkbox.button_pressed = is_fullscreen
 	if deactivate_particles_checkbox:
 		deactivate_particles_checkbox.button_pressed = Data.deactivate_particles
+	if show_enemy_debug_labels_checkbox:
+		show_enemy_debug_labels_checkbox.button_pressed = Data.show_enemy_debug_labels
 
 
 func _init_bus_slider(bus_name: String, slider: HSlider, label: Label) -> void:
@@ -206,6 +303,120 @@ func _on_deactivate_particles_toggled(toggled_on: bool) -> void:
 	Data.deactivate_particles = toggled_on
 
 
+func _on_show_enemy_debug_labels_toggled(toggled_on: bool) -> void:
+	_play_click_sound()
+	Data.show_enemy_debug_labels = toggled_on
+
+
+## --- Initialisation & Gestion Wave Manager & Difficulté ---
+
+func _init_wave_settings_values() -> void:
+	base_diff_slider.value = Data.get_wave_setting("base_difficulty", 1.0)
+	linear_growth_slider.value = Data.get_wave_setting("linear_growth", 0.15)
+	base_enemy_slider.value = Data.get_wave_setting("base_enemy_count", 4)
+	max_enemy_slider.value = Data.get_wave_setting("max_enemies_per_spawner", 80)
+	timer_mult_slider.value = Data.get_wave_setting("wave_timer_multiplier", 1.015)
+	spawner_ratio_slider.value = Data.get_wave_setting("spawner_start_wave_ratio", 0.20)
+	expo_power_slider.value = Data.get_wave_setting("exponential_power", 1.05)
+	gold_scale_slider.value = Data.get_wave_setting("gold_scale_influence", 0.08)
+	
+	_update_base_diff_label(base_diff_slider.value)
+	_update_linear_growth_label(linear_growth_slider.value)
+	_update_base_enemy_label(base_enemy_slider.value)
+	_update_max_enemy_label(max_enemy_slider.value)
+	_update_timer_mult_label(timer_mult_slider.value)
+	_update_spawner_ratio_label(spawner_ratio_slider.value)
+	_update_expo_power_label(expo_power_slider.value)
+	_update_gold_scale_label(gold_scale_slider.value)
+
+
+func _on_base_diff_changed(value: float) -> void:
+	Data.set_wave_setting("base_difficulty", value)
+	_update_base_diff_label(value)
+
+
+func _on_linear_growth_changed(value: float) -> void:
+	Data.set_wave_setting("linear_growth", value)
+	_update_linear_growth_label(value)
+
+
+func _on_base_enemy_changed(value: float) -> void:
+	var count: int = int(round(value))
+	Data.set_wave_setting("base_enemy_count", count)
+	_update_base_enemy_label(value)
+
+
+func _on_max_enemy_changed(value: float) -> void:
+	var count: int = int(round(value))
+	Data.set_wave_setting("max_enemies_per_spawner", count)
+	_update_max_enemy_label(value)
+
+
+func _on_timer_mult_changed(value: float) -> void:
+	Data.set_wave_setting("wave_timer_multiplier", value)
+	_update_timer_mult_label(value)
+
+
+func _on_spawner_ratio_changed(value: float) -> void:
+	Data.set_wave_setting("spawner_start_wave_ratio", value)
+	_update_spawner_ratio_label(value)
+
+
+func _on_expo_power_changed(value: float) -> void:
+	Data.set_wave_setting("exponential_power", value)
+	_update_expo_power_label(value)
+
+
+func _on_gold_scale_changed(value: float) -> void:
+	Data.set_wave_setting("gold_scale_influence", value)
+	_update_gold_scale_label(value)
+
+
+func _reset_single_wave_setting(key: String, slider: HSlider) -> void:
+	_play_click_sound()
+	Data.reset_wave_setting(key)
+	slider.value = Data.get_wave_setting(key)
+
+
+func _on_reset_all_waves_pressed() -> void:
+	_play_click_sound()
+	Data.reset_all_wave_settings()
+	_init_wave_settings_values()
+
+
+func _update_base_diff_label(val: float) -> void:
+	base_diff_label.text = "x%.1f" % val
+
+
+func _update_linear_growth_label(val: float) -> void:
+	linear_growth_label.text = "+%.2f" % val
+
+
+func _update_base_enemy_label(val: float) -> void:
+	base_enemy_label.text = str(int(round(val)))
+
+
+func _update_max_enemy_label(val: float) -> void:
+	max_enemy_label.text = str(int(round(val)))
+
+
+func _update_timer_mult_label(val: float) -> void:
+	timer_mult_label.text = "x%.3f" % val
+
+
+func _update_spawner_ratio_label(val: float) -> void:
+	spawner_ratio_label.text = "%d%%" % int(round(val * 100.0))
+
+
+func _update_expo_power_label(val: float) -> void:
+	expo_power_label.text = "%.1f" % val
+
+
+func _update_gold_scale_label(val: float) -> void:
+	gold_scale_label.text = "+%d%%" % int(round(val * 100.0))
+
+
+## --- Sons Génériques ---
 
 func _play_click_sound() -> void:
 	if sound_click:

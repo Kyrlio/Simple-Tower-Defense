@@ -5,6 +5,10 @@ class_name Enemy
 @export var hit_particles_scene: PackedScene = preload("uid://dtr5lw5ocrg3p")
 @export var death_particles_scene: PackedScene = preload("uid://d4fjkvjerbdpm")
 
+@export_group("Reward Settings")
+## Facteur d'influence de la difficulté sur le gain d'or à la mort (ex: 0.08 = +8% du facteur de diff en or)
+@export var gold_scale_influence: float = 0.15
+
 @export_group("Speed Settings")
 ## Plafond maximal absolu de vitesse de déplacement pour l'ennemi
 @export var max_speed: float = 80.0
@@ -29,7 +33,7 @@ var difficulty_factor: float = 1.0
 
 # Hitstop
 var hitstop_frames: int = 0
-var hitstop_amount: int = 1
+var hitstop_amount: int = 2
 
 # Ralentissement (Slow / Freeze)
 var slow_multiplier: float = 1.0
@@ -70,6 +74,9 @@ func _ready() -> void:
 	
 	_setup_screen_culling()
 	update_animation_speed()
+	
+	Data.enemy_debug_labels_toggled.connect(_on_enemy_debug_labels_toggled)
+	_apply_debug_label_visibility(Data.show_enemy_debug_labels)
 	update_debug_label()
 
 
@@ -112,7 +119,7 @@ func _apply_off_screen_state() -> void:
 
 func setup(new_path_follow: PathFollow2D) -> void:
 	path_follow = new_path_follow
-
+	
 	path_follow.loop = false
 	path_follow.rotates = false
 
@@ -254,6 +261,8 @@ func apply_scale_difficulty(factor: float) -> void:
 		stats = stats.duplicate()
 		stats.hp = maxf(1.0, stats.hp * factor)
 		stats.speed = minf(stats.speed * (1.0 + (factor - 1.0) * 0.2), max_speed)
+		var influence: float = Data.get_wave_setting("gold_scale_influence", gold_scale_influence) if Data else gold_scale_influence
+		stats.gold_reward = maxi(1, roundi(stats.gold_reward * (1.0 + (factor - 1.0) * influence)))
 		cur_hp = stats.hp
 		difficulty_factor = factor
 		update_animation_speed()
@@ -419,6 +428,18 @@ func update_animation_speed() -> void:
 		var speed_ratio: float = get_current_speed() / base_speed
 		var calculated_anim_speed: float = 1.0 + (speed_ratio - 1.0) * anim_speed_influence
 		animation_player.speed_scale = clampf(calculated_anim_speed, 0.1, max_anim_speed_scale)
+
+
+func _on_enemy_debug_labels_toggled(show_labels: bool) -> void:
+	_apply_debug_label_visibility(show_labels)
+
+
+func _apply_debug_label_visibility(show_labels: bool) -> void:
+	var label: Label = get_node_or_null("Label")
+	if label:
+		label.visible = show_labels
+		if show_labels:
+			update_debug_label()
 
 
 func update_debug_label() -> void:

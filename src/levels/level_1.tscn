@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://c3nknj7k1rrw" path="res://src/systems/particles/spawning_tower_particles.tscn" id="6_q2tyl"]
 [ext_resource type="Script" uid="uid://b33wwtw5af1u" path="res://src/systems/components/player_camera.gd" id="8_fcumj"]
 [ext_resource type="PackedScene" uid="uid://cryj0oh2yygls" path="res://src/entities/castle/castle.tscn" id="9_riplu"]
-[ext_resource type="PackedScene" uid="uid://0o0mcta42a61" path="res://src/entities/enemies/normal_slime/normal_slime.tscn" id="15_svtf7"]
 [ext_resource type="PackedScene" uid="uid://dwwgwb6i1phkn" path="res://src/entities/enemies/king_slime/king_slime.tscn" id="16_7q1rl"]
 [ext_resource type="PackedScene" uid="uid://cd8v0yyffvuor" path="res://src/entities/enemies/zombie/zombie.tscn" id="17_5ib0j"]
 [ext_resource type="PackedScene" uid="uid://cvqksiyjw5vxc" path="res://src/entities/enemies/skeleton/skeleton.tscn" id="18_sblag"]
@@ -58,9 +57,9 @@ difficulty_curve = ExtResource("4_vo5gq")
 wave_timer = NodePath("WaveTimer")
 spawners = [NodePath("../Spawners/SpawnerWest/EnemySpawner"), NodePath("../Spawners/SpawnerNorth/EnemySpawner"), NodePath("../Spawners/SpawnerEast/EnemySpawner"), NodePath("../Spawners/SpawnerSouth/EnemySpawner")]
 base_enemy_count = 4
-max_enemies_per_spawner = 30
-wave_timer_multiplier = 1.08
-max_wave_wait_time = 80.0
+max_enemies_per_spawner = 80
+wave_timer_multiplier = 1.02
+max_wave_wait_time = 40.0
 spawner_start_wave_ratio = 0.2
 
 [node name="WaveTimer" type="Timer" parent="WaveManager" unique_id=1883366695]
@@ -218,6 +217,11 @@ metadata/_edit_lock_ = true
 
 [node name="PlayerCamera" type="Camera2D" parent="." unique_id=1390924092]
 position = Vector2(152, 91)
+limit_enabled = false
+limit_left = -687
+limit_top = -509
+limit_right = 993
+limit_bottom = 777
 position_smoothing_speed = 16.0
 script = ExtResource("8_fcumj")
 min_zoom = 0.1
@@ -248,6 +252,7 @@ spawn_pool = Array[Dictionary]([{
 "chance": 20,
 "scene": ExtResource("18_sblag")
 }])
+spawn_delay = 1.0
 
 [node name="Path2D" type="Path2D" parent="Spawners/SpawnerWest" unique_id=406028917]
 y_sort_enabled = true
@@ -266,12 +271,13 @@ spawn_pool = Array[Dictionary]([{
 "chance": 30,
 "scene": ExtResource("18_sblag")
 }, {
-"chance": 20,
-"scene": ExtResource("15_svtf7")
+"chance": 25,
+"scene": ExtResource("4_q2d1y")
 }, {
-"chance": 10,
+"chance": 5,
 "scene": ExtResource("19_bevbp")
 }])
+spawn_delay = 1.05
 
 [node name="Path2D" type="Path2D" parent="Spawners/SpawnerNorth" unique_id=1910987822]
 y_sort_enabled = true
@@ -295,6 +301,7 @@ spawn_pool = Array[Dictionary]([{
 "chance": 30,
 "scene": ExtResource("4_q2d1y")
 }])
+spawn_delay = 1.1
 
 [node name="Path2D" type="Path2D" parent="Spawners/SpawnerEast" unique_id=251363707]
 y_sort_enabled = true
@@ -318,6 +325,7 @@ spawn_pool = Array[Dictionary]([{
 "chance": 20,
 "scene": ExtResource("18_sblag")
 }])
+spawn_delay = 1.2
 
 [node name="Path2D" type="Path2D" parent="Spawners/SpawnerSouth" unique_id=96708109]
 y_sort_enabled = true

@@ -26,9 +26,9 @@ extends Tower
 
 
 func _setup_upgrade_costs() -> void:
-	damage_upgrade_base_cost = 400
-	damage_upgrade_cost_mult = 1.6
-	reload_upgrade_base_cost = 300
+	damage_upgrade_base_cost = 150
+	damage_upgrade_cost_mult = 1.4
+	reload_upgrade_base_cost = 180
 	reload_upgrade_cost_mult = 1.45
 	range_upgrade_base_cost = 225
 	range_upgrade_cost_mult = 1.6
@@ -276,7 +276,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "max_bounces",
 		"name": "Max Bounces",
 		"level": get_upgrade_level("max_bounces"),
-		"cost": _calc_cost(350, 1.45, "max_bounces"),
+		"cost": _calc_cost(250, 1.2, "max_bounces"),
 		"current_text": "%d bounces" % max_bounces,
 		"next_text": "%d bounces (+1)" % next_bounces,
 	})

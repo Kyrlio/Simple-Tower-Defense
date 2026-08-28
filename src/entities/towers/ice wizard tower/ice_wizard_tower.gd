@@ -17,11 +17,11 @@ class_name IceWizardTower
 
 
 func _setup_upgrade_costs() -> void:
-	damage_upgrade_base_cost = 120
-	damage_upgrade_cost_mult = 1.5
-	reload_upgrade_base_cost = 130
-	reload_upgrade_cost_mult = 1.5
-	range_upgrade_base_cost = 100
+	damage_upgrade_base_cost = 80
+	damage_upgrade_cost_mult = 1.35
+	reload_upgrade_base_cost = 80
+	reload_upgrade_cost_mult = 1.3
+	range_upgrade_base_cost = 50
 	range_upgrade_cost_mult = 1.30
 
 
@@ -78,7 +78,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "slow_power",
 		"name": "Slow Power",
 		"level": get_upgrade_level("slow_power"),
-		"cost": _calc_cost(200, 1.6, "slow_power"),
+		"cost": _calc_cost(180, 1.35, "slow_power"),
 		"current_text": "%d%% slow" % cur_pct,
 		"next_text": "%d%% slow (+slow)" % next_pct,
 	})
@@ -88,7 +88,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "slow_duration",
 		"name": "Slow Duration",
 		"level": get_upgrade_level("slow_duration"),
-		"cost": _calc_cost(180, 1.5, "slow_duration"),
+		"cost": _calc_cost(150, 1.35, "slow_duration"),
 		"current_text": "%0.1fs" % slow_duration,
 		"next_text": "%0.1fs (+20%%)" % next_dur,
 	})

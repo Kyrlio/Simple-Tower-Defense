@@ -6,19 +6,19 @@ extends Resource
 
 @export_group("Base Configuration")
 @export var base_difficulty: float = 1.0
-## Croissance par vague (ex: 0.25 = +25% de base par vague)
-@export var linear_growth: float = 0.25
+## Croissance linéaire par vague (ex: 0.15 = +15% de base par vague)
+@export var linear_growth: float = 0.15
 
 @export_group("Growth Settings")
-## Facteur exponentiel pour faire exploser la difficulté en mid/late game
-@export var exponential_power: float = 1.2
-@export var exponential_scale: float = 0.08
+## Facteur exponentiel doux (1.0 = purement linéaire, 1.05 = accélération très légère en très haute vague)
+@export var exponential_power: float = 1.05
+@export var exponential_scale: float = 0.01
 
 @export_group("Wavy Oscillations")
 ## Amplitude des oscillations (hauteur des pics de difficulté et profondeur des creux de récupération)
-@export var wave_amplitude: float = 0.35
-## Fréquence des vagues de tension (ex: 1.0 signifie qu'une oscillation complète prend environ 6.28 vagues)
-@export var wave_frequency: float = 1.05
+@export var wave_amplitude: float = 0.25
+## Fréquence des vagues de tension (ex: 0.8 pour des cycles progressifs réguliers)
+@export var wave_frequency: float = 0.8
 
 
 ## Calcule le coefficient multiplicateur de difficulté pour une vague donnée

@@ -196,6 +196,9 @@ _data = {
 radius = 6.0
 
 [sub_resource type="FontFile" id="FontFile_ruh32"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/variation_coordinates = {}
 cache/0/face_index = 0
 cache/0/embolden = 0.0
@@ -221,10 +224,7 @@ y_sort_enabled = true
 collision_mask = 2
 script = ExtResource("1_cyueu")
 stats = ExtResource("2_cyueu")
-hit_particles_scene = null
-death_particles_scene = null
-anim_speed_influence = null
-max_anim_speed_scale = null
+max_speed = 35.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=800983565]
 libraries/ = SubResource("AnimationLibrary_a3dji")
@@ -252,6 +252,7 @@ offset = Vector2(0, -3)
 hframes = 4
 
 [node name="Label" type="Label" parent="." unique_id=46562595]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

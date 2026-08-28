@@ -268,7 +268,7 @@ collision_mask = 2
 script = ExtResource("1_agigp")
 normal_slime_scene = ExtResource("2_t1kxg")
 stats = ExtResource("3_t1kxg")
-max_speed = 40.0
+max_speed = 25.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=800983565]
 libraries/ = SubResource("AnimationLibrary_a3dji")
@@ -296,6 +296,7 @@ offset = Vector2(0, -3)
 hframes = 4
 
 [node name="Label" type="Label" parent="." unique_id=46562595]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

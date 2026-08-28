@@ -19,11 +19,11 @@ class_name PoisonWizardTower
 
 
 func _setup_upgrade_costs() -> void:
-	damage_upgrade_base_cost = 180
+	damage_upgrade_base_cost = 80
 	damage_upgrade_cost_mult = 1.35
-	reload_upgrade_base_cost = 180
-	reload_upgrade_cost_mult = 1.35
-	range_upgrade_base_cost = 140
+	reload_upgrade_base_cost = 75
+	reload_upgrade_cost_mult = 1.25
+	range_upgrade_base_cost = 50
 	range_upgrade_cost_mult = 1.30
 
 
@@ -79,7 +79,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "poison_damage",
 		"name": "Poison Damage",
 		"level": get_upgrade_level("poison_damage"),
-		"cost": _calc_cost(250, 1.8, "poison_damage"),
+		"cost": _calc_cost(150, 1.5, "poison_damage"),
 		"current_text": "%0.1f /tick" % cur_pdmg,
 		"next_text": "%0.1f /tick (+25%%)" % next_pdmg,
 	})
@@ -89,7 +89,7 @@ func _append_custom_upgrades(upgrades: Array[Dictionary]) -> void:
 		"id": "poison_duration",
 		"name": "Poison Duration",
 		"level": get_upgrade_level("poison_duration"),
-		"cost": _calc_cost(230, 1.45, "poison_duration"),
+		"cost": _calc_cost(160, 1.3, "poison_duration"),
 		"current_text": "%0.1fs" % poison_duration,
 		"next_text": "%0.1fs (+20%%)" % next_dur,
 	})

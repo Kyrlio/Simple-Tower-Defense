@@ -27,7 +27,6 @@ speed = 125.0
 slow_factor = 0.35
 slow_duration = 1.5
 shoot_reload_time = 2.5
-damage_upgrade_base_cost = 150
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="0" unique_id=1945336896]
 libraries/ = SubResource("AnimationLibrary_eubi0")

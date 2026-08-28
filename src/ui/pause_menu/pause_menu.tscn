@@ -8,12 +8,20 @@
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_sep"]
 color = Color(0.35, 0.42, 0.52, 0.7)
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2rik1"]
+texture = ExtResource("4_btntex")
+texture_margin_left = 5.0
+texture_margin_top = 4.0
+texture_margin_right = 3.0
+texture_margin_bottom = 9.0
+region_rect = Rect2(3, 20, 10, 11)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_close_hover"]
 texture = ExtResource("4_btntex")
-texture_margin_left = 2.0
+texture_margin_left = 4.0
 texture_margin_top = 2.0
 texture_margin_right = 2.0
-texture_margin_bottom = 4.0
+texture_margin_bottom = 7.0
 region_rect = Rect2(3, 100, 10, 11)
 
 [node name="PauseMenu" type="Control" unique_id=-1275683555]
@@ -141,13 +149,14 @@ text = "Settings"
 
 [node name="SettingsCloseButton" type="Button" parent="SettingsPanel/VBox/Header" unique_id=-1275683541]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(14, 14)
+custom_minimum_size = Vector2(15, 16)
+custom_maximum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
-theme_override_font_sizes/font_size = 5
+theme_override_styles/normal = SubResource("StyleBoxTexture_2rik1")
 theme_override_styles/hover = SubResource("StyleBoxTexture_close_hover")
-text = "✕"
+text = "x"
 script = ExtResource("3_animbtn")
 
 [node name="HSeparator" type="HSeparator" parent="SettingsPanel/VBox" unique_id=-1275683540]
@@ -266,6 +275,23 @@ custom_maximum_size = Vector2(16, 16)
 layout_mode = 2
 focus_mode = 0
 
+[node name="ShowEnemyDebugLabelsRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=-1275683527]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ShowEnemyDebugLabelsLabel" type="Label" parent="SettingsPanel/VBox/OptionsContainer/ShowEnemyDebugLabelsRow" unique_id=-1275683528]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 8
+text = "Show Enemy Stats :"
+
+[node name="ShowEnemyDebugLabelsCheckBox" type="CheckBox" parent="SettingsPanel/VBox/OptionsContainer/ShowEnemyDebugLabelsRow" unique_id=-1275683529]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(16, 16)
+layout_mode = 2
+focus_mode = 0
+
 [node name="FullscreenRow" type="HBoxContainer" parent="SettingsPanel/VBox/OptionsContainer" unique_id=-1275683526]
 visible = false
 layout_mode = 2
@@ -276,7 +302,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.75, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 8
-text = "Plein Écran :"
+text = "Fullscreen :"
 
 [node name="FullscreenCheckBox" type="CheckBox" parent="SettingsPanel/VBox/OptionsContainer/FullscreenRow" unique_id=-1275683524]
 unique_name_in_owner = true

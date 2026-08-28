@@ -7,5 +7,6 @@ script = ExtResource("1_lln5a")
 name = "Goblin"
 hp = 3.0
 speed = 8.0
-gold_reward = 10
+attack_damage = 1.5
+gold_reward = 4
 metadata/_custom_type_script = "uid://cwi7jj4fejrs2"

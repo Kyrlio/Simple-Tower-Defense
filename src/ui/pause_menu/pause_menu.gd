@@ -17,6 +17,7 @@ class_name PauseMenu
 @onready var ui_label: Label = %UiVolumeLabel
 @onready var fullscreen_checkbox: CheckBox = %FullscreenCheckBox
 @onready var deactivate_particles_checkbox: CheckBox = %DeactivateParticlesCheckBox
+@onready var show_enemy_debug_labels_checkbox: CheckBox = %ShowEnemyDebugLabelsCheckBox
 
 var is_open: bool = false
 var is_game_over: bool = false
@@ -46,13 +47,14 @@ func _ready() -> void:
 	ui_slider.value_changed.connect(_on_ui_volume_changed)
 	fullscreen_checkbox.toggled.connect(_on_fullscreen_toggled)
 	deactivate_particles_checkbox.toggled.connect(_on_deactivate_particles_toggled)
+	show_enemy_debug_labels_checkbox.toggled.connect(_on_show_enemy_debug_labels_toggled)
 
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_game_over:
 		return
-	if event is InputEventKey and event.pressed and not event.is_echo() and event.keycode == KEY_ESCAPE:
+	if event.is_action_pressed("pause"):
 		if is_open:
 			if settings_panel.visible:
 				close_settings()
@@ -154,6 +156,8 @@ func _init_settings_values() -> void:
 	fullscreen_checkbox.button_pressed = is_fullscreen
 	if deactivate_particles_checkbox:
 		deactivate_particles_checkbox.button_pressed = Data.deactivate_particles
+	if show_enemy_debug_labels_checkbox:
+		show_enemy_debug_labels_checkbox.button_pressed = Data.show_enemy_debug_labels
 
 
 func _init_bus_slider(bus_name: String, slider: HSlider, label: Label) -> void:
@@ -201,3 +205,7 @@ func _on_fullscreen_toggled(toggled_on: bool) -> void:
 
 func _on_deactivate_particles_toggled(toggled_on: bool) -> void:
 	Data.deactivate_particles = toggled_on
+
+
+func _on_show_enemy_debug_labels_toggled(toggled_on: bool) -> void:
+	Data.show_enemy_debug_labels = toggled_on
